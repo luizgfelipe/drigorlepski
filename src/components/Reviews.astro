@@ -6,6 +6,10 @@
 import Icon from './Icon.astro';
 import { REVIEWS } from '../data/reviews';
 import { img } from '../config/site';
+// CSS do Swiper importado aqui (e não dentro do <script>) para virar estilo da página:
+// assim ele continua presente ao voltar para a Home pela navegação sem recarregar.
+import 'swiper/css';
+import 'swiper/css/pagination';
 ---
 
 <div class="reviews" data-reviews>
@@ -42,8 +46,6 @@ import { img } from '../config/site';
 <script>
   import Swiper from 'swiper';
   import { Autoplay, Pagination } from 'swiper/modules';
-  import 'swiper/css';
-  import 'swiper/css/pagination';
 
   function init() {
     document.querySelectorAll<HTMLElement>('[data-reviews]:not([data-ready])').forEach((root) => {
