@@ -18,6 +18,7 @@ interface Props {
 const { layout = 'horizontal', toggleAlign = 'right', id } = Astro.props;
 const current = Astro.url.pathname;
 const isActive = (href?: string) => (href ? (href === '/' ? current === '/' : current.startsWith(href)) : false);
+const hasActiveChild = (children?: { href: string }[]) => !!children?.some((c) => isActive(c.href));
 ---
 
 <nav class:list={['nav', `nav--${layout}`, `nav--toggle-${toggleAlign}`]} aria-label="Menu" data-nav>
@@ -26,7 +27,12 @@ const isActive = (href?: string) => (href ? (href === '/' ? current === '/' : cu
       NAV.map((item) => (
         <li class:list={['nav__item', { 'has-children': item.children }]}>
           {item.children ? (
-            <button type="button" class="nav__link" aria-expanded="false" data-submenu-toggle>
+            <button
+              type="button"
+              class:list={['nav__link', { 'is-active': hasActiveChild(item.children) }]}
+              aria-expanded="false"
+              data-submenu-toggle
+            >
               {item.label}
               <span class="nav__arrow">
                 <Icon name="caret-down" />
@@ -120,8 +126,8 @@ const isActive = (href?: string) => (href ? (href === '/' ? current === '/' : cu
       return;
     }
 
-    // clique fora fecha os submenus abertos do menu horizontal
-    document.querySelectorAll('.nav--horizontal .nav__list--main .nav__item.is-open').forEach((el) => {
+    // clique fora fecha os submenus abertos (cabeçalho e rodapé)
+    document.querySelectorAll('.nav__list--main .nav__item.is-open').forEach((el) => {
       if (!el.contains(target)) {
         el.classList.remove('is-open');
         el.querySelector('[data-submenu-toggle]')?.setAttribute('aria-expanded', 'false');
@@ -181,6 +187,32 @@ const isActive = (href?: string) => (href ? (href === '/' ? current === '/' : cu
     position: relative;
   }
 
+  /* hover do cabeçalho: linha branca de 3px na base do item, com fade (mesmo efeito do site antigo) */
+  .nav--horizontal .nav__list--main .nav__link {
+    position: relative;
+  }
+
+  .nav--horizontal .nav__list--main .nav__link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #fff;
+    opacity: 0;
+    transition: opacity 0.3s cubic-bezier(0.58, 0.3, 0.005, 1);
+    pointer-events: none;
+  }
+
+  .nav--horizontal .nav__list--main .nav__link:hover::after,
+  .nav--horizontal .nav__list--main .nav__link:focus-visible::after,
+  .nav--horizontal .nav__list--main .nav__link.is-active::after,
+  .nav--horizontal .nav__list--main .nav__item:hover > .nav__link::after,
+  .nav--horizontal .nav__list--main .nav__item.is-open > .nav__link::after {
+    opacity: 1;
+  }
+
   .nav--horizontal .nav__sub {
     position: absolute;
     top: 100%;
@@ -220,22 +252,69 @@ const isActive = (href?: string) => (href ? (href === '/' ? current === '/' : cu
   }
 
   /* ---------- vertical (rodapé) ---------- */
+  .nav--vertical .nav__list--main {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav--vertical .nav__item {
+    position: relative;
+  }
+
   .nav--vertical .nav__link {
     padding: 5px 20px;
   }
 
+  /* o submenu flutua ao lado do item (alinhado pela base), sem alterar a altura do rodapé
+     nem a rolagem da página. Em telas mais estreitas ele abre para cima, para não sair da tela. */
   .nav--vertical .nav__sub {
-    display: none;
+    position: absolute;
+    left: 100%;
+    bottom: 0;
+    z-index: 2100;
+    min-width: 12em;
     margin: 0;
     padding: 0;
     list-style: none;
     background-color: var(--navy);
+    border-radius: 3px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-6px);
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease,
+      visibility 0s linear 0.2s;
   }
 
   .nav--vertical .nav__item:hover > .nav__sub,
   .nav--vertical .nav__item:focus-within > .nav__sub,
   .nav--vertical .nav__item.is-open > .nav__sub {
-    display: block;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease,
+      visibility 0s;
+  }
+
+  @media (max-width: 1280px) {
+    .nav--vertical .nav__sub {
+      left: 20px;
+      bottom: 100%;
+      transform: translateY(6px);
+    }
+  }
+
+  .nav--vertical .nav__sub li:first-child .nav__sublink {
+    border-radius: 3px 3px 0 0;
+  }
+
+  .nav--vertical .nav__sub li:last-child .nav__sublink {
+    border-radius: 0 0 3px 3px;
   }
 
   /* ---------- hambúrguer + lista suspensa (<= 1024px) ---------- */

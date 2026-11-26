@@ -185,6 +185,58 @@ for (let i = 0; i < PUBLICATIONS.length; i += 3) pubRows.push(PUBLICATIONS.slice
   </section>
 </BaseLayout>
 
+<script>
+  // Abre/fecha os painéis (Minha formação / Onde atuo / Presença científica) deslizando,
+  // como o "toggle" do site antigo (400 ms). Listener no documento: funciona após as trocas de página.
+  const DURATION = 400;
+  const EASING = 'cubic-bezier(0.45, 0, 0.55, 1)'; // equivalente ao "swing" do jQuery
+
+  document.addEventListener('click', (event) => {
+    const summary = (event.target as HTMLElement).closest<HTMLElement>('.toggle__title');
+    if (!summary) return;
+    const details = summary.parentElement as HTMLDetailsElement | null;
+    const content = details?.querySelector<HTMLElement>('.toggle__content');
+    if (!details || !content) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return; // deixa o comportamento nativo
+
+    event.preventDefault();
+    if (details.dataset.animating) return;
+    details.dataset.animating = 'true';
+    content.style.overflow = 'hidden';
+
+    const finish = () => {
+      content.style.overflow = '';
+      delete details.dataset.animating;
+    };
+
+    if (!details.open) {
+      details.open = true;
+      const h = content.scrollHeight;
+      const anim = content.animate(
+        [
+          { height: '0px', paddingBottom: '0px' },
+          { height: `${h}px`, paddingBottom: '10px' },
+        ],
+        { duration: DURATION, easing: EASING },
+      );
+      anim.onfinish = finish;
+    } else {
+      const h = content.offsetHeight;
+      const anim = content.animate(
+        [
+          { height: `${h}px`, paddingBottom: '10px' },
+          { height: '0px', paddingBottom: '0px' },
+        ],
+        { duration: DURATION, easing: EASING },
+      );
+      anim.onfinish = () => {
+        details.open = false;
+        finish();
+      };
+    }
+  });
+</script>
+
 <style>
   /* ---------- HERO ---------- */
   .about-hero {
@@ -328,6 +380,7 @@ for (let i = 0; i < PUBLICATIONS.length; i += 3) pubRows.push(PUBLICATIONS.slice
   }
 
   .toggle__content {
+    display: flow-root; /* evita "pulo" da margem do primeiro item durante a animação */
     padding: 0 10px 10px;
     font-family: var(--f-ui);
     font-size: 17px;
