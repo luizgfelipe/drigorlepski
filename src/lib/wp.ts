@@ -2,11 +2,14 @@
  * Integração com o WordPress headless (só o blog).
  * Funciona no build (Astro) e no navegador (componentes React).
  *
- * - Se PUBLIC_WP_URL estiver vazio ou o WordPress não responder, usa os posts de src/data/posts-seed.json.
+ * - Endereço do WordPress: SITE.wpUrl em src/config/site.ts (ou PUBLIC_WP_URL no .env, que tem prioridade).
+ * - Sem endereço, ou com o WordPress fora do ar no build, usa os posts de src/data/posts-seed.json.
  */
 import seed from '../data/posts-seed.json';
+import { SITE } from '../config/site';
 
-export const WP_URL: string = (import.meta.env.PUBLIC_WP_URL ?? '').replace(/\/+$/, '');
+/** .env (PUBLIC_WP_URL) tem prioridade; senão usa o endereço fixo em src/config/site.ts */
+export const WP_URL: string = (import.meta.env.PUBLIC_WP_URL || SITE.wpUrl || '').replace(/\/+$/, '');
 
 export type Post = {
   id: number;

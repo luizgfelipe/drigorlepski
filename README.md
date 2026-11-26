@@ -11,7 +11,6 @@ Reconstrução do site do **Dr. Igor Lepski Calil** — mesmo visual do site atu
 
 ```bash
 npm install
-cp .env.example .env      # opcional: configure PUBLIC_WP_URL
 npm run dev               # http://localhost:4321
 ```
 
@@ -39,6 +38,7 @@ scripts/gerar-placeholders.py
 
 | O quê | Onde |
 |---|---|
+| Endereço do WordPress do blog | `src/config/site.ts` → `wpUrl` |
 | WhatsApp, telefone, endereços, Instagram | `src/config/site.ts` |
 | IDs dos vídeos do YouTube | `src/config/site.ts` → `youtube` |
 | Depoimentos | `src/data/reviews.ts` |
@@ -55,7 +55,9 @@ scripts/gerar-placeholders.py
 
 1. Instale um **WordPress novo e limpo** num subdomínio (ex.: `cms.drigorlepski.com.br`). Não migre arquivos nem banco do site antigo.
 2. Cadastre os posts (o conteúdo dos 3 atuais está em `src/data/posts-seed.json`).
-3. Configure `PUBLIC_WP_URL=https://cms.drigorlepski.com.br` no `.env` e rode o build.
+3. Coloque o endereço em `src/config/site.ts` → `wpUrl: 'https://cms.drigorlepski.com.br'` e rode o build.
+   O valor fica gravado nos arquivos gerados: não precisa de `.env` nem de nada na Hostinger.
+   (Para testar outro WordPress só no seu computador, crie um `.env` com `PUBLIC_WP_URL=...` — ele tem prioridade.)
 4. Teste o CORS (a resposta precisa trazer `Access-Control-Allow-Origin`):
    ```bash
    curl -I -H "Origin: https://drigorlepski.com.br" "https://cms.drigorlepski.com.br/wp-json/wp/v2/posts"
@@ -66,7 +68,7 @@ Como funciona:
 - **No build**, cada post vira `/blog/<slug>/index.html` (SEO e prévia no WhatsApp completos).
 - **No navegador**, `/blog` e o bloco "Blog" da Home buscam a lista atualizada na API.
 - **Post publicado depois do último deploy**: o `.htaccess` manda `/blog/<slug>/` para a página coringa `/blog/post/`, que lê o slug da URL e carrega o artigo da API.
-- Sem `PUBLIC_WP_URL` (ou com o WordPress fora do ar no build), o site usa `src/data/posts-seed.json`.
+- Sem `wpUrl` (ou com o WordPress fora do ar no build), o site usa `src/data/posts-seed.json`.
 
 Recomendado no WordPress: atualizações automáticas, 2FA, XML-RPC desligado, `DISALLOW_FILE_EDIT`, cache da REST API (ex.: plugin *WP REST Cache*) e redirecionar o front do WordPress para o site principal (deixando só `/wp-admin` e `/wp-json`).
 
