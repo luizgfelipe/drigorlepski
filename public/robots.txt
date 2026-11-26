@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /blog/post/
+
+Sitemap: https://drigorlepski.com.br/sitemap-index.xml

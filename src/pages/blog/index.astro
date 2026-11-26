@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Eyebrow from '../../components/Eyebrow.astro';
+import BlogGrid from '../../components/blog/BlogGrid.tsx';
+import { getPosts, SEED_POSTS } from '../../lib/wp';
+
+const PER_PAGE = 9;
+let first = { posts: SEED_POSTS.slice(0, PER_PAGE), totalPages: 1 };
+try {
+  first = await getPosts(1, PER_PAGE);
+} catch (err) {
+  console.warn('[blog] usando posts-seed.json:', err);
+}
+---
+
+<BaseLayout
+  title="Blog"
+  description="Artigos, notícias e informações sobre transplantes, cirurgia digestiva e saúde abdominal, com base científica e linguagem acessível."
+>
+  <section class="section blog-hero">
+    <div class="container">
+      <div class="col w-100 col--middle">
+        <div class="col-inner">
+          <Eyebrow text="Blog" layout="center" pad={50} color="#fff" />
+          <h1 class="blog-hero__title">Conteúdo médico de quem vive a especialidade</h1>
+          <div class="blog-hero__lead">
+            <p>
+              Artigos, notícias e informações sobre transplantes, cirurgia digestiva e saúde abdominal, com base
+              científica e linguagem acessível.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section blog-list">
+    <div class="container">
+      <div class="col w-100">
+        <div class="col-inner">
+          <BlogGrid client:load initialPosts={first.posts} initialTotalPages={first.totalPages} perPage={PER_PAGE} paginate />
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .blog-hero {
+    background-color: #2b6767;
+    background-image: url('/images/hero-transplantes-bg.png');
+    background-size: cover;
+    background-position: center;
+  }
+
+  .blog-hero .col-inner {
+    padding: 25px;
+  }
+
+  .blog-hero__title {
+    margin-bottom: 20px;
+    font-family: var(--f-title);
+    font-size: 35px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    color: #fff;
+  }
+
+  .blog-hero__lead {
+    margin: -5px 0 -15px;
+    padding: 0 150px;
+    font-family: var(--f-text);
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.5;
+    text-align: center;
+    color: #fff;
+  }
+
+  .blog-list {
+    padding: 25px 0;
+  }
+
+  @media (max-width: 767px) {
+    .blog-hero__title {
+      font-size: 30px;
+    }
+
+    .blog-hero__lead {
+      padding: 0;
+      text-align: left;
+    }
+  }
+</style>

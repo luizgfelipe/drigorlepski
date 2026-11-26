@@ -1,0 +1,19 @@
+# build
+dist/
+.astro/
+
+# dependências
+node_modules/
+
+# variáveis de ambiente
+.env
+.env.*
+!.env.example
+
+# logs / SO
+npm-debug.log*
+.DS_Store
+Thumbs.db
+
+# pacote zip gerado para upload
+*.zip

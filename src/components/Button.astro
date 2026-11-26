@@ -1,0 +1,134 @@
+---
+/**
+ * Botões do site (variações medidas no site atual).
+ *  - primary : gradiente azul→verde, 15px 50px, raio 3 (ex.: "Agende sua consulta")
+ *  - green   : verde sólido, 20px 50px, raio 3 (ex.: "Conheça minha trajetória completa")
+ *  - pill    : azul-aço, 10px 35px, raio 25 (ex.: "Saiba mais" nos cards)
+ *  - ghost   : transparente, texto azul-marinho, com seta (ex.: "Saiba mais →")
+ *  - link    : transparente, texto azul-claro, sem padding à esquerda (ex.: "Leia o artigo completo")
+ *  - outline : borda verde, transparente (ex.: "WhatsApp" no rodapé)
+ */
+import Icon from './Icon.astro';
+
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'green' | 'pill' | 'ghost' | 'link' | 'outline';
+  icon?: 'arrow-right' | 'whatsapp' | null;
+  iconPosition?: 'after' | 'before';
+  block?: boolean;
+  compact?: boolean;
+  external?: boolean;
+  class?: string;
+}
+
+const {
+  href,
+  variant = 'primary',
+  icon = null,
+  iconPosition = 'after',
+  block = false,
+  compact = false,
+  external,
+  class: className = '',
+} = Astro.props;
+
+const isExternal = external ?? (href ? /^https?:\/\//.test(href) : false);
+const Tag = href ? 'a' : 'span';
+---
+
+<Tag
+  href={href}
+  class:list={['btn', `btn--${variant}`, { 'btn--block': block, 'btn--compact': compact }, className]}
+  target={isExternal ? '_blank' : undefined}
+  rel={isExternal ? 'noopener' : undefined}
+>
+  <span class:list={['btn__content', { 'btn__content--reverse': iconPosition === 'before' }]}>
+    <span class="btn__text"><slot /></span>
+    {icon && <span class="btn__icon"><Icon name={icon} /></span>}
+  </span>
+</Tag>
+
+<style>
+  .btn {
+    display: inline-block;
+    font-family: var(--f-ui);
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+    text-align: center;
+    color: #fff;
+    border-radius: 3px;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+
+  .btn__content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .btn__content--reverse {
+    flex-direction: row-reverse;
+  }
+
+  .btn__icon {
+    display: flex;
+    align-items: center;
+  }
+
+  .btn__icon :global(.icon) {
+    width: auto !important;
+    height: 1em !important;
+  }
+
+  .btn--block {
+    display: block;
+    width: 100%;
+  }
+
+  .btn--primary {
+    padding: 15px 50px;
+    background-image: var(--grad-btn);
+  }
+
+  .btn--primary.btn--compact,
+  .btn--outline {
+    padding: 15px;
+  }
+
+  .btn--green {
+    padding: 20px 50px;
+    background-color: var(--green);
+  }
+
+  .btn--pill {
+    padding: 10px 35px;
+    background-color: var(--steel);
+    border-radius: 25px;
+  }
+
+  .btn--ghost {
+    padding: 10px 35px;
+    color: var(--navy);
+    border-radius: 25px;
+  }
+
+  .btn--link {
+    padding: 10px 35px 10px 0;
+    color: var(--steel-light);
+    border-radius: 25px;
+  }
+
+  .btn--outline {
+    border: 1px solid var(--green);
+  }
+
+  @media (max-width: 767px) {
+    .btn--green {
+      padding: 20px 10px;
+    }
+  }
+</style>

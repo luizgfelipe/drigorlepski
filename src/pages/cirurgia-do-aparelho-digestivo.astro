@@ -1,0 +1,110 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ServiceHero from '../components/ServiceHero.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+import DarkCard from '../components/DarkCard.astro';
+import '../styles/service.css';
+
+const procedures = [
+  [
+    {
+      title: 'Gastrectomia',
+      text: 'Remoção total ou parcial do estômago. Indicada para câncer gástrico, úlceras complicadas e outras doenças que comprometem irreversivelmente a função do estômago. Pode ser realizada por via aberta ou laparoscópica.',
+    },
+    {
+      title: 'Colectomia',
+      text: 'Remoção cirúrgica de parte ou de todo o cólon. Indicada para câncer colorretal, doença diverticular complicada, doenças inflamatórias intestinais e outras condições.',
+    },
+    {
+      title: 'Hernioplastia',
+      text: 'Reparo cirúrgico de hérnias abdominais — inguinal, umbilical, incisional e outras. Reforço a parede abdominal e elimino o risco de complicações como encarceramento e estrangulamento.',
+    },
+  ],
+  [
+    {
+      title: 'Apendicectomia',
+      text: 'Remoção do apêndice. Procedimento padrão para tratamento da apendicite aguda, realizado por via laparoscópica na maioria dos casos.',
+    },
+    {
+      title: 'Ostomia',
+      text: 'Criação de uma abertura (estoma) na parede abdominal para desvio do trânsito intestinal. Pode ser temporária ou definitiva, conforme a condição clínica do paciente.',
+    },
+    {
+      title: 'Cirurgia do Refluxo Gastroesofágico',
+      text: 'Procedimento cirúrgico (fundoplicatura) para tratamento definitivo do refluxo que não responde ao tratamento clínico — realizado por via laparoscópica.',
+    },
+  ],
+];
+---
+
+<BaseLayout
+  title="Cirurgia do Aparelho Digestivo"
+  description="Gastrectomia, colectomia, hernioplastia, apendicectomia, ostomia e cirurgia do refluxo. Dr. Igor Lepski Calil, cirurgião do aparelho digestivo em São Paulo."
+>
+  <ServiceHero
+    title="Cirurgia do Aparelho Digestivo"
+    text="Do tratamento de hérnias à ressecção do intestino, abordagem cirúrgica completa para doenças do trato gastrointestinal."
+    image="cirurgia-aparelho-digestivo.png"
+    background="cirurgias"
+    mobileTextAlign="center"
+  />
+
+  <section class="section svc-body">
+    <div class="container">
+      <div class="col w-100">
+        <div class="col-inner">
+          <Eyebrow pad={150} line="10%" lineMobile="65%" />
+          <h2 class="svc-h2">Minha atuação em cirurgia digestiva</h2>
+          <div class="svc-text">
+            <p>
+              Além dos transplantes e das cirurgias de alta complexidade, tenho formação sólida em cirurgia geral e do
+              aparelho digestivo, área em que atuo desde o início da carreira, acumulando experiência em centros de
+              referência públicos e privados em São Paulo.
+            </p>
+            <p>
+              Atuo no Hospital Municipal Vila Santa Catarina – Einstein e no Hospital Estadual Vila Alpina, onde lidero
+              equipes cirúrgicas e trato toda a gama de doenças do trato gastrointestinal.
+            </p>
+          </div>
+          <h3 class="svc-h3 svc-h3--lg">O que realizo?</h3>
+          {
+            procedures.map((row, i) => (
+              <div class:list={['row', { 'svc-cards--last': i === procedures.length - 1 }]}>
+                {row.map((p) => (
+                  <DarkCard variant="compact" icon="icon-multivisceral.png" title={p.title} text={p.text} />
+                ))}
+              </div>
+            ))
+          }
+          <h3 class="svc-h3 svc-h3--lg">Condições que trato</h3>
+          <div class="row">
+            <div class="col w-50">
+              <div class="col-inner">
+                <div class="svc-text svc-text--last">
+                  <ul>
+                    <li>Câncer de estômago e esôfago</li>
+                    <li>Tumores benignos e malignos do estômago e esôfago</li>
+                    <li>Doença diverticular complicada</li>
+                    <li>Hérnias abdominais (inguinal, umbilical, incisional)</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col w-50">
+              <div class="col-inner">
+                <div class="svc-text svc-text--last">
+                  <ul>
+                    <li>Doença do refluxo gastroesofágico</li>
+                    <li>Doença péptica (úlcera gástrica e duodenal)</li>
+                    <li>Apendicite aguda</li>
+                    <li>Doenças inflamatórias intestinais (Crohn, retocolite ulcerativa)</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

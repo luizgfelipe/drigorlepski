@@ -1,0 +1,427 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+import Button from '../components/Button.astro';
+import Icon from '../components/Icon.astro';
+import VideoBand from '../components/VideoBand.astro';
+import { PUBLICATIONS } from '../data/publications';
+import { SITE, img } from '../config/site';
+
+const toggles = [
+  {
+    title: 'Minha formação',
+    html: `<ul><li><b>Graduação em Medicina – FMRP-USP (2007)</b></li></ul><ul><li><b>Residência em Cirurgia Geral – HC-FMRP-USP (2009–2011)</b></li></ul><ul><li><b>Residência em Cirurgia do Aparelho Digestivo – HC-FMRP-USP (2011–2013)</b></li></ul><ul><li><b>Residência em Transplante de Órgãos Abdominais – HC-FMUSP (2013)</b></li></ul><ul><li><b>Surgery Observation – Indiana University Hospital, EUA (2012)</b></li></ul><ul><li><b>MBA em Gestão de Saúde – FGV (2024)</b></li></ul>`,
+  },
+  {
+    title: 'Onde atuo?',
+    html: `<ul><li><b>Médico Assistente e Responsável Técnico pelo Transplante de Intestino</b> – Programa de Transplante de Órgãos Abdominais, Hospital Israelita Albert Einstein (desde 2016)</li><li><b>Líder da Equipe de Cirurgia Geral</b> – Hospital Municipal Vila Santa Catarina – Einstein (desde 2021)</li><li><b>Coordenador da Equipe de Cirurgia Geral</b> – Hospital Estadual Vila Alpina (desde 2025)</li><li><b>Cirurgião e Preceptor de Residência</b> – Hospital Estadual Vila Alpina (desde 2013)</li></ul>`,
+  },
+  {
+    title: 'Minha presença científica',
+    html: `<p><b>Congressos recentes:</b></p><ul><li>Congresso Internacional ABTO – 2023 (Congressista e Palestrante)</li><li>IHBPA – Cape Town, África do Sul – 2024</li><li>Congresso Internacional ABTO – 2025 (Congressista e Palestrante)</li><li>CIIRTA – Gotemburgo, Suécia – 2025</li></ul><p>&nbsp;</p><p><b>Sociedades Médicas:</b></p><ul><li>Membro Regular da IRTA</li><li>Membro do Capítulo Brasileiro de Transplante de Intestino e Falência Intestinal</li><li>Membro da ABTO – Departamento de Intestino (desde 2025)</li></ul>`,
+  },
+];
+
+// publicações em linhas de 3 (como no site atual)
+const pubRows: (typeof PUBLICATIONS)[] = [];
+for (let i = 0; i < PUBLICATIONS.length; i += 3) pubRows.push(PUBLICATIONS.slice(i, i + 3));
+---
+
+<BaseLayout
+  title="Sobre"
+  description="Trajetória do Dr. Igor Lepski Calil: formação na USP, transplantes abdominais no Einstein, MBA pela FGV e publicações científicas."
+>
+  <!-- ============ HERO ============ -->
+  <section class="section about-hero">
+    <div class="container">
+      <div class="col w-50 col--middle">
+        <div class="col-inner">
+          <Eyebrow text="Trajetória" color="var(--steel)" />
+          <h1 class="about-hero__name">Dr. Igor Lepski Calil</h1>
+          <h2 class="about-hero__title">Mais de 18 anos dedicados à cirurgia digestiva e aos transplantes abdominais</h2>
+          <div class="about-hero__lead">
+            <p>Formação nas melhores instituições do Brasil e do mundo, com atuação em centros de referência internacional.</p>
+          </div>
+          <div class="about-hero__btn">
+            <Button href="/contato/" variant="primary" icon="arrow-right">Agende sua consulta</Button>
+          </div>
+        </div>
+      </div>
+      <div class="col w-50">
+        <div class="col-inner">
+          <img src={img('sobre-hero.png')} alt="Dr. Igor Lepski Calil" width="599" height="732" class="about-hero__img" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BIOGRAFIA ============ -->
+  <section class="section about-bio">
+    <div class="container container--full">
+      <div class="col about-bio__media col--middle">
+        <div class="col-inner">
+          <img src={img('sobre-fotos.png')} alt="Dr. Igor Lepski Calil" width="622" height="853" loading="lazy" />
+        </div>
+      </div>
+      <div class="col about-bio__text col--middle">
+        <div class="col-inner">
+          <Eyebrow layout="plain" color="var(--steel)" />
+          <h2 class="about-bio__title c-blue">Conheça melhor quem atenderá você!</h2>
+          <div class="about-bio__copy">
+            <p>
+              A medicina sempre esteve presente na minha vida. Desde a infância, o interesse pelas ciências biológicas e
+              a fascinação pelo funcionamento do corpo humano me guiaram com clareza para uma vocação. Cresci vendo de
+              perto a dedicação do meu padrinho e dos meus primos médicos, pessoas apaixonadas pelo conhecimento e pela
+              dedicação aos pacientes. Eles me inspiraram de um jeito que nunca esqueci.
+            </p>
+            <p>
+              Me formei em Medicina pela Faculdade de Medicina de Ribeirão Preto – USP em 2007 e fiz residência em
+              Cirurgia Geral e Cirurgia do Aparelho Digestivo no Hospital das Clínicas de Ribeirão Preto. Em seguida, me
+              especializei em Transplante de Órgãos Abdominais no Hospital das Clínicas da USP — um dos programas mais
+              respeitados do país.
+            </p>
+            <p>
+              Em 2012, tive a oportunidade de realizar uma Surgery Observation no Indiana University Hospital, nos Estados
+              Unidos. Essa experiência ampliou minha visão sobre os protocolos dos maiores centros de transplante do mundo
+              e reforçou meu compromisso com a excelência técnica e as melhores práticas clínicas globais.
+            </p>
+            <p>
+              De 2013 a 2017, atuei como médico assistente do Programa de Transplante de Órgãos Abdominais do HC FMUSP,
+              consolidando minha formação como cirurgião e colaborando ativamente na formação de novos residentes.
+            </p>
+            <p>
+              Desde 2016, faço parte do Programa de Transplante de Órgãos Abdominais do Hospital Israelita Albert
+              Einstein. São mais de 10 anos contribuindo para resultados comparáveis aos maiores centros de transplante do
+              mundo, e hoje sou o responsável técnico pelo transplante de intestino da instituição.
+            </p>
+            <p>
+              Em 2018, fui convidado a integrar o time de Cirurgia Geral do Hospital Municipal Vila Santa Catarina –
+              Einstein, assumindo a liderança do serviço em 2021. Paralelamente, atuo desde 2013 no Hospital Estadual
+              Vila Alpina, onde coordeno uma equipe de mais de 70 cirurgiões e residentes.
+            </p>
+            <p>
+              Em 2024, concluí o MBA em Gestão de Saúde pela FGV — mais um passo para aprimorar minha visão estratégica
+              sobre o cuidado médico.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VÍDEO ============ -->
+  <VideoBand
+    title="Conheça minha trajetória e entenda como posso ajudar no seu caso!"
+    buttonHref="/contato/"
+    videoId={SITE.youtube.apresentacao}
+    poster={img('video-apresentacao-capa.jpg')}
+  />
+
+  <!-- ============ ACORDEÕES ============ -->
+  <section class="section about-toggles">
+    <div class="container">
+      <div class="col w-100">
+        <div class="col-inner">
+          <div class="row">
+            {
+              toggles.map((t) => (
+                <div class="col w-33">
+                  <div class="col-inner">
+                    <details class="toggle">
+                      <summary class="toggle__title">
+                        <span class="toggle__icon toggle__icon--closed">
+                          <Icon name="caret-right" />
+                        </span>
+                        <span class="toggle__icon toggle__icon--open">
+                          <Icon name="caret-down" />
+                        </span>
+                        <span class="toggle__label">{t.title}</span>
+                      </summary>
+                      <div class="toggle__content" set:html={t.html} />
+                    </details>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PUBLICAÇÕES ============ -->
+  <section class="section pubs">
+    <div class="container">
+      <div class="col w-100">
+        <div class="col-inner">
+          <Eyebrow layout="center" pad={100} shift={-125} color="var(--steel)" />
+          <h2 class="pubs__title">Minhas publicações científicas</h2>
+          {
+            pubRows.map((row) => (
+              <div class="row">
+                {row.map((p) => (
+                  <div class="col w-33 pub">
+                    <div class="col-inner">
+                      <h3 class="pub__title">{p.title}</h3>
+                      {p.source && (
+                        <div class="pub__source">
+                          <p>{p.source}</p>
+                        </div>
+                      )}
+                      <div class="pub__link">
+                        <Button href={p.url} variant="link" icon="arrow-right">
+                          Leia o artigo completo
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* ---------- HERO ---------- */
+  .about-hero {
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--navy-800);
+  }
+
+  .about-hero > .container {
+    width: 100%;
+    align-items: center;
+  }
+
+  .about-hero__name {
+    margin-bottom: 20px;
+    font-family: var(--f-title);
+    font-size: 45px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--green);
+  }
+
+  .about-hero__title {
+    margin-bottom: 20px;
+    font-family: var(--f-title);
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #fff;
+  }
+
+  .about-hero__lead {
+    margin-bottom: 5px;
+    font-family: var(--f-text);
+    font-size: 19px;
+    font-weight: 300;
+    line-height: 1.5;
+    color: #fff;
+  }
+
+  .about-hero__img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* ---------- BIOGRAFIA ---------- */
+  .about-bio {
+    padding: 75px 0;
+  }
+
+  /* o original tem uma seção interna a mais aqui (+10px de respiro em volta) */
+  .about-bio > .container {
+    padding: 10px;
+  }
+
+  .about-bio__media {
+    width: 44.462%;
+  }
+
+  .about-bio__media img {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    margin-inline: auto;
+  }
+
+  .about-bio__text {
+    width: 55.538%;
+  }
+
+  .about-bio__title {
+    margin-bottom: 20px;
+    font-family: var(--f-title);
+    font-size: 35px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .about-bio__copy {
+    margin-bottom: -15px;
+    font-family: var(--f-text);
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--text);
+  }
+
+  /* ---------- ACORDEÕES ---------- */
+  .about-toggles {
+    position: relative;
+    z-index: 2;
+    margin-top: -40px;
+  }
+
+  .toggle {
+    background-color: #fff;
+    border: 1px solid var(--blue);
+    box-shadow: 0 0 15px -10px rgba(0, 0, 0, 0.5);
+  }
+
+  .toggle__title {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    font-family: var(--f-ui);
+    font-size: 19px;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+    color: var(--navy);
+    background-color: #fff;
+    border-bottom: 1px solid var(--blue);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .toggle__title::-webkit-details-marker {
+    display: none;
+  }
+
+  .toggle__icon {
+    display: flex;
+    width: 1em;
+    font-size: 16px;
+    color: var(--navy);
+  }
+
+  .toggle__icon :global(.icon) {
+    height: 1em !important;
+  }
+
+  .toggle__icon--open,
+  .toggle[open] .toggle__icon--closed {
+    display: none;
+  }
+
+  .toggle[open] .toggle__icon--open {
+    display: flex;
+  }
+
+  .toggle__content {
+    padding: 0 10px 10px;
+    font-family: var(--f-ui);
+    font-size: 17px;
+    line-height: 1.5;
+    color: rgba(0, 0, 0, 0.72);
+    background-color: #fff;
+  }
+
+  .toggle__content :global(ul) {
+    margin-block: 0 0.9rem;
+  }
+
+  .toggle__content :global(p) {
+    margin-block: 0 0.9rem;
+  }
+
+  .toggle__content :global(> :first-child) {
+    margin-top: 1em;
+  }
+
+  /* ---------- PUBLICAÇÕES ---------- */
+  .pubs {
+    padding: 75px 0;
+  }
+
+  .pubs__title {
+    margin-bottom: 20px;
+    padding-top: 5px;
+    font-family: var(--f-title);
+    font-size: 35px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    color: var(--navy);
+  }
+
+  .pub > .col-inner {
+    margin: 15px;
+    padding: 20px;
+    background-color: var(--navy);
+    border-radius: 5px;
+  }
+
+  .pub__title {
+    margin-bottom: 5px;
+    font-family: var(--f-title);
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #fff;
+  }
+
+  .pub__source {
+    margin-bottom: -10px;
+    font-family: var(--f-text);
+    font-size: 17px;
+    line-height: 1.5;
+    color: #fff;
+  }
+
+  .pub__link {
+    margin-bottom: -10px;
+  }
+
+  @media (max-width: 767px) {
+    .about-hero__name,
+    .about-hero__title {
+      font-size: 30px;
+      text-align: center;
+    }
+
+    .about-hero__lead {
+      font-size: 17px;
+      text-align: center;
+    }
+
+    .about-hero__btn :global(.btn) {
+      display: block;
+    }
+
+    .about-bio__title {
+      font-size: 30px;
+    }
+
+    .about-bio :global(.eyebrow__text) {
+      text-align: center;
+    }
+
+    .pubs {
+      padding: 25px 0;
+    }
+
+    .pub__title {
+      font-size: 19px;
+    }
+  }
+</style>

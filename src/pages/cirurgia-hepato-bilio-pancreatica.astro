@@ -1,0 +1,104 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ServiceHero from '../components/ServiceHero.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+import DarkCard from '../components/DarkCard.astro';
+import VideoBand from '../components/VideoBand.astro';
+import { SITE, img } from '../config/site';
+import '../styles/service.css';
+
+const procedures = [
+  {
+    title: 'Hepatectomia',
+    text: 'Ressecção parcial ou total do fígado. Indicada para tumores hepáticos benignos e malignos, metástases e condições sem resposta ao tratamento clínico. Pode ser realizada por via aberta ou minimamente invasiva.',
+  },
+  {
+    title: 'Pancreatectomia',
+    text: 'Remoção total ou parcial do pâncreas. Indicada para tumores pancreáticos, pancreatite crônica grave e outras doenças que comprometem a função do órgão.',
+  },
+  {
+    title: 'Derivação Bílio-Digestiva',
+    text: 'Reestabelece o fluxo da bile quando há obstrução das vias biliares por cálculos complexos, tumores ou estenoses — criando nova comunicação entre as vias biliares e o intestino.',
+  },
+];
+---
+
+<BaseLayout
+  title="Cirurgia Hepato-Bílio-Pancreática"
+  description="Hepatectomia, pancreatectomia, derivação bílio-digestiva e colecistectomia videolaparoscópica. Dr. Igor Lepski Calil."
+>
+  <!-- o título original quebra a linha como "Hepato-Bílio-" / "-Pancreática" -->
+  <ServiceHero
+    title="Cirurgia Hepato-Bílio-<br>-Pancreática"
+    text="Tratamento cirúrgico especializado para doenças do fígado, vias biliares e pâncreas, com precisão técnica e planejamento individualizado."
+    image="cirurgia-hepato-bilio-pancreatica.png"
+    background="cirurgias"
+    mobileTextAlign="center"
+  />
+
+  <section class="section svc-body">
+    <div class="container">
+      <div class="col w-100">
+        <div class="col-inner">
+          <Eyebrow pad={150} line="10%" lineMobile="65%" />
+          <h2 class="svc-h2">O que é</h2>
+          <div class="svc-text">
+            <p>
+              A cirurgia hepato-bílio-pancreática (HBP) reúne os procedimentos de maior complexidade técnica relacionados
+              ao fígado, às vias biliares e ao pâncreas. São operações que exigem treinamento especializado, domínio da
+              anatomia vascular abdominal e experiência em centros de alto volume cirúrgico.
+            </p>
+            <p>Dedico-me a essa área há mais de 15 anos, com formação em duas das maiores referências do país.</p>
+          </div>
+          <h3 class="svc-h3 svc-h3--lg">O que realizo?</h3>
+          <div class="row">
+            {procedures.map((p) => <DarkCard variant="compact" icon="icon-multivisceral.png" title={p.title} text={p.text} />)}
+          </div>
+          <div class="row svc-cards--last">
+            <DarkCard
+              variant="compact"
+              icon="icon-multivisceral.png"
+              title="Colecistectomia Videolaparoscópica"
+              text="Remoção da vesícula biliar por via minimamente invasiva. Indicada para litíase biliar sintomática, colecistite e outras doenças da vesícula."
+            />
+          </div>
+          <h3 class="svc-h3 svc-h3--lg">Condições que trato</h3>
+          <div class="row">
+            <div class="col w-50">
+              <div class="col-inner">
+                <div class="svc-text svc-text--last">
+                  <ul>
+                    <li>Câncer de fígado (hepatocarcinoma e colangiocarcinoma)</li>
+                    <li>Metástases hepáticas</li>
+                    <li>Tumores do pâncreas (adenocarcinoma, tumores neuroendócrinos)</li>
+                    <li>Cálculos biliares complexos e litíase recorrente</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col w-50">
+              <div class="col-inner">
+                <div class="svc-text svc-text--last">
+                  <ul>
+                    <li>Estenoses das vias biliares</li>
+                    <li>Colangite esclerosante primária</li>
+                    <li>Pancreatite crônica com complicações</li>
+                    <li>Cistos e tumores benignos do fígado e pâncreas</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <VideoBand
+    title="O que é a Cirurgia Hepato-Bílio-Pancreática"
+    buttonHref="/contato/"
+    videoId={SITE.youtube.hepatoBilioPancreatica}
+    poster={img('video-hepato-bilio-pancreatica-capa.jpg')}
+    videoPad="lg"
+  />
+</BaseLayout>

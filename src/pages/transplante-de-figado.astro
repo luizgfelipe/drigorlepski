@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ServiceHero from '../components/ServiceHero.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+import '../styles/service.css';
+---
+
+<BaseLayout
+  title="Transplante de Fígado"
+  description="Transplante de fígado com doador vivo e doador falecido no Hospital Israelita Albert Einstein. Dr. Igor Lepski Calil."
+>
+  <ServiceHero
+    title="Transplante de Fígado"
+    text="O tratamento definitivo para doenças hepáticas graves, realizado com excelência técnica e seguimento continuado."
+    image="transplante-figado.png"
+  />
+
+  <section class="section svc-body">
+    <div class="container">
+      <div class="col w-100">
+        <div class="col-inner">
+          <Eyebrow pad={150} line="10%" lineMobile="65%" />
+          <h2 class="svc-h2"><span class="c-blue">O que é</span> o transplante de fígado?</h2>
+          <div class="svc-text">
+            <p>
+              O transplante de fígado é o procedimento indicado quando o fígado perde definitivamente sua capacidade de
+              funcionar, seja por cirrose avançada, câncer hepático ou outras doenças graves. É o principal tratamento
+              capaz de substituir um órgão com falência irreversível e oferecer ao paciente uma perspectiva real de vida
+              plena.
+            </p>
+            <p>
+              O novo órgão pode vir de um <b>doador falecido</b> ou de um <b>doador vivo</b>, geralmente um familiar
+              que doa parte do seu próprio fígado. Realizo ambas as modalidades no Hospital Israelita Albert Einstein.
+            </p>
+            <p><b>Quando indico o transplante?</b></p>
+            <ul>
+              <li>Cirrose hepática avançada (alcoólica, viral, autoimune)</li>
+              <li>Esteatose hepática avançada (DHGNA/MASH)</li>
+              <li>Hepatites crônicas com falência hepática</li>
+              <li>Câncer de fígado (hepatocarcinoma) dentro de critérios específicos</li>
+              <li>Colangite esclerosante primária</li>
+              <li>Insuficiência hepática aguda grave</li>
+            </ul>
+            <p>&nbsp;</p>
+            <p>
+              A indicação é sempre individualizada. Avalio cada caso de forma criteriosa — riscos, benefícios e o
+              momento ideal para o procedimento.
+            </p>
+          </div>
+          <h3 class="svc-h3">Como funciona o processo?</h3>
+          <div class="svc-text svc-text--last">
+            <p><strong>1)Avaliação e indicação </strong></p>
+            <p>Realizo uma avaliação completa em conjunto com a equipe multidisciplinar do programa.</p>
+            <p><strong>2)Entrada na fila (doador falecido) </strong></p>
+            <p>
+              Após aprovação em protocolo, o paciente é cadastrado no sistema de transplante. O tempo de espera varia
+              conforme tipo sanguíneo, grau de urgência e disponibilidade de órgãos.
+            </p>
+            <p><strong>3)Doador vivo </strong></p>
+            <p>
+              Em casos selecionados, o transplante pode ser realizado a partir de doador vivo compatível. Essa
+              modalidade permite planejamento com antecedência.
+            </p>
+            <p><strong>4)A cirurgia</strong></p>
+            <p>
+              Realizada no Hospital Israelita Albert Einstein, com equipe especializada, monitorização intensiva e
+              suporte completo.
+            </p>
+            <p><strong>5)Acompanhamento pós-transplante </strong></p>
+            <p>
+              Acompanho meus pacientes de forma continuada após o transplante, orientando o uso de imunossupressores e
+              monitorando a função do novo órgão.
+            </p>
+            <p>Precisa de avaliação para transplante de fígado?</p>
+            <p><strong>Entre em contato para agendarmos uma avaliação completa e personalizada!</strong></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

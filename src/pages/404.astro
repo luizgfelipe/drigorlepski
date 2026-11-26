@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+---
+
+<BaseLayout title="Página não encontrada" noindex>
+  <section class="section not-found">
+    <div class="container">
+      <div class="col w-100">
+        <div class="col-inner">
+          <h1 class="not-found__title">Página não encontrada</h1>
+          <p class="not-found__text">O endereço acessado não existe ou foi alterado.</p>
+          <div><Button href="/" variant="primary" icon="arrow-right">Voltar para o início</Button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found {
+    padding: 120px 0;
+    text-align: center;
+  }
+
+  .not-found__title {
+    margin-bottom: 20px;
+    font-family: var(--f-title);
+    font-size: 45px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--navy);
+  }
+
+  .not-found__text {
+    font-family: var(--f-text);
+    font-size: 17px;
+    color: var(--text);
+  }
+</style>

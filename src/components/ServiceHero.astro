@@ -1,0 +1,106 @@
+---
+/**
+ * Topo das páginas internas (transplantes e cirurgias): faixa de 350px com fundo em gradiente,
+ * texto à esquerda e foto à direita.
+ */
+import Eyebrow from './Eyebrow.astro';
+import { img } from '../config/site';
+
+interface Props {
+  title: string;
+  /** HTML do parágrafo */
+  text: string;
+  /** foto da coluna direita (public/images). Sem foto = coluna vazia (como em Multivisceral). */
+  image?: string;
+  background?: 'transplantes' | 'cirurgias';
+  /** alinhamento do texto no celular */
+  mobileTextAlign?: 'left' | 'center';
+  /** altura da coluna da foto no celular (Multivisceral = 0) */
+  mobileImageHeight?: number;
+}
+
+const {
+  title,
+  text,
+  image,
+  background = 'transplantes',
+  mobileTextAlign = 'left',
+  mobileImageHeight = 350,
+} = Astro.props;
+
+const bg = background === 'cirurgias' ? 'hero-cirurgias-bg.png' : 'hero-transplantes-bg.png';
+---
+
+<section class="section svc-hero" style={`background-image:url('${img(bg)}')`}>
+  <div class="container">
+    <div class="col w-50 col--middle svc-hero__text">
+      <div class="col-inner">
+        <Eyebrow color="#fff" />
+        <h1 class="svc-hero__title" set:html={title} />
+        <div class:list={['svc-hero__lead', `svc-hero__lead--m-${mobileTextAlign}`]}>
+          <p set:html={text} />
+        </div>
+      </div>
+    </div>
+    <div
+      class="col w-50 svc-hero__media"
+      style={`--m-h:${mobileImageHeight}px;${image ? `background-image:url('${img(image)}')` : ''}`}
+      role={image ? 'img' : undefined}
+      aria-label={image ? title.replace(/<[^>]*>/g, '') : undefined}
+    >
+      <div class="col-inner"></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .svc-hero {
+    background-color: #2b6767;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .svc-hero__text > .col-inner {
+    padding: 25px;
+  }
+
+  .svc-hero__title {
+    margin-bottom: 20px;
+    font-family: var(--f-title);
+    font-size: 35px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #fff;
+  }
+
+  .svc-hero__lead {
+    margin: -5px 0 -15px;
+    font-family: var(--f-text);
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.5;
+    color: #fff;
+  }
+
+  .svc-hero__media {
+    min-height: 350px;
+    background-size: cover;
+    background-position: center;
+  }
+
+  @media (max-width: 767px) {
+    .svc-hero__title {
+      font-size: 30px;
+      text-align: center;
+    }
+
+    .svc-hero__lead--m-center {
+      text-align: center;
+    }
+
+    .svc-hero__media {
+      min-height: var(--m-h);
+    }
+  }
+</style>

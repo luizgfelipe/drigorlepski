@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ServiceHero from '../components/ServiceHero.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+import '../styles/service.css';
+---
+
+<BaseLayout
+  title="Transplante de Pâncreas"
+  description="Transplante de pâncreas isolado ou simultâneo pâncreas-rim para diabetes tipo 1 grave. Dr. Igor Lepski Calil."
+>
+  <ServiceHero
+    title="Transplante de Pâncreas"
+    text="Uma solução definitiva para pacientes com diabetes tipo 1 grave e falência pancreática."
+    image="transplante-pancreas.png"
+  />
+
+  <section class="section svc-body">
+    <div class="container">
+      <div class="col w-100">
+        <div class="col-inner">
+          <Eyebrow pad={150} line="10%" lineMobile="65%" />
+          <h2 class="svc-h2"><span class="c-blue">O que é</span> o transplante de pâncreas?</h2>
+          <div class="svc-text">
+            <p>
+              O transplante de pâncreas é indicado principalmente para pacientes com diabetes tipo 1 de difícil controle,
+              com complicações graves ou falência renal associada. O procedimento consiste na implantação de um pâncreas
+              saudável de doador falecido, restaurando a produção natural de insulina — com potencial para eliminar ou
+              reduzir significativamente a dependência de insulina.
+            </p>
+            <p>
+              Realizo o transplante de forma isolada ou combinado com o transplante de rim (transplante simultâneo
+              pâncreas-rim), conforme o estado clínico de cada paciente.
+            </p>
+          </div>
+          <h3 class="svc-h3">Quando indico o transplante?</h3>
+          <div class="svc-text svc-text--list">
+            <ul>
+              <li>Diabetes tipo 1 com hipoglicemias graves e imprevisíveis</li>
+              <li>Diabetes com neuropatia, retinopatia ou nefropatia avançada</li>
+              <li>Pacientes em diálise ou com insuficiência renal por diabetes (candidatos ao transplante pâncreas-rim)</li>
+              <li>Pancreatite crônica com falência endócrina e exócrina grave</li>
+            </ul>
+          </div>
+          <h3 class="svc-h3">Como funciona o processo?</h3>
+          <div class="svc-text svc-text--last">
+            <p>
+              Avalio individualmente cada candidato, considerando o histórico da doença, as complicações presentes e o
+              potencial real de benefício com o procedimento. Após a indicação e o cadastro no programa, o paciente
+              aguarda em fila até a disponibilidade de órgão compatível.
+            </p>
+            <p>
+              O acompanhamento pós-transplante é rigoroso: monitoro continuamente a função pancreática e faço os ajustes
+              necessários na imunossupressão.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

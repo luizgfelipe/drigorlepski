@@ -1,0 +1,83 @@
+/* Corpo das páginas internas (transplantes e cirurgias) */
+
+.svc-body {
+  padding: 75px 0;
+}
+
+.svc-h2 {
+  margin-bottom: 20px;
+  font-family: var(--f-title);
+  font-size: 35px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--navy);
+}
+
+.svc-h3 {
+  margin-bottom: 20px;
+  font-family: var(--f-title);
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--navy);
+}
+
+.svc-text {
+  margin-bottom: 5px;
+  font-family: var(--f-text);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.svc-text--last {
+  margin-bottom: -15px;
+}
+
+.svc-text--list {
+  margin-bottom: 15px;
+}
+
+.svc-text b,
+.svc-text strong {
+  font-weight: 700;
+}
+
+.svc-cards {
+  margin-bottom: 20px;
+}
+
+.svc-cards--last {
+  padding-bottom: 25px;
+}
+
+@media (max-width: 767px) {
+  .svc-body {
+    padding: 25px 0;
+  }
+
+  .svc-body > .container > .col > .col-inner {
+    padding: 15px;
+  }
+
+  .svc-h2 {
+    font-size: 30px;
+  }
+
+  .svc-h3 {
+    font-size: 23px;
+  }
+
+  .svc-h3--lg {
+    font-size: 27px;
+  }
+
+  .svc-text {
+    margin: -15px 0 -15px;
+  }
+
+  .svc-text--list {
+    margin: -15px 0 -5px;
+  }
+}

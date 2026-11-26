@@ -1,0 +1,12 @@
+---
+/**
+ * Página "coringa": o .htaccess manda para cá qualquer /blog/<slug>/ que não tenha arquivo
+ * (post publicado depois do último build). O componente lê o slug da URL e busca na API do WordPress.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostLoader from '../../components/blog/PostLoader.tsx';
+---
+
+<BaseLayout title="Blog" noindex>
+  <PostLoader client:only="react" />
+</BaseLayout>

@@ -1,0 +1,30 @@
+{
+  "name": "drigorlepski",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Site do Dr. Igor Lepski Calil — Astro (estático) + blog via WordPress headless",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "placeholders": "python3 scripts/gerar-placeholders.py",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/react": "^7.1.9",
+    "@astrojs/sitemap": "^3.7.6",
+    "@fontsource/poppins": "^5.3.0",
+    "astro": "^7.4.13",
+    "dompurify": "^3.5.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "swiper": "^14.4.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@types/react": "^19.3.3",
+    "@types/react-dom": "^19.3.0",
+    "typescript": "^6.0.3"
+  }
+}

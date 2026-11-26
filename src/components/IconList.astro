@@ -1,0 +1,97 @@
+---
+/**
+ * Lista com ícone à esquerda (ex.: CRM/hospital no topo da Home, contatos no rodapé).
+ */
+import Icon from './Icon.astro';
+
+interface Item {
+  icon: string;
+  html: string;
+  href?: string;
+}
+
+interface Props {
+  items: Item[];
+  /** espaço entre itens (px) */
+  space?: number;
+  iconColor?: string;
+  iconSize?: number;
+  font?: 'light' | 'regular';
+  class?: string;
+}
+
+const { items, space = 15, iconColor = 'var(--green)', iconSize = 20, font = 'regular', class: className = '' } = Astro.props;
+---
+
+<ul
+  class:list={['icon-list', `icon-list--${font}`, className]}
+  style={`--il-space:${space / 2}px;--il-icon-color:${iconColor};--il-icon-size:${iconSize}px`}
+>
+  {
+    items.map((item) => {
+      const Tag = item.href ? 'a' : 'span';
+      const external = item.href && /^https?:\/\//.test(item.href);
+      return (
+        <li class="icon-list__item">
+          <Tag
+            class="icon-list__inner"
+            href={item.href}
+            target={external ? '_blank' : undefined}
+            rel={external ? 'noopener' : undefined}
+          >
+            <span class="icon-list__icon">
+              <Icon name={item.icon} size={iconSize} />
+            </span>
+            <span class="icon-list__text" set:html={item.html} />
+          </Tag>
+        </li>
+      );
+    })
+  }
+</ul>
+
+<style>
+  .icon-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .icon-list__item:not(:last-child) {
+    padding-bottom: var(--il-space);
+  }
+
+  .icon-list__item:not(:first-child) {
+    margin-top: var(--il-space);
+  }
+
+  .icon-list__inner {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .icon-list__icon {
+    display: flex;
+    flex-shrink: 0;
+    justify-content: center;
+    width: var(--il-icon-size);
+    padding-top: calc((25.5px - var(--il-icon-size)) / 2);
+    color: var(--il-icon-color);
+  }
+
+  .icon-list__text {
+    padding-inline-start: 5px;
+    font-family: var(--f-ui);
+    font-size: 17px;
+    line-height: 1.5;
+    color: #fff;
+  }
+
+  .icon-list--light .icon-list__text {
+    font-weight: 300;
+  }
+
+  .icon-list--regular .icon-list__text {
+    font-weight: 400;
+  }
+</style>

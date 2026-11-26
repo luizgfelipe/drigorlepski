@@ -1,0 +1,354 @@
+---
+/**
+ * Menu de navegação.
+ *  - layout "horizontal": cabeçalho (submenus em dropdown no hover)
+ *  - layout "vertical"  : rodapé (lista vertical)
+ * Em telas <= 1024px os dois viram o botão "hambúrguer" com a lista abrindo abaixo (como no site atual).
+ */
+import Icon from './Icon.astro';
+import { NAV } from '../config/site';
+
+interface Props {
+  layout?: 'horizontal' | 'vertical';
+  /** alinhamento do botão hambúrguer */
+  toggleAlign?: 'left' | 'right';
+  id: string;
+}
+
+const { layout = 'horizontal', toggleAlign = 'right', id } = Astro.props;
+const current = Astro.url.pathname;
+const isActive = (href?: string) => (href ? (href === '/' ? current === '/' : current.startsWith(href)) : false);
+---
+
+<nav class:list={['nav', `nav--${layout}`, `nav--toggle-${toggleAlign}`]} aria-label="Menu" data-nav>
+  <ul class="nav__list nav__list--main">
+    {
+      NAV.map((item) => (
+        <li class:list={['nav__item', { 'has-children': item.children }]}>
+          {item.children ? (
+            <button type="button" class="nav__link" aria-expanded="false" data-submenu-toggle>
+              {item.label}
+              <span class="nav__arrow">
+                <Icon name="caret-down" />
+              </span>
+            </button>
+          ) : (
+            <a href={item.href} class:list={['nav__link', { 'is-active': isActive(item.href) }]}>
+              {item.label}
+            </a>
+          )}
+          {item.children && (
+            <ul class="nav__sub">
+              {item.children.map((child) => (
+                <li>
+                  <a href={child.href} class:list={['nav__sublink', { 'is-active': isActive(child.href) }]}>
+                    {child.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
+      ))
+    }
+  </ul>
+
+  <button
+    type="button"
+    class="nav__toggle"
+    aria-label="Abrir menu"
+    aria-expanded="false"
+    aria-controls={`${id}-dropdown`}
+    data-nav-toggle
+  >
+    <span class="nav__toggle-open"><Icon name="bars" /></span>
+    <span class="nav__toggle-close"><Icon name="times" /></span>
+  </button>
+
+  <ul class="nav__list nav__list--dropdown" id={`${id}-dropdown`}>
+    {
+      NAV.map((item) => (
+        <li class:list={['nav__item', { 'has-children': item.children }]}>
+          {item.children ? (
+            <button type="button" class="nav__dlink" aria-expanded="false" data-submenu-toggle>
+              {item.label}
+              <span class="nav__arrow">
+                <Icon name="caret-down" />
+              </span>
+            </button>
+          ) : (
+            <a href={item.href} class:list={['nav__dlink', { 'is-active': isActive(item.href) }]}>
+              {item.label}
+            </a>
+          )}
+          {item.children && (
+            <ul class="nav__dsub">
+              {item.children.map((child) => (
+                <li>
+                  <a href={child.href} class="nav__dlink nav__dlink--sub">
+                    {child.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<script>
+  // Um único listener no documento: continua funcionando depois das trocas de página do ClientRouter.
+  document.addEventListener('click', (event) => {
+    const target = event.target as HTMLElement;
+
+    const toggle = target.closest<HTMLButtonElement>('[data-nav-toggle]');
+    if (toggle) {
+      const nav = toggle.closest('[data-nav]');
+      const open = nav?.classList.toggle('is-open') ?? false;
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+      return;
+    }
+
+    const sub = target.closest<HTMLButtonElement>('[data-submenu-toggle]');
+    if (sub) {
+      const item = sub.closest('.nav__item');
+      const open = item?.classList.toggle('is-open') ?? false;
+      sub.setAttribute('aria-expanded', String(open));
+      return;
+    }
+
+    // clique fora fecha os submenus abertos do menu horizontal
+    document.querySelectorAll('.nav--horizontal .nav__list--main .nav__item.is-open').forEach((el) => {
+      if (!el.contains(target)) {
+        el.classList.remove('is-open');
+        el.querySelector('[data-submenu-toggle]')?.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+</script>
+
+<style>
+  .nav {
+    position: relative;
+    width: 100%;
+  }
+
+  .nav__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav__link {
+    display: flex;
+    align-items: center;
+    padding: 13px 20px;
+    font-family: var(--f-ui);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
+    text-transform: uppercase;
+    color: #fff;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .nav__arrow {
+    display: flex;
+    align-items: center;
+    padding: 10px 0 10px 10px;
+    margin-block: -10px;
+    font-size: 16px;
+  }
+
+  .nav__arrow :global(.icon) {
+    height: 1em !important;
+  }
+
+  /* ---------- horizontal (cabeçalho) ---------- */
+  .nav--horizontal .nav__list--main {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+
+  .nav--horizontal .nav__item {
+    position: relative;
+  }
+
+  .nav--horizontal .nav__sub {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 2100;
+    display: none;
+    min-width: 12em;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background-color: var(--navy);
+  }
+
+  .nav--horizontal .nav__item:hover > .nav__sub,
+  .nav--horizontal .nav__item:focus-within > .nav__sub,
+  .nav--horizontal .nav__item.is-open > .nav__sub {
+    display: block;
+  }
+
+  .nav__sublink {
+    display: block;
+    padding: 13px 20px;
+    font-family: var(--f-ui);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 20px;
+    color: #fff;
+    white-space: nowrap;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .nav__sublink:hover,
+  .nav__sublink:focus,
+  .nav__sublink.is-active {
+    color: var(--navy);
+    background-color: #fff;
+  }
+
+  /* ---------- vertical (rodapé) ---------- */
+  .nav--vertical .nav__link {
+    padding: 5px 20px;
+  }
+
+  .nav--vertical .nav__sub {
+    display: none;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background-color: var(--navy);
+  }
+
+  .nav--vertical .nav__item:hover > .nav__sub,
+  .nav--vertical .nav__item:focus-within > .nav__sub,
+  .nav--vertical .nav__item.is-open > .nav__sub {
+    display: block;
+  }
+
+  /* ---------- hambúrguer + lista suspensa (<= 1024px) ---------- */
+  .nav__toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 5.5px;
+    font-size: 22px;
+    line-height: 1;
+    color: var(--navy);
+    background-color: #fff;
+    border: 0;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+
+  .nav__toggle :global(.icon) {
+    height: 1em !important;
+    width: 1em !important;
+  }
+
+  .nav__toggle-close {
+    display: none;
+  }
+
+  .nav.is-open .nav__toggle-open {
+    display: none;
+  }
+
+  .nav.is-open .nav__toggle-close {
+    display: flex;
+  }
+
+  .nav__toggle-open {
+    display: flex;
+  }
+
+  .nav__list--dropdown {
+    display: none;
+    background-color: var(--navy);
+  }
+
+  .nav__dlink {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 13px 20px;
+    font-family: var(--f-ui);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 20px;
+    color: #fff;
+    text-align: left;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .nav__dlink:hover,
+  .nav__dlink:focus,
+  .nav__dlink.is-active {
+    color: var(--navy);
+    background-color: #fff;
+  }
+
+  .nav__dlink--sub {
+    padding-left: 40px;
+  }
+
+  .nav__dsub {
+    display: none;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .nav__list--dropdown .nav__item.is-open > .nav__dsub {
+    display: block;
+  }
+
+  @media (max-width: 1024px) {
+    .nav__list--main {
+      display: none !important;
+    }
+
+    .nav__toggle {
+      display: flex;
+    }
+
+    .nav--toggle-right .nav__toggle {
+      margin-left: auto;
+    }
+
+    .nav--toggle-left .nav__toggle {
+      margin-right: auto;
+    }
+
+    .nav.is-open .nav__list--dropdown {
+      display: block;
+      margin-top: 10px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .nav__dlink {
+      font-size: 15px;
+    }
+
+    .nav__toggle {
+      font-size: 20px;
+    }
+  }
+</style>

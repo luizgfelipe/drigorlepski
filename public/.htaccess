@@ -1,0 +1,67 @@
+# =============================================================================
+#  drigorlepski.com.br — site estático (Astro) na Hostinger (Apache/LiteSpeed)
+#  Este arquivo vai junto no upload (fica na raiz do public_html).
+# =============================================================================
+
+Options -Indexes
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # --- força HTTPS ---
+  RewriteCond %{HTTPS} off
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # --- sem "www" ---
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+
+  # --- barra no final (/sobre -> /sobre/) quando existir a pasta ---
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteCond %{REQUEST_URI} !/$
+  RewriteRule ^(.*)$ /$1/ [L,R=301]
+
+  # --- URLs antigas do WordPress -> novas ---
+  # posts ficavam na raiz; agora ficam em /blog/<slug>/
+  RewriteRule ^transplantado-pode-fazer-atividade-fisica-quando-e-como-retomar/?$ /blog/transplantado-pode-fazer-atividade-fisica-quando-e-como-retomar/ [L,R=301]
+  RewriteRule ^refluxo-que-nao-melhora-com-remedio-quando-a-cirurgia-e-a-solucao/?$ /blog/refluxo-que-nao-melhora-com-remedio-quando-a-cirurgia-e-a-solucao/ [L,R=301]
+  RewriteRule ^vida-apos-o-transplante-o-que-muda-na-rotina-do-paciente/?$ /blog/vida-apos-o-transplante-o-que-muda-na-rotina-do-paciente/ [L,R=301]
+  # páginas vazias do site antigo
+  RewriteRule ^transplantes/?$ /#transplantes [L,R=301,NE]
+  RewriteRule ^cirurgias/?$ /#cirurgias [L,R=301,NE]
+  # restos do WordPress (feeds, admin, xmlrpc…)
+  RewriteRule ^(feed|comments/feed|category/.*|author/.*|wp-login\.php|wp-admin/?.*|xmlrpc\.php)$ / [L,R=301]
+
+  # --- BLOG: qualquer /blog/<slug>/ sem página estática cai na página "coringa" ---
+  # (post publicado no WordPress depois do último upload; o slug é lido da URL no navegador)
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^blog/([^/]+)/?$ /blog/post/index.html [L]
+</IfModule>
+
+# --- cache: arquivos com hash no nome (pasta _astro) podem ficar em cache por 1 ano ---
+<IfModule mod_headers.c>
+  <FilesMatch "\.(js|css|woff2?)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.(png|jpe?g|webp|avif|svg|gif|ico)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+
+  # cabeçalhos básicos de segurança
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml text/xml
+</IfModule>

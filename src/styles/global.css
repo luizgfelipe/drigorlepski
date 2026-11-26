@@ -1,0 +1,228 @@
+/*
+ * Estilos globais — tokens de design e a "grade" de seções/colunas.
+ * Valores medidos no site atual (Elementor) para manter o layout idêntico:
+ *   - seção "boxed": container de 1140px; cada coluna tem 10px de respiro interno
+ *   - breakpoints: tablet <= 1024px (container 1024px) | mobile <= 767px (colunas empilham)
+ */
+
+@import '@fontsource/poppins/latin-300.css';
+@import '@fontsource/poppins/latin-400.css';
+@import '@fontsource/poppins/latin-600.css';
+@import '@fontsource/poppins/latin-700.css';
+
+:root {
+  /* Cores */
+  --navy: #20334b;
+  --navy-900: #152233;
+  --navy-800: #192739;
+  --navy-card: #172d4a;
+  --blue: #4c75ab;
+  --blue-2: #4974a9;
+  --steel: #5d88a2;
+  --steel-light: #8eb7d0;
+  --card-border: #719cb5;
+  --green: #91c092;
+  --green-2: #7cae89;
+  --text: #22312f;
+  --text-2: #333333;
+  --text-3: #343434;
+  --bg-soft: #edf1f7;
+  --bg-softer: #f9fafc;
+  --gray-card: #efeff0;
+  --pill-blue: #b3d0e2;
+  --pill-green: #cae0cb;
+  --whatsapp: #00ad57;
+
+  /* Gradientes */
+  --grad-btn: linear-gradient(90deg, #4974a9 0%, #91c092 100%);
+  --grad-band: linear-gradient(90deg, #4974a9 0%, #7cae89 100%);
+
+  /* Fontes (akagi-pro e haboro-soft-extended vêm do Adobe Fonts) */
+  --f-title: 'haboro-soft-extended', 'Poppins', sans-serif;
+  --f-ui: 'akagi-pro', 'Poppins', sans-serif;
+  --f-text: 'Poppins', sans-serif;
+  --f-system: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+  --container: 1140px;
+}
+
+/* ---------- Reset (equivalente ao tema Hello Elementor) ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--f-system);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--text-2);
+  background-color: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-weight: inherit;
+}
+
+p {
+  margin-block: 0 0.9rem;
+}
+
+ul,
+ol {
+  margin-block: 0;
+  padding-inline-start: 40px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  border: none;
+  vertical-align: middle;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+b,
+strong {
+  font-weight: bolder;
+}
+
+button {
+  font: inherit;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- Grade (seção > container > coluna) ---------- */
+.section {
+  position: relative;
+}
+
+.container {
+  display: flex;
+  max-width: var(--container);
+  margin-inline: auto;
+  position: relative;
+}
+
+.container--full {
+  max-width: none;
+}
+
+/* uma linha interna (equivale à "inner section" do Elementor) */
+.row {
+  display: flex;
+  width: 100%;
+}
+
+.col {
+  position: relative;
+  display: flex;
+  min-height: 1px;
+}
+
+.col > .col-inner {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  position: relative;
+}
+
+.col-inner > * {
+  width: 100%;
+}
+
+.col--middle > .col-inner {
+  align-content: center;
+  align-items: center;
+}
+
+.w-100 { width: 100%; }
+.w-50 { width: 50%; }
+.w-33 { width: 33.333%; }
+.w-25 { width: 25%; }
+
+/* espaçamento padrão entre widgets (20px), como no Elementor */
+.mb-20 { margin-bottom: 20px; }
+
+/* ---------- Tipografia reutilizável ---------- */
+.t-title {
+  font-family: var(--f-title);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.t-text {
+  font-family: var(--f-text);
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.c-white { color: #fff; }
+.c-navy { color: var(--navy); }
+.c-blue { color: var(--blue); }
+.c-green { color: var(--green); }
+.c-steel { color: var(--steel); }
+.c-text { color: var(--text); }
+
+@media (max-width: 1024px) {
+  :root {
+    --container: 1024px;
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --container: 767px;
+  }
+
+  .container,
+  .row {
+    flex-wrap: wrap;
+  }
+
+  .col {
+    width: 100% !important;
+  }
+}
+
+/* animação da troca de página (View Transitions) */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.2s;
+}

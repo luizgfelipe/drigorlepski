@@ -1,0 +1,1004 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+import Button from '../components/Button.astro';
+import IconList from '../components/IconList.astro';
+import Icon from '../components/Icon.astro';
+import DarkCard from '../components/DarkCard.astro';
+import Reviews from '../components/Reviews.astro';
+import VideoBand from '../components/VideoBand.astro';
+import BlogGrid from '../components/blog/BlogGrid.tsx';
+import { SITE, img } from '../config/site';
+import { getPosts, SEED_POSTS } from '../lib/wp';
+
+let latest = SEED_POSTS.slice(0, 3);
+try {
+  latest = (await getPosts(1, 3)).posts;
+} catch (err) {
+  console.warn('[home] usando posts-seed.json:', err);
+}
+
+const stats = [
+  { title: '+15 anos de experiência', text: 'transplante nos melhores serviços do pais' },
+  { title: '+70 cirurgiões', text: 'sob minha coordenação' },
+  { title: 'Experiência internacional', text: 'Indiana University Hospital – EUA | Hospital Jackson Memorial – EUA' },
+  { title: 'Publicações científicas', text: 'em revistas nacionais e<br>internacionais indexadas', big: true },
+];
+
+const surgeries = [
+  {
+    title: 'Cirurgia Hepato-Bílio-Pancreática',
+    image: 'cirurgia-hepato-bilio-pancreatica.png',
+    href: '/cirurgia-hepato-bilio-pancreatica/',
+    tone: 'blue',
+    // cada linha = uma fileira de etiquetas; width = largura fixa (px) quando a etiqueta é esticada
+    rows: [
+      { gap: 25, items: [{ label: 'Hepatectomia', width: 195 }, { label: 'Pancreatectomia' }] },
+      { gap: 25, items: [{ label: 'Derivação bílio-digestiva' }, { label: 'Colecistectomia' }] },
+    ],
+  },
+  {
+    title: 'Cirurgia do Aparelho Digestivo',
+    image: 'cirurgia-aparelho-digestivo.png',
+    href: '/cirurgia-do-aparelho-digestivo/',
+    tone: 'green',
+    rows: [
+      {
+        gap: 10,
+        items: [
+          { label: 'Gastrectomia', width: 195 },
+          { label: 'Colectomia', width: 195 },
+          { label: 'Cirurgia do refluxo', width: 234 },
+        ],
+      },
+      {
+        gap: 10,
+        items: [
+          { label: 'Apendicectomia', width: 234 },
+          { label: 'Hernioplastia', width: 234 },
+          { label: 'Ostomia', width: 234 },
+        ],
+      },
+    ],
+  },
+];
+---
+
+<BaseLayout>
+  <!-- ============ HERO ============ -->
+  <section class="section hero">
+    <div class="container">
+      <div class="col w-100">
+        <div class="col-inner">
+          <div class="row">
+            <div class="col hero__text">
+              <div class="col-inner">
+                <Eyebrow color="#fff" lineColor="var(--green)" letterSpacing="1.5px" />
+                <h1 class="hero__title">
+                  Cirurgião do <span class="c-green">Aparelho Digestivo</span>{' '}e{' '}
+                  <span class="c-steel">Transplante</span>{' '}de Órgãos Abdominais
+                </h1>
+                <div class="hero__lead">
+                  <p>
+                    Mais de uma década dedicada aos casos mais desafiadores da cirurgia digestiva, com excelência
+                    técnica, conduta baseada em evidências e cuidado humanizado.
+                  </p>
+                </div>
+                <span class="hero__divider" aria-hidden="true"></span>
+                <IconList
+                  class="hero__list"
+                  font="light"
+                  space={15}
+                  items={[
+                    { icon: 'file-medical', html: SITE.crm },
+                    { icon: 'map-marker-alt', html: 'Hospital Israelita Albert Einstein · São Paulo – SP' },
+                  ]}
+                />
+                <div class="hero__btn">
+                  <Button href="/contato/" variant="primary" icon="arrow-right">Agende sua consulta</Button>
+                </div>
+              </div>
+            </div>
+            <div class="col hero__spacer"><div class="col-inner"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NÚMEROS ============ -->
+  <section class="section stats">
+    <div class="container">
+      <div class="col w-100">
+        <div class="col-inner">
+          <div class="row">
+            {
+              stats.map((s, i) => (
+                <div class:list={['col w-25 stats__col', { 'stats__col--last': i === stats.length - 1 }]}>
+                  <div class="col-inner">
+                    <h2 class="stats__title">{s.title}</h2>
+                    <div class:list={['stats__text', { 'stats__text--big': s.big }]}>
+                      <p set:html={s.text} />
+                    </div>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- seta -->
+  <section class="section arrow-down" aria-hidden="true">
+    <div class="container">
+      <div class="col w-100">
+        <div class="col-inner">
+          <span class="arrow-down__icon"><Icon name="long-arrow-alt-down" /></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BIO ============ -->
+  <section class="section bio">
+    <div class="container">
+      <div class="col w-50 col--middle bio__media">
+        <div class="col-inner">
+          <img
+            src={img('home-bio.png')}
+            alt="Dr. Igor Lepski Calil"
+            width="625"
+            height="755"
+            loading="lazy"
+          />
+        </div>
+      </div>
+      <div class="col w-50 col--middle bio__text">
+        <div class="col-inner">
+          <Eyebrow letterSpacing="1px" weight={400} mobileAlign="left" />
+          <h2 class="bio__title">
+            <span class="c-blue">Referência nacional </span>em transplantes abdominais e cirurgia de alta complexidade.
+          </h2>
+          <div class="bio__copy">
+            <p>
+              Sou formado pela Faculdade de Medicina de Ribeirão Preto – USP e realizei minha residência em Transplante
+              de Órgãos Abdominais no Hospital das Clínicas da USP. Há mais de 18 anos atuo em casos de alta complexidade
+              da cirurgia digestiva.
+            </p>
+            <p>
+              Integro há mais de 10 anos o Programa de Transplante de Órgãos Abdominais do Hospital Israelita Albert
+              Einstein, um dos principais centros de transplante do Brasil, onde atualmente sou responsável técnico pelo
+              transplante de intestino.
+            </p>
+            <p>
+              Participo dos maiores congressos internacionais da área, possuo publicações científicas indexadas e lidero
+              equipes cirúrgicas em São Paulo. Meu compromisso é oferecer um atendimento minucioso, com acompanhamento
+              próximo em todas as etapas do tratamento.
+            </p>
+          </div>
+          <div>
+            <Button href="/sobre/" variant="green">Conheça minha trajetória completa</Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HOSPITAIS ============ -->
+  <section class="section hospitals">
+    <div class="container">
+      <div class="col w-100">
+        <div class="col-inner">
+          <div class="row hospitals__head">
+            <div class="col w-33 col--middle">
+              <div class="col-inner"><span class="hline hline--right" aria-hidden="true"></span></div>
+            </div>
+            <div class="col w-33 col--middle">
+              <div class="col-inner"><h2 class="hospitals__title">Hospitais onde atuo</h2></div>
+            </div>
+            <div class="col w-33 col--middle">
+              <div class="col-inner"><span class="hline hline--left" aria-hidden="true"></span></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col w-33 hospitals__card">
+              <div class="col-inner">
+                <img
+                  src={img('hospital-einstein.png')}
+                  alt="Einstein Hospital Israelita"
+                  width="883"
+                  height="277"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+            <div class="col w-33 hospitals__card">
+              <div class="col-inner">
+                <img
+                  src={img('hospital-vila-santa-catarina.png')}
+                  alt="Hospital Municipal Vila Santa Catarina"
+                  width="883"
+                  height="249"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+            <div class="col w-33 hospitals__card">
+              <div class="col-inner">
+                <h3 class="hospitals__more"><span class="c-blue">+ Hospitais </span>pelo país</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TRANSPLANTES ============ -->
+  <section class="section transplants" id="transplantes">
+    <div class="container">
+      <div class="col w-100">
+        <div class="col-inner">
+          <div class="row transplants__eyebrow">
+            <div class="col transplants__side col--middle">
+              <div class="col-inner"><span class="hline hline--right hline--25" aria-hidden="true"></span></div>
+            </div>
+            <div class="col transplants__center">
+              <div class="col-inner">
+                <p class="transplants__eyebrow-text">Dr. Igor Lepski Calil</p>
+              </div>
+            </div>
+            <div class="col transplants__side col--middle">
+              <div class="col-inner"><span class="hline hline--left hline--25" aria-hidden="true"></span></div>
+            </div>
+          </div>
+          <h2 class="transplants__title">Transplantes abdominais</h2>
+          <div class="transplants__lead">
+            <p>
+              Atuo em um dos <strong>programas de transplante abdominal mais completos do Brasil</strong> com resultados
+              comparáveis aos maiores centros do mundo.
+            </p>
+          </div>
+          <div class="row">
+            <DarkCard
+              variant="home"
+              icon="icon-figado.png"
+              title="Transplante de Fígado"
+              text="Doador vivo e doador falecido. O tratamento mais eficaz para doenças hepáticas graves, como cirrose avançada e câncer de fígado."
+              href="/transplante-de-figado/"
+            />
+            <DarkCard
+              variant="home"
+              icon="icon-intestino.png"
+              title="Transplante de Intestino"
+              text="Uma das principais opções terapêuticas para <br>pacientes com perda irreversível da função <br>intestinal."
+              href="/transplante-de-intestino/"
+              spacedOnMobile
+            />
+          </div>
+          <div class="row">
+            <DarkCard
+              variant="home"
+              icon="icon-pancreas.png"
+              title="Transplante de Pâncreas"
+              text="Tratamento cirúrgico especializado<br>para falência pancreática."
+              href="/transplante-de-pancreas/"
+              spacedOnMobile
+            />
+            <DarkCard
+              variant="home"
+              icon="icon-multivisceral.png"
+              title="Transplante Multivisceral"
+              text="Para os casos de maior complexidade abdominal."
+              href="/transplante-multivisceral/"
+              buttonOffset={25}
+              spacedOnMobile
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CIRURGIAS ============ -->
+  <section class="section surgeries" id="cirurgias">
+    <svg class="surgeries__notch" viewBox="0 0 700 10" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M350,10L340,0h20L350,10z" fill="#0b1f3a"></path>
+    </svg>
+    <div class="container">
+      <div class="col w-100">
+        <div class="col-inner">
+          <Eyebrow layout="plain" align="center" letterSpacing="1px" />
+          <h2 class="surgeries__title">Cirurgias</h2>
+          <div class="surgeries__lead">
+            <p>
+              Da abordagem minimamente invasiva às ressecções de maior porte, ofereço tratamento cirúrgico completo para
+              doenças do aparelho digestivo.
+            </p>
+          </div>
+          {
+            surgeries.map((s, i) => (
+              <div class:list={['row surgery', { 'surgery--next': i > 0 }]}>
+                <div class="col w-25 col--middle surgery__media">
+                  <div class="col-inner">
+                    <img src={img(s.image)} alt="" width="494" height="477" loading="lazy" />
+                  </div>
+                </div>
+                <div class="col surgery__card">
+                  <div class="col-inner">
+                    <h3 class="surgery__title">{s.title}</h3>
+                    <div class="surgery__tags">
+                      {s.rows.map((row, r) => (
+                        <div class="surgery__row" style={`gap:${row.gap}px;${r > 0 ? 'margin-top:25px' : ''}`}>
+                          {row.items.map((t) => (
+                            <span
+                              class:list={['tag', `tag--${s.tone}`]}
+                              style={'width' in t && t.width ? `width:${t.width}px` : undefined}
+                            >
+                              {t.label}
+                            </span>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                    <div class="surgery__more">
+                      <Button href={s.href} variant="ghost" icon="arrow-right">Saiba mais</Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DEPOIMENTOS ============ -->
+  <section class="section feedbacks">
+    <div class="container">
+      <div class="col w-100">
+        <div class="col-inner">
+          <div class="row feedbacks__eyebrow">
+            <div class="col w-50 col--middle">
+              <div class="col-inner"><span class="hline hline--right hline--25" aria-hidden="true"></span></div>
+            </div>
+            <div class="col w-50">
+              <div class="col-inner"><p class="feedbacks__eyebrow-text">Feedbacks</p></div>
+            </div>
+          </div>
+          <h2 class="feedbacks__title">Por que <span class="c-blue">confiar</span> no meu atendimento?</h2>
+          <Reviews />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VÍDEO ============ -->
+  <VideoBand
+    title="Conheça minha trajetória e entenda como posso ajudar no seu caso!"
+    buttonHref="/contato/"
+    videoId={SITE.youtube.apresentacao}
+    poster={img('video-apresentacao-capa.jpg')}
+  />
+
+  <!-- ============ BLOG ============ -->
+  <section class="section home-blog">
+    <div class="container">
+      <div class="col w-100">
+        <div class="col-inner">
+          <Eyebrow layout="plain" />
+          <h2 class="home-blog__title">Blog</h2>
+          <BlogGrid client:load initialPosts={latest} perPage={3} />
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* ---------- linhas decorativas (dividers) ---------- */
+  .hline {
+    display: block;
+    padding-block: 5px;
+  }
+
+  .hline::before {
+    content: '';
+    display: block;
+    width: 75%;
+    border-top: 1px solid var(--blue);
+  }
+
+  .hline--25::before {
+    width: 25%;
+  }
+
+  .hline--right::before {
+    margin-left: auto;
+  }
+
+  .hline--left::before {
+    margin-right: auto;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--navy);
+    background-image: url('/images/home-hero-bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .hero > .container {
+    width: 100%;
+  }
+
+  .hero__text {
+    width: 52.5%;
+  }
+
+  .hero__spacer {
+    width: 47.5%;
+  }
+
+  .hero__title {
+    margin-bottom: 20px;
+    font-family: var(--f-title);
+    font-size: 45px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #fff;
+  }
+
+  .hero__lead {
+    margin-bottom: 5px;
+    font-family: var(--f-text);
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.5;
+    color: #fff;
+  }
+
+  .hero__divider {
+    display: block;
+    margin-bottom: 20px;
+    padding-block: 5px;
+  }
+
+  .hero__divider::before {
+    content: '';
+    display: block;
+    width: 90%;
+    border-top: 1px solid var(--green);
+  }
+
+  .hero :global(.hero__list) {
+    margin-bottom: 20px;
+  }
+
+  /* ---------- NÚMEROS ---------- */
+  .stats {
+    padding-bottom: 25px;
+    overflow: hidden;
+    background-image: linear-gradient(180deg, rgba(6, 17, 32, 0.83) 0%, rgba(11, 31, 58, 0.89) 100%);
+    border-top: 1px solid var(--steel);
+  }
+
+  .stats__col > .col-inner {
+    margin: 25px 10px;
+    padding: 5px 15px 5px 5px;
+    align-content: center;
+    border-right: 1px solid var(--blue);
+  }
+
+  .stats__col--last > .col-inner {
+    border-right: 0;
+  }
+
+  .stats__title {
+    margin-bottom: 20px;
+    font-family: var(--f-title);
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #fff;
+  }
+
+  .stats__text {
+    margin: -15px 0 -10px;
+    font-family: var(--f-text);
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.5;
+    color: #fff;
+  }
+
+  .stats__text--big {
+    font-size: 17px;
+  }
+
+  /* ---------- SETA ---------- */
+  .arrow-down__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 55px;
+    height: 55px;
+    margin: -35px auto 6px;
+    padding: 10px;
+    font-size: 35px;
+    color: #fff;
+    background-color: var(--blue);
+    border-radius: 50%;
+  }
+
+  .arrow-down__icon :global(.icon) {
+    height: 35px !important;
+  }
+
+  /* ---------- BIO ---------- */
+  .bio {
+    padding: 75px 0 25px;
+  }
+
+  .bio__media img {
+    display: block;
+    width: 90%;
+    height: auto;
+    margin-inline: auto;
+  }
+
+  .bio__title {
+    margin-bottom: 20px;
+    font-family: var(--f-title);
+    font-size: 35px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--navy);
+  }
+
+  .bio__copy {
+    margin-bottom: 5px;
+    font-family: var(--f-text);
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--text);
+  }
+
+  /* ---------- HOSPITAIS ---------- */
+  .hospitals__title {
+    font-family: var(--f-title);
+    font-size: 35px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    color: var(--navy);
+  }
+
+  .hospitals__card > .col-inner {
+    margin: 25px;
+    align-content: center;
+    align-items: center;
+    border-radius: 10px;
+    box-shadow: 0 0 25px -15px rgba(0, 0, 0, 0.5);
+  }
+
+  .hospitals__card img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .hospitals__more {
+    font-family: var(--f-title);
+    font-size: 27px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    color: var(--navy);
+  }
+
+  /* ---------- TRANSPLANTES ---------- */
+  .transplants {
+    padding: 50px 0;
+    background-image: radial-gradient(at 0% 50%, #2a4555 0%, #0b1f3a 55%);
+  }
+
+  .transplants__eyebrow {
+    padding-bottom: 10px;
+  }
+
+  .transplants__side {
+    width: 40%;
+  }
+
+  .transplants__center {
+    width: 19.464%;
+  }
+
+  .transplants__eyebrow-text,
+  .feedbacks__eyebrow-text {
+    margin: 0;
+    font-family: var(--f-ui);
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .transplants__eyebrow-text {
+    text-align: center;
+    color: #fff;
+  }
+
+  .transplants__title {
+    margin-bottom: 20px;
+    font-family: var(--f-title);
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    color: #fff;
+  }
+
+  .transplants__lead {
+    margin: -5px 150px -5px;
+    font-family: var(--f-text);
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.5;
+    text-align: center;
+    color: #fff;
+  }
+
+  .transplants__lead strong {
+    font-weight: 400;
+  }
+
+  /* ---------- CIRURGIAS ---------- */
+  .surgeries {
+    padding: 75px 0;
+    background-color: #fff;
+  }
+
+  .surgeries__notch {
+    position: absolute;
+    top: -1px;
+    left: 0;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 25px;
+    z-index: 1;
+  }
+
+  .surgeries__title {
+    margin-bottom: 20px;
+    font-family: var(--f-title);
+    font-size: 45px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    color: var(--navy);
+  }
+
+  .surgeries__lead {
+    margin-bottom: 20px;
+    padding: 0 150px;
+    font-family: var(--f-text);
+    font-size: 17px;
+    line-height: 1.5;
+    text-align: center;
+    color: var(--text);
+  }
+
+  .surgery--next {
+    margin-top: 25px;
+  }
+
+  .surgery__media img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .surgery__card {
+    width: 75%;
+  }
+
+  .surgery__card > .col-inner {
+    margin-left: 10px;
+    padding: 25px;
+    background-color: var(--gray-card);
+    border-radius: 5px;
+    box-shadow: 0 0 20px -10px rgba(0, 0, 0, 0.5);
+  }
+
+  .surgery__title {
+    margin-bottom: 20px;
+    font-family: var(--f-title);
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--navy);
+  }
+
+  .surgery__row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    display: inline-block;
+    padding: 10px 35px;
+    font-family: var(--f-ui);
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1;
+    text-align: center;
+    color: var(--text-3);
+    border: 1px solid;
+    border-radius: 25px;
+  }
+
+  .tag--blue {
+    background-color: var(--pill-blue);
+    border-color: var(--blue);
+  }
+
+  .tag--green {
+    background-color: var(--pill-green);
+    border-color: var(--green);
+  }
+
+  .surgery__more {
+    margin: 25px 0 -20px;
+    text-align: right;
+  }
+
+  /* ---------- DEPOIMENTOS ---------- */
+  .feedbacks {
+    padding: 50px 0;
+    background-color: var(--bg-soft);
+  }
+
+  .feedbacks__eyebrow {
+    padding-bottom: 10px;
+  }
+
+  .feedbacks__eyebrow-text {
+    color: var(--blue);
+  }
+
+  .feedbacks__title {
+    margin-bottom: 20px;
+    font-family: var(--f-title);
+    font-size: 35px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    color: var(--navy);
+  }
+
+  /* ---------- BLOG ---------- */
+  .home-blog {
+    padding: 75px 0;
+    background-color: #fff;
+  }
+
+  .home-blog__title {
+    margin-bottom: 20px;
+    font-family: var(--f-title);
+    font-size: 45px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--navy);
+  }
+
+  /* ================= MOBILE ================= */
+  @media (max-width: 767px) {
+    .hline::before,
+    .hline--25::before {
+      width: 25%;
+      margin-inline: auto;
+    }
+
+    .hero {
+      padding: 25px 0;
+    }
+
+    .hero__title {
+      font-size: 30px;
+      text-align: center;
+    }
+
+    .hero__lead {
+      text-align: center;
+    }
+
+    .hero__divider::before {
+      width: 65%;
+      margin-inline: auto;
+    }
+
+    .hero :global(.hero__list .icon-list__inner) {
+      justify-content: center;
+    }
+
+    .hero :global(.hero__list .icon-list__text) {
+      font-size: 13px;
+    }
+
+    .hero :global(.hero__list .icon-list__icon) {
+      width: 15px;
+    }
+
+    .hero :global(.hero__list .icon-list__icon .icon) {
+      height: 15px !important;
+    }
+
+    .hero__btn :global(.btn) {
+      display: block;
+    }
+
+    .hero__spacer {
+      display: none;
+    }
+
+    .stats__col > .col-inner {
+      margin: 0 10px 25px;
+      padding: 0 15px 20px;
+      border-right: 0;
+      border-bottom: 1px solid var(--blue);
+    }
+
+    .stats__col:first-child > .col-inner {
+      margin-top: 15px;
+    }
+
+    .stats__col--last > .col-inner {
+      margin-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .stats__title {
+      font-size: 30px;
+      text-align: center;
+    }
+
+    .stats__text {
+      font-size: 17px;
+      text-align: center;
+    }
+
+    .stats__text--big {
+      margin: -15px 0;
+    }
+
+    .arrow-down__icon {
+      font-size: 30px;
+    }
+
+    .arrow-down__icon :global(.icon) {
+      height: 30px !important;
+    }
+
+    .bio {
+      margin-bottom: -20px;
+      padding: 25px 0 0;
+    }
+
+    .bio__media img {
+      width: 100%;
+    }
+
+    .bio__text > .col-inner {
+      padding: 15px;
+    }
+
+    .bio__title {
+      font-size: 30px;
+    }
+
+    .hospitals__title {
+      font-size: 23px;
+    }
+
+    .hospitals__card > .col-inner {
+      margin: 25px 25px 0;
+    }
+
+    .transplants {
+      padding: 0 0 50px;
+    }
+
+    .transplants__side,
+    .transplants__center {
+      width: 100%;
+    }
+
+    .transplants__title {
+      font-size: 30px;
+    }
+
+    .transplants__lead {
+      margin: 0 0 -15px;
+    }
+
+    .surgeries {
+      padding: 25px 0;
+    }
+
+    .surgeries__title {
+      margin: -10px 0 -10px;
+      font-size: 35px;
+    }
+
+    .surgeries__lead {
+      padding: 0;
+    }
+
+    .surgery__card {
+      width: 100%;
+    }
+
+    .surgery__card > .col-inner {
+      margin: 0;
+    }
+
+    .surgery__title {
+      font-size: 23px;
+      text-align: center;
+    }
+
+    .surgery__row {
+      flex-direction: column;
+      gap: 10px !important;
+      margin-top: 10px !important;
+    }
+
+    .surgery__row:first-child {
+      margin-top: 0 !important;
+    }
+
+    .tag {
+      width: 100% !important;
+    }
+
+    .feedbacks {
+      padding: 0 0 25px;
+    }
+
+    .feedbacks > .container > .col > .col-inner {
+      padding: 15px;
+    }
+
+    .feedbacks__eyebrow-text {
+      text-align: center;
+    }
+
+    .feedbacks__title {
+      font-size: 30px;
+    }
+
+    .home-blog {
+      padding: 25px 0;
+    }
+
+    .home-blog__title {
+      font-size: 40px;
+      text-align: center;
+    }
+
+    .home-blog :global(.eyebrow__text) {
+      text-align: center;
+    }
+  }
+</style>

@@ -1,0 +1,160 @@
+---
+/**
+ * Card azul-escuro com ícone, título e texto (transplantes e procedimentos).
+ * Renderiza a coluna inteira — use dentro de uma .row.
+ *
+ * variant:
+ *  - home    : Home (transplantes) — 50% de largura, título 27px, botão "Saiba mais"
+ *  - medium  : Transplante de intestino — 33%, título 23px, texto 17px
+ *  - compact : Cirurgias — 33%, título 23px, texto 15px
+ */
+import Button from './Button.astro';
+import { img } from '../config/site';
+
+interface Props {
+  variant?: 'home' | 'medium' | 'compact';
+  icon: string;
+  title: string;
+  /** HTML simples (pode ter <br>) */
+  text: string;
+  href?: string;
+  /** empurra o botão para baixo (alinha com o card ao lado) */
+  buttonOffset?: number;
+  /** no celular, afasta 50px do card anterior (cards da Home, menos o primeiro) */
+  spacedOnMobile?: boolean;
+}
+
+const { variant = 'compact', icon, title, text, href, buttonOffset = 0, spacedOnMobile = false } = Astro.props;
+const iconDims: Record<string, [number, number]> = {
+  'icon-figado.png': [295, 278],
+  'icon-intestino.png': [290, 276],
+  'icon-pancreas.png': [295, 276],
+  'icon-multivisceral.png': [293, 278],
+};
+const [w, h] = iconDims[icon] ?? [295, 278];
+---
+
+<div class:list={['col dark-card', `dark-card--${variant}`, { 'dark-card--spaced': spacedOnMobile }]}>
+  <div class="col-inner">
+    <img class="dark-card__icon" src={img(icon)} alt="" width={w} height={h} loading="lazy" />
+    <h3 class="dark-card__title">{title}</h3>
+    <div class="dark-card__text"><p set:html={text} /></div>
+    {
+      href && (
+        <div class="dark-card__btn" style={buttonOffset ? `margin-top:${buttonOffset}px` : undefined}>
+          <Button href={href} variant="pill">Saiba mais</Button>
+        </div>
+      )
+    }
+  </div>
+</div>
+
+<style>
+  .dark-card > .col-inner {
+    padding: 15px;
+    margin: 5px;
+    background-color: var(--navy-card);
+    border: 1px solid var(--card-border);
+    border-radius: 5px;
+  }
+
+  .dark-card--home {
+    width: 50%;
+  }
+
+  .dark-card--medium,
+  .dark-card--compact {
+    width: 33.333%;
+  }
+
+  .dark-card--home > .col-inner {
+    padding: 25px 25px 0;
+    margin: 25px;
+    background-color: rgba(23, 45, 74, 0.82);
+  }
+
+  .dark-card--medium > .col-inner {
+    padding: 25px 25px 0;
+    margin: 10px;
+  }
+
+  .dark-card__icon {
+    display: block;
+    width: 15%;
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+  }
+
+  .dark-card--medium .dark-card__icon {
+    width: 25%;
+  }
+
+  .dark-card--compact .dark-card__icon {
+    width: 20%;
+  }
+
+  .dark-card__title {
+    margin: -5px 0 15px;
+    font-family: var(--f-title);
+    font-size: 23px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #fff;
+  }
+
+  .dark-card--home .dark-card__title {
+    font-size: 27px;
+  }
+
+  .dark-card__text {
+    margin: -5px 0 10px;
+    font-family: var(--f-text);
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.5;
+    color: #fff;
+  }
+
+  .dark-card--home .dark-card__text,
+  .dark-card--medium .dark-card__text {
+    font-size: 17px;
+  }
+
+  .dark-card--home .dark-card__text {
+    margin-bottom: 5px;
+  }
+
+  .dark-card__btn {
+    margin-bottom: -20px;
+  }
+
+  @media (max-width: 767px) {
+    .dark-card > .col-inner,
+    .dark-card--home > .col-inner,
+    .dark-card--medium > .col-inner {
+      margin: 10px;
+      padding: 15px 15px 0;
+    }
+
+    .dark-card--spaced > .col-inner {
+      margin-top: 50px;
+    }
+
+    .dark-card__icon {
+      width: 20% !important;
+    }
+
+    .dark-card__title {
+      font-size: 23px !important;
+    }
+
+    .dark-card__text {
+      font-size: 17px;
+    }
+
+    .dark-card__btn {
+      margin-top: 0 !important;
+    }
+  }
+</style>

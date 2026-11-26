@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ServiceHero from '../components/ServiceHero.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+import DarkCard from '../components/DarkCard.astro';
+import '../styles/service.css';
+---
+
+<BaseLayout
+  title="Transplante de Intestino"
+  description="Transplante de intestino, isolado, combinado fígado-intestino e multivisceral. Dr. Igor Lepski Calil — responsável técnico pelo transplante de intestino no Einstein."
+>
+  <ServiceHero
+    title="Transplante de Intestino"
+    text="O tratamento definitivo para os casos mais complexos de perda de função intestinal, uma das especialidades mais raras da cirurgia abdominal."
+    image="transplante-intestino.png"
+  />
+
+  <section class="section svc-body">
+    <div class="container">
+      <div class="col w-100">
+        <div class="col-inner">
+          <Eyebrow pad={150} line="10%" lineMobile="65%" />
+          <h2 class="svc-h2"><span class="c-blue">O que é</span> o transplante de intestino?</h2>
+          <div class="svc-text">
+            <p>
+              Indico o transplante de intestino para pacientes que perderam de forma irreversível a capacidade de
+              absorver nutrientes suficientes para manter a vida, condição que pode resultar de síndrome do intestino
+              curto, doença de Crohn extensa, distúrbios graves de motilidade intestinal ou outras causas.
+            </p>
+            <p>
+              Nesses casos, o paciente frequentemente depende de nutrição parenteral (intravenosa) por longos períodos —
+              o que sustenta a vida, mas gera riscos sérios ao longo do tempo. O transplante substitui o intestino doente
+              por um órgão saudável de doador falecido, permitindo a retomada da alimentação, com diferentes graus de
+              autonomia.
+            </p>
+          </div>
+          <h3 class="svc-h3">Tipos de transplante que realizo</h3>
+          <div class="row">
+            <DarkCard
+              variant="medium"
+              icon="icon-intestino.png"
+              title="Transplante isolado de intestino"
+              text="Indicado quando apenas o intestino está comprometido, com fígado preservado."
+            />
+            <DarkCard
+              variant="medium"
+              icon="icon-intestino.png"
+              title="Transplante combinado fígado-intestino"
+              text="Para pacientes com comprometimento intestinal associado a doença hepática grave causada pela nutrição parenteral prolongada."
+            />
+            <DarkCard
+              variant="medium"
+              icon="icon-intestino.png"
+              title="Transplante multivisceral"
+              text="Quando múltiplos órgãos abdominais estão comprometidos."
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

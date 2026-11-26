@@ -1,0 +1,123 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppFloat from '../components/WhatsAppFloat.astro';
+import { SITE } from '../config/site';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  /** não indexar (ex.: página coringa do blog) */
+  noindex?: boolean;
+  type?: 'website' | 'article';
+}
+
+const {
+  title,
+  description = SITE.description,
+  image = '/images/og-image.png',
+  noindex = false,
+  type = 'website',
+} = Astro.props;
+
+const fullTitle = title ? `${title} – ${SITE.titleSuffix}` : SITE.defaultTitle;
+const canonical = new URL(Astro.url.pathname, SITE.url).href;
+const ogImage = new URL(image, SITE.url).href;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Physician',
+  name: SITE.name,
+  url: SITE.url,
+  telephone: '+55 11 91892-0208',
+  medicalSpecialty: ['Surgical', 'Gastroenterologic'],
+  address: SITE.addresses.map((a) => ({
+    '@type': 'PostalAddress',
+    streetAddress: a.split(' - ')[0],
+    addressLocality: 'São Paulo',
+    addressRegion: 'SP',
+    addressCountry: 'BR',
+  })),
+  sameAs: [SITE.instagramUrl],
+};
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- Open Graph (prévia ao compartilhar no WhatsApp/Facebook) -->
+    <meta property="og:type" content={type} />
+    <meta property="og:locale" content={SITE.locale} />
+    <meta property="og:site_name" content={SITE.titleSuffix} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Fontes: akagi-pro e haboro-soft-extended (Adobe Fonts). Poppins vem empacotada no projeto. -->
+    <link rel="preconnect" href="https://use.typekit.net" crossorigin />
+    <link rel="stylesheet" href={`https://use.typekit.net/${SITE.typekitId}.css`} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+
+    <!-- Google Tag Manager -->
+    <script is:inline define:vars={{ gtmId: SITE.gtmId }}>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', gtmId);
+    </script>
+
+    <ClientRouter />
+  </head>
+  <body>
+    <noscript>
+      <iframe
+        src={`https://www.googletagmanager.com/ns.html?id=${SITE.gtmId}`}
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"></iframe>
+    </noscript>
+
+    <a class="sr-only" href="#conteudo">Ir para o conteúdo</a>
+    <Header />
+    <main id="conteudo">
+      <slot />
+    </main>
+    <Footer />
+    <WhatsAppFloat />
+
+    <script>
+      // Como a navegação não recarrega a página, avisa o GTM a cada troca de página.
+      let first = true;
+      document.addEventListener('astro:page-load', () => {
+        if (first) {
+          first = false;
+          return;
+        }
+        const w = window as unknown as { dataLayer?: unknown[] };
+        w.dataLayer = w.dataLayer || [];
+        w.dataLayer.push({ event: 'virtual_page_view', page_path: location.pathname, page_title: document.title });
+      });
+    </script>
+  </body>
+</html>

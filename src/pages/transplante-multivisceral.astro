@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ServiceHero from '../components/ServiceHero.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+import '../styles/service.css';
+---
+
+<BaseLayout
+  title="Transplante Multivisceral"
+  description="Transplante multivisceral no Hospital Israelita Albert Einstein, um dos poucos centros do Brasil com essa expertise. Dr. Igor Lepski Calil."
+>
+  <!-- no site atual a coluna da foto desta página está vazia -->
+  <ServiceHero
+    title="Transplante Multivisceral"
+    text="O tratamento para os casos de maior complexidade da cirurgia abdominal, quando múltiplos órgãos precisam ser substituídos simultaneamente."
+    mobileImageHeight={0}
+  />
+
+  <section class="section svc-body">
+    <div class="container">
+      <div class="col w-100">
+        <div class="col-inner">
+          <Eyebrow pad={150} line="10%" lineMobile="65%" />
+          <h2 class="svc-h2"><span class="c-blue">O que é</span> o Transplante Multivisceral ?</h2>
+          <div class="svc-text svc-text--last">
+            <p>
+              O transplante multivisceral é um dos procedimentos mais complexos e raros da medicina. Consiste na
+              substituição simultânea de múltiplos órgãos abdominais — intestino, fígado, estômago, pâncreas e duodeno —
+              em combinações que variam conforme a condição clínica de cada paciente.
+            </p>
+            <p>
+              É indicado quando a falência não se limita a um único órgão, mas compromete todo o trato gastrointestinal
+              superior de forma irreversível. Realizo esse procedimento no <b>Hospital Israelita Albert Einstein</b>, um
+              dos poucos centros no Brasil com expertise e estrutura para isso.
+            </p>
+            <p><b>Quando indico o transplante multivisceral?</b></p>
+            <ul>
+              <li>Falência intestinal associada a doença hepática grave por nutrição parenteral prolongada</li>
+              <li>Tumores abdominais comprometendo múltiplos órgãos e vasos</li>
+              <li>Tromboses mesentéricas extensas com isquemia intestinal e hepática</li>
+              <li>Reoperações complexas após cirurgias prévias com dano extenso a múltiplos órgãos</li>
+            </ul>
+            <p>&nbsp;</p>
+            <p>Casos complexos merecem atenção especializada.</p>
+            <p>
+              Se você ou um familiar tem indicação para transplante multivisceral, entre em contato para agendarmos uma
+              avaliação.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

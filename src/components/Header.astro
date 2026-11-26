@@ -1,0 +1,79 @@
+---
+import NavMenu from './NavMenu.astro';
+import { img } from '../config/site';
+---
+
+<header class="site-header section">
+  <div class="container">
+    <div class="col w-100">
+      <div class="col-inner">
+        <div class="row">
+          <div class="col site-header__logo">
+            <div class="col-inner">
+              <a href="/" aria-label="Dr. Igor Lepski — página inicial">
+                <img src={img('logo.png')} alt="Dr. Igor Lepski" width="204" height="60" />
+              </a>
+            </div>
+          </div>
+          <div class="col site-header__nav col--middle">
+            <div class="col-inner">
+              <NavMenu id="menu-topo" layout="horizontal" toggleAlign="right" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    background-color: var(--navy);
+    z-index: 100;
+  }
+
+  .site-header__logo {
+    width: 20%;
+  }
+
+  .site-header__logo img {
+    display: block;
+    width: 204px;
+    height: 60px;
+    object-fit: contain;
+    object-position: left center;
+  }
+
+  .site-header__nav {
+    width: 80%;
+  }
+
+  /* a lista suspensa ocupa a largura toda da tela, logo abaixo do cabeçalho */
+  .site-header :global(.col),
+  .site-header :global(.nav) {
+    position: static;
+  }
+
+  .site-header :global(.nav__list--dropdown) {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 2000;
+  }
+
+  .site-header :global(.nav.is-open .nav__list--dropdown) {
+    margin-top: 0;
+  }
+
+  @media (max-width: 767px) {
+    .site-header__logo,
+    .site-header__nav {
+      width: 50% !important;
+    }
+
+    .site-header .row {
+      flex-wrap: nowrap;
+    }
+  }
+</style>

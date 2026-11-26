@@ -1,0 +1,149 @@
+/* Página de artigo do blog — medidas do template "single post" do site atual */
+
+.post-hero {
+  padding-top: 25px;
+  background-color: #2b6767;
+  background-image: url('/images/hero-transplantes-bg.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.post-hero .col > .col-inner {
+  padding: 25px;
+}
+
+/* sobretítulo "BLOG" com a linha à esquerda (mesma geometria do componente Eyebrow, layout center) */
+.post-eyebrow {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.post-eyebrow__text {
+  margin: 0 0 -12px;
+  padding-left: 50px;
+  font-family: var(--f-ui);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.post-eyebrow__line {
+  display: block;
+  width: 100%;
+  margin-left: -100px;
+  padding-block: 5px;
+}
+
+.post-eyebrow__line::before {
+  content: '';
+  display: block;
+  width: 15%;
+  margin-inline: auto;
+  border-top: 1px solid #fff;
+}
+
+.post-hero__title {
+  margin: 0 0 20px;
+  padding: 10px 150px;
+  font-family: var(--f-title);
+  font-size: 35px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  color: #fff;
+}
+
+.post-hero__image {
+  margin-bottom: -100px;
+  text-align: center;
+}
+
+.post-hero__image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.post-body {
+  padding: 100px 0 25px;
+}
+
+.post-content {
+  font-family: var(--f-text);
+  font-size: 17px;
+  line-height: 1.5;
+  color: #181818;
+}
+
+.post-content p {
+  margin-block: 0 0.9rem;
+}
+
+.post-content ul,
+.post-content ol {
+  padding-inline-start: 40px;
+}
+
+.post-content h2,
+.post-content h3,
+.post-content h4 {
+  margin: 1.2em 0 0.6em;
+  font-family: var(--f-title);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--navy);
+}
+
+.post-content h2 { font-size: 30px; }
+.post-content h3 { font-size: 23px; }
+
+.post-content a {
+  color: var(--blue);
+  text-decoration: underline;
+}
+
+.post-content img {
+  height: auto;
+  border-radius: 5px;
+}
+
+.post-status {
+  padding: 120px 0;
+  font-family: var(--f-text);
+  text-align: center;
+  color: var(--text);
+}
+
+@media (max-width: 767px) {
+  .post-eyebrow {
+    margin-bottom: 0;
+  }
+
+  .post-eyebrow__text {
+    margin: 0;
+    padding-left: 0;
+  }
+
+  .post-eyebrow__line {
+    margin: -5px 0 -10px;
+  }
+
+  .post-eyebrow__line::before {
+    width: 25%;
+  }
+
+  .post-hero__title {
+    padding: 0;
+    font-size: 27px;
+  }
+
+  .post-body {
+    padding: 85px 0 50px;
+  }
+
+  .post-body .col > .col-inner {
+    padding: 15px;
+  }
+}

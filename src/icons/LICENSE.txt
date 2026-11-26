@@ -1,0 +1,2 @@
+Ícones do Font Awesome Free 5.15.4 (os mesmos usados pelo Elementor no site atual).
+Licença dos ícones: CC BY 4.0 — https://fontawesome.com/license/free

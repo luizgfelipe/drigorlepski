@@ -1,0 +1,433 @@
+---
+import Eyebrow from './Eyebrow.astro';
+import Button from './Button.astro';
+import IconList from './IconList.astro';
+import Icon from './Icon.astro';
+import NavMenu from './NavMenu.astro';
+import { SITE, img } from '../config/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <!-- faixa em gradiente -->
+  <div class="footer-strip" aria-hidden="true"></div>
+
+  <!-- CTA "Receba uma avaliação…" -->
+  <section class="section footer-cta">
+    <div class="container">
+      <div class="col w-100">
+        <div class="col-inner">
+          <div class="row">
+            <div class="col footer-cta__text col--middle">
+              <div class="col-inner">
+                <Eyebrow color="var(--blue)" />
+                <h2 class="footer-cta__title">
+                  Receba uma avaliação completa e individualizada!{' '}
+                  <span class="c-navy">Atendo presencialmente em</span>{' '}
+                  <span class="c-green">São Paulo</span>{' '}
+                  <span class="c-navy">e também</span>{' '}
+                  <span class="c-green">online</span>
+                </h2>
+                <div class="footer-cta__btn">
+                  <Button href={SITE.whatsappUrl} variant="primary" icon="arrow-right">Agende sua consulta</Button>
+                </div>
+              </div>
+            </div>
+            <div class="col footer-cta__media">
+              <div class="col-inner">
+                <img
+                  src={img('cta-doctor.png')}
+                  alt="Dr. Igor Lepski Calil"
+                  width="777"
+                  height="553"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- faixa com logo, mini-bio e botões -->
+  <section class="section footer-bar">
+    <div class="container">
+      <div class="col w-100">
+        <div class="col-inner">
+          <div class="row">
+            <div class="col footer-bar__logo col--middle">
+              <div class="col-inner">
+                <img src={img('logo.png')} alt="Dr. Igor Lepski" width="203" height="60" loading="lazy" />
+              </div>
+            </div>
+            <div class="col footer-bar__bio">
+              <div class="col-inner">
+                <div class="footer-bar__text">
+                  <p>
+                    Dr. Igor Lepski Calil é cirurgião especialista em transplantes abdominais e cirurgia do aparelho
+                    digestivo, com atendimento em São Paulo-SP.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col footer-bar__btn col--middle">
+              <div class="col-inner">
+                <Button href={SITE.whatsappUrl} variant="primary" icon="arrow-right" compact block>
+                  Agende sua consulta
+                </Button>
+              </div>
+            </div>
+            <div class="col footer-bar__btn col--middle">
+              <div class="col-inner">
+                <Button href={SITE.whatsappUrl} variant="outline" icon="whatsapp" iconPosition="before" block>
+                  Whatsapp
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- colunas: contato / modalidades / navegação -->
+  <section class="section footer-cols">
+    <div class="container">
+      <div class="col w-100">
+        <div class="col-inner">
+          <div class="row">
+            <div class="col w-33 footer-cols__col">
+              <div class="col-inner">
+                <h2 class="footer-cols__title">Contato</h2>
+                <IconList
+                  space={10}
+                  items={[
+                    { icon: 'phone-alt', html: SITE.phoneDisplay, href: SITE.whatsappUrl },
+                    { icon: 'map-marker-alt', html: SITE.addresses.join('<br><br>') },
+                  ]}
+                />
+              </div>
+            </div>
+            <div class="col w-33 footer-cols__col">
+              <div class="col-inner">
+                <h2 class="footer-cols__title">Modalidades</h2>
+                <p class="footer-cols__text">Presencial e online | Atendimento particular.</p>
+                <div class="social">
+                  <a href={SITE.whatsappUrl} target="_blank" rel="noopener" class="social__icon" aria-label="WhatsApp">
+                    <Icon name="whatsapp" size={20} />
+                  </a>
+                  <a
+                    href={SITE.instagramUrl}
+                    target="_blank"
+                    rel="noopener"
+                    class="social__icon"
+                    aria-label="Instagram"
+                  >
+                    <Icon name="instagram" size={20} />
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="col w-33 footer-cols__col footer-cols__col--nav">
+              <div class="col-inner">
+                <h2 class="footer-cols__title">Navegação</h2>
+                <NavMenu id="menu-rodape" layout="vertical" toggleAlign="left" />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col w-100">
+              <div class="col-inner">
+                <hr class="footer-cols__divider" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- copyright -->
+  <section class="section footer-copy">
+    <div class="container">
+      <div class="col w-100">
+        <div class="col-inner">
+          <div class="row">
+            <div class="col w-33 col--middle footer-copy__text">
+              <div class="col-inner">
+                <div class="footer-copy__wrap">
+                  <p>© Copyright {year} –Dr. Igor Lepski Calil<br />Todos os direitos reservados.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col w-33 col--middle footer-copy__logo">
+              <div class="col-inner">
+                <img src={img('logo.png')} alt="Dr. Igor Lepski" width="230" height="68" loading="lazy" />
+              </div>
+            </div>
+            <div class="col w-33 footer-copy__credit">
+              <div class="col-inner">
+                <p>Produzido por:</p>
+                <img src={img('salvatore.png')} alt="Salvatore" width="171" height="27" loading="lazy" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</footer>
+
+<style>
+  /* ---- faixa ---- */
+  .footer-strip {
+    height: 40px;
+    background-image: var(--grad-band);
+  }
+
+  /* ---- CTA ---- */
+  .footer-cta {
+    padding: 50px 0;
+    background-color: var(--bg-softer);
+  }
+
+  .footer-cta__text {
+    width: 51.5%;
+  }
+
+  .footer-cta__media {
+    width: 48.5%;
+  }
+
+  .footer-cta__title {
+    margin-bottom: 20px;
+    font-family: var(--f-title);
+    font-size: 40px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--blue);
+  }
+
+  .footer-cta__media img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* ---- faixa com bio ---- */
+  .footer-bar {
+    padding: 15px 0;
+    background-color: var(--navy);
+  }
+
+  .footer-bar__logo {
+    width: 20%;
+  }
+
+  .footer-bar__logo img {
+    display: block;
+    width: 203px;
+    height: 60px;
+    object-fit: contain;
+  }
+
+  .footer-bar__bio {
+    width: 35%;
+  }
+
+  .footer-bar__text {
+    margin-bottom: -15px;
+  }
+
+  .footer-bar__bio p {
+    font-family: var(--f-text);
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.5;
+    color: #fff;
+  }
+
+  .footer-bar__btn {
+    width: 25%;
+  }
+
+  .footer-bar__btn + .footer-bar__btn {
+    width: 20%;
+  }
+
+  /* ---- colunas ---- */
+  .footer-cols {
+    padding-top: 25px;
+    background-color: var(--navy-900);
+  }
+
+  .footer-cols__col > .col-inner {
+    padding: 25px;
+  }
+
+  .footer-cols__title {
+    margin-bottom: 20px;
+    font-family: var(--f-ui);
+    font-size: 21px;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+    color: #fff;
+  }
+
+  .footer-cols__text {
+    margin-bottom: calc(0.9rem + 5px);
+    font-family: var(--f-text);
+    font-size: 15px;
+    line-height: 1.5;
+    color: #fff;
+  }
+
+  .social {
+    display: flex;
+    gap: 5px;
+  }
+
+  .social__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    color: #fff;
+    background-color: var(--green);
+    border-radius: 25px;
+    transition: transform 0.3s;
+  }
+
+  .social__icon:hover {
+    transform: scale(1.1);
+  }
+
+  .footer-cols__divider {
+    width: 100%;
+    margin: 15px 0;
+    border: 0;
+    border-top: 1px solid var(--blue);
+  }
+
+  /* ---- copyright ---- */
+  .footer-copy {
+    background-color: var(--navy-900);
+  }
+
+  .footer-copy p {
+    font-family: var(--f-text);
+    font-size: 15px;
+    line-height: 1.5;
+    color: #fff;
+  }
+
+  .footer-copy__wrap {
+    margin-bottom: -15px;
+  }
+
+  .footer-copy__logo .col-inner {
+    justify-content: center;
+  }
+
+  .footer-copy__logo img {
+    display: block;
+    width: 230px;
+    height: 68px;
+    margin-inline: auto;
+    object-fit: contain;
+  }
+
+  .footer-copy__credit > .col-inner {
+    padding: 10px 10px 10px 100px;
+  }
+
+  .footer-copy__credit p {
+    margin-bottom: calc(0.9rem - 5px);
+  }
+
+  .footer-copy__credit img {
+    display: block;
+    width: 171px;
+    height: 27px;
+    object-fit: contain;
+    object-position: left center;
+  }
+
+  @media (max-width: 767px) {
+    .footer-cta {
+      padding: 25px 0;
+    }
+
+    .footer-cta__title {
+      font-size: 23px;
+      text-align: center;
+    }
+
+    .footer-cta__btn {
+      text-align: center;
+    }
+
+    .footer-bar {
+      padding: 10px 0 0;
+    }
+
+    .footer-bar__logo img {
+      width: 65%;
+      height: auto;
+      margin-inline: auto;
+    }
+
+    .footer-bar__bio p {
+      font-size: 17px;
+      text-align: center;
+    }
+
+    .footer-cols {
+      padding-top: 25px;
+    }
+
+    .footer-cols__col > .col-inner {
+      padding: 15px;
+    }
+
+    .footer-cols__col--nav > .col-inner {
+      padding: 15px 15px 0;
+    }
+
+    .footer-cols__text {
+      font-size: 13px;
+    }
+
+    .footer-cols__divider {
+      margin: 5px 0;
+    }
+
+    .footer-copy__text > .col-inner {
+      padding: 0 10px 10px;
+    }
+
+    .footer-copy__text p,
+    .footer-copy__credit p {
+      text-align: center;
+    }
+
+    .footer-copy__logo img {
+      width: 65%;
+      height: auto;
+    }
+
+    .footer-copy__credit > .col-inner {
+      padding: 10px;
+      justify-content: center;
+    }
+
+    .footer-copy__credit img {
+      margin-inline: auto;
+      object-position: center;
+    }
+  }
+</style>

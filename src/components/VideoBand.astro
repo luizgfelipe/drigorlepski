@@ -1,0 +1,103 @@
+---
+/**
+ * Faixa em gradiente com título, botão "Agendar consulta" e vídeo vertical
+ * (Home, Sobre e Cirurgia Hepato-Bílio-Pancreática).
+ */
+import Eyebrow from './Eyebrow.astro';
+import Button from './Button.astro';
+import YouTubeVideo from './YouTubeVideo.astro';
+
+interface Props {
+  title: string;
+  buttonHref?: string;
+  videoId: string;
+  poster: string;
+  /** padding da coluna do vídeo (Hepato usa 25px) */
+  videoPad?: 'sm' | 'lg';
+}
+
+const { title, buttonHref = '/contato/', videoId, poster, videoPad = 'sm' } = Astro.props;
+---
+
+<section class="section video-band">
+  <div class="container">
+    <div class="col w-100">
+      <div class="col-inner">
+        <div class="row">
+          <div class="col w-50 col--middle">
+            <div class="col-inner">
+              <Eyebrow color="#fff" />
+              <h2 class="video-band__title">{title}</h2>
+              <div class="video-band__btn">
+                <Button href={buttonHref} variant="green">Agendar consulta</Button>
+              </div>
+            </div>
+          </div>
+          <div class:list={['col w-50 video-band__media', `video-band__media--${videoPad}`]}>
+            <div class="col-inner">
+              <div class="video-band__video">
+                <YouTubeVideo id={videoId} poster={poster} title={title} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .video-band {
+    padding: 50px 0;
+    background-image: var(--grad-band);
+  }
+
+  .video-band__title {
+    margin-bottom: 20px;
+    font-family: var(--f-title);
+    font-size: 35px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #fff;
+  }
+
+  .video-band__media > .col-inner {
+    padding: 0 25px;
+  }
+
+  .video-band__media--lg > .col-inner {
+    padding: 25px;
+  }
+
+  .video-band__video {
+    margin: 0 100px;
+  }
+
+  @media (max-width: 767px) {
+    .video-band {
+      padding: 25px 0;
+    }
+
+    .video-band__title {
+      font-size: 30px;
+      text-align: center;
+    }
+
+    .video-band__btn :global(.btn) {
+      display: block;
+    }
+
+    .video-band__media > .col-inner,
+    .video-band__media--lg > .col-inner {
+      padding: 15px;
+    }
+
+    .video-band__video {
+      margin: 10px 50px 0;
+    }
+
+    .video-band__media--lg .video-band__video {
+      margin: 0 25px;
+    }
+  }
+</style>

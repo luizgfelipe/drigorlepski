@@ -1,0 +1,170 @@
+---
+/**
+ * Sobretítulo "DR. IGOR LEPSKI CALIL" com a linha fina ao lado — padrão repetido no site todo.
+ *
+ * layout "left"  : linha à esquerda e texto deslocado (padding 100px ou 150px)
+ * layout "center": texto centralizado com a linha à esquerda dele (Blog, Publicações)
+ * layout "plain" : só o texto, sem linha
+ *
+ * No mobile o texto centraliza e a linha vai para baixo dele (como no Elementor).
+ */
+interface Props {
+  text?: string;
+  layout?: 'left' | 'center' | 'plain';
+  /** recuo do texto (layout left) */
+  pad?: number;
+  /** largura da linha (desktop) em % da largura disponível, ou px */
+  line?: string;
+  /** largura da linha no mobile */
+  lineMobile?: string;
+  color?: string;
+  lineColor?: string;
+  letterSpacing?: string;
+  weight?: 400 | 500;
+  align?: 'left' | 'center';
+  mobileAlign?: 'left' | 'center';
+  /** espaço abaixo do bloco */
+  gap?: number;
+  /** layout center: deslocamento horizontal da linha (px). Padrão: -2 × pad */
+  shift?: number;
+  class?: string;
+}
+
+const {
+  text = 'Dr. Igor Lepski Calil',
+  layout = 'left',
+  pad = 100,
+  line = '15%',
+  lineMobile = '25%',
+  color = 'var(--blue)',
+  lineColor,
+  letterSpacing = '0px',
+  weight = 500,
+  align = 'left',
+  mobileAlign = 'center',
+  gap = 20,
+  shift,
+  class: className = '',
+} = Astro.props;
+
+const style = [
+  `--eb-color:${color}`,
+  `--eb-line-color:${lineColor ?? color}`,
+  `--eb-pad:${pad}px`,
+  `--eb-line:${line}`,
+  `--eb-line-m:${lineMobile}`,
+  `--eb-ls:${letterSpacing}`,
+  `--eb-w:${weight}`,
+  `--eb-gap:${gap}px`,
+  `--eb-shift:${shift ?? -2 * pad}px`,
+].join(';');
+---
+
+<div
+  class:list={['eyebrow', `eyebrow--${layout}`, `eyebrow--a-${align}`, `eyebrow--m-${mobileAlign}`, className]}
+  style={style}
+>
+  <p class="eyebrow__text">{text}</p>
+  {layout !== 'plain' && <span class="eyebrow__line" aria-hidden="true"></span>}
+</div>
+
+<style>
+  .eyebrow {
+    margin-bottom: var(--eb-gap);
+  }
+
+  .eyebrow__text {
+    margin: 0;
+    font-family: var(--f-ui);
+    font-size: 15px;
+    font-weight: var(--eb-w);
+    line-height: 1;
+    letter-spacing: var(--eb-ls);
+    text-transform: uppercase;
+    color: var(--eb-color);
+  }
+
+  .eyebrow__line {
+    display: block;
+    padding-block: 5px;
+  }
+
+  .eyebrow__line::before {
+    content: '';
+    display: block;
+    width: var(--eb-line);
+    border-top: 1px solid var(--eb-line-color);
+  }
+
+  /* --- left: "———— TEXTO" --- */
+  .eyebrow--left .eyebrow__text {
+    padding-left: var(--eb-pad);
+    margin-bottom: -12px;
+  }
+
+  /* --- center: texto centralizado, linha à esquerda dele --- */
+  .eyebrow--center {
+    text-align: center;
+  }
+
+  .eyebrow--center .eyebrow__text {
+    padding-left: var(--eb-pad);
+    margin-bottom: -12px;
+  }
+
+  .eyebrow--center .eyebrow__line {
+    width: 100%;
+    margin-left: var(--eb-shift);
+  }
+
+  .eyebrow--center .eyebrow__line::before {
+    margin-inline: auto;
+  }
+
+  .eyebrow--a-center .eyebrow__text {
+    text-align: center;
+  }
+
+  .eyebrow--plain .eyebrow__text {
+    padding: 0;
+  }
+
+  @media (max-width: 767px) {
+    .eyebrow--left .eyebrow__text,
+    .eyebrow--center .eyebrow__text {
+      padding-left: 0;
+      margin-bottom: 0;
+    }
+
+    .eyebrow--m-center .eyebrow__text {
+      text-align: center;
+    }
+
+    .eyebrow--m-left .eyebrow__text {
+      text-align: left;
+    }
+
+    .eyebrow--left .eyebrow__line,
+    .eyebrow--center .eyebrow__line {
+      margin: -5px 0 -10px;
+    }
+
+    .eyebrow--left .eyebrow__line::before,
+    .eyebrow--center .eyebrow__line::before {
+      width: var(--eb-line-m);
+    }
+
+    .eyebrow--m-center .eyebrow__line::before {
+      margin-inline: auto;
+    }
+
+    .eyebrow--m-left .eyebrow__line::before {
+      margin-inline: 0 auto;
+    }
+
+    .eyebrow--left,
+    .eyebrow--center {
+      margin-bottom: 0;
+    }
+  }
+</style>

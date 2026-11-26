@@ -1,0 +1,38 @@
+---
+import Icon from './Icon.astro';
+import { SITE } from '../config/site';
+---
+
+<a
+  href={SITE.whatsappUrl}
+  class="wa-float"
+  target="_blank"
+  rel="noopener"
+  aria-label="Fale pelo WhatsApp"
+  transition:persist="wa-float"
+>
+  <Icon name="whatsapp" size={32} />
+</a>
+
+<style>
+  .wa-float {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    color: #fff;
+    background-color: var(--whatsapp);
+    border-radius: 100%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .wa-float :global(.icon) {
+    width: 32px !important;
+    height: 32px !important;
+  }
+</style>
