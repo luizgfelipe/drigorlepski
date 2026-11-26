@@ -31,10 +31,11 @@ const surgeries = [
     image: 'cirurgia-hepato-bilio-pancreatica.png',
     href: '/cirurgia-hepato-bilio-pancreatica/',
     tone: 'blue',
-    // cada linha = uma fileira de etiquetas; width = largura fixa (px) quando a etiqueta é esticada
+    // cada linha = uma fileira de etiquetas; width = largura (em % do card) quando a etiqueta é esticada
+    // m = espaço acima da etiqueta no celular; mw = largura no celular (medidos no site antigo)
     rows: [
-      { gap: 25, items: [{ label: 'Hepatectomia', width: 195 }, { label: 'Pancreatectomia' }] },
-      { gap: 25, items: [{ label: 'Derivação bílio-digestiva' }, { label: 'Colecistectomia' }] },
+      { gap: 25, items: [{ label: 'Hepatectomia', width: '25%' }, { label: 'Pancreatectomia', m: 10 }] },
+      { gap: 25, items: [{ label: 'Derivação bílio-digestiva', width: '35%', m: 20 }, { label: 'Colecistectomia', m: 20 }] },
     ],
   },
   {
@@ -46,17 +47,17 @@ const surgeries = [
       {
         gap: 10,
         items: [
-          { label: 'Gastrectomia', width: 195 },
-          { label: 'Colectomia', width: 195 },
-          { label: 'Cirurgia do refluxo', width: 234 },
+          { label: 'Gastrectomia', width: '25%' },
+          { label: 'Colectomia', width: '25%', m: 20 },
+          { label: 'Cirurgia do refluxo', width: '30%', m: 20 },
         ],
       },
       {
         gap: 10,
         items: [
-          { label: 'Apendicectomia', width: 234 },
-          { label: 'Hernioplastia', width: 234 },
-          { label: 'Ostomia', width: 234 },
+          { label: 'Apendicectomia', width: '30%', m: 25, mw: 'calc(100% - 10px)' },
+          { label: 'Hernioplastia', width: '30%', m: 25, mw: 'calc(100% - 10px)' },
+          { label: 'Ostomia', width: '30%', m: 25 },
         ],
       },
     ],
@@ -331,11 +332,17 @@ const surgeries = [
                     <h3 class="surgery__title">{s.title}</h3>
                     <div class="surgery__tags">
                       {s.rows.map((row, r) => (
-                        <div class="surgery__row" style={`gap:${row.gap}px;${r > 0 ? 'margin-top:25px' : ''}`}>
+                        <div class="surgery__row" style={`gap:${row.gap}px;--row-mt:${r > 0 ? 25 : 0}px`}>
                           {row.items.map((t) => (
                             <span
                               class:list={['tag', `tag--${s.tone}`]}
-                              style={'width' in t && t.width ? `width:${t.width}px` : undefined}
+                              style={[
+                                'width' in t && t.width ? `--w:${t.width}` : '',
+                                'm' in t && t.m ? `--m-mt:${t.m}px` : '',
+                                'mw' in t && t.mw ? `--m-w:${t.mw}` : '',
+                              ]
+                                .filter(Boolean)
+                                .join(';')}
                             >
                               {t.label}
                             </span>
@@ -494,7 +501,7 @@ const surgeries = [
   .stats__col > .col-inner {
     margin: 25px 10px;
     padding: 5px 15px 5px 5px;
-    align-content: center;
+    justify-content: center;
     border-right: 1px solid var(--blue);
   }
 
@@ -584,7 +591,7 @@ const surgeries = [
 
   .hospitals__card > .col-inner {
     margin: 25px;
-    align-content: center;
+    justify-content: center;
     align-items: center;
     border-radius: 10px;
     box-shadow: 0 0 25px -15px rgba(0, 0, 0, 0.5);
@@ -703,6 +710,10 @@ const surgeries = [
     margin-top: 25px;
   }
 
+  .surgery__media > .col-inner {
+    padding: 0;
+  }
+
   .surgery__media img {
     display: block;
     width: 100%;
@@ -733,9 +744,11 @@ const surgeries = [
   .surgery__row {
     display: flex;
     flex-wrap: wrap;
+    margin-top: var(--row-mt, 0);
   }
 
   .tag {
+    width: var(--w, auto);
     display: inline-block;
     padding: 10px 35px;
     font-family: var(--f-ui);
@@ -804,6 +817,10 @@ const surgeries = [
 
   /* ================= MOBILE ================= */
   @media (max-width: 767px) {
+    .hline {
+      margin: -5px 0 10px;
+    }
+
     .hline::before,
     .hline--25::before {
       width: 25%;
@@ -811,6 +828,7 @@ const surgeries = [
     }
 
     .hero {
+      min-height: 0;
       padding: 25px 0;
     }
 
@@ -828,8 +846,10 @@ const surgeries = [
       margin-inline: auto;
     }
 
+    .hero :global(.hero__list .icon-list__item),
     .hero :global(.hero__list .icon-list__inner) {
       justify-content: center;
+      text-align: center;
     }
 
     .hero :global(.hero__list .icon-list__text) {
@@ -908,7 +928,17 @@ const surgeries = [
     }
 
     .hospitals__title {
+      font-size: 30px;
+    }
+
+    .hospitals__more {
+      width: 100%;
       font-size: 23px;
+    }
+
+    /* no site antigo as linhas ao lado de "Hospitais onde atuo" somem no celular */
+    .hospitals__head .hline {
+      display: none;
     }
 
     .hospitals__card > .col-inner {
@@ -928,8 +958,21 @@ const surgeries = [
       font-size: 30px;
     }
 
+    /* medidas do site antigo: só a linha de cima aparece no celular */
+    .transplants__eyebrow .col:last-child .hline {
+      display: none;
+    }
+
+    .transplants__eyebrow .col:first-child .hline {
+      margin-top: 3px;
+    }
+
     .transplants__lead {
-      margin: 0 0 -15px;
+      margin: 0 0 5px;
+    }
+
+    .transplants :global(.dark-card__btn .btn) {
+      display: block;
     }
 
     .surgeries {
@@ -937,7 +980,7 @@ const surgeries = [
     }
 
     .surgeries__title {
-      margin: -10px 0 -10px;
+      margin: -10px 0 10px;
       font-size: 35px;
     }
 
@@ -960,16 +1003,21 @@ const surgeries = [
 
     .surgery__row {
       flex-direction: column;
-      gap: 10px !important;
-      margin-top: 10px !important;
-    }
-
-    .surgery__row:first-child {
-      margin-top: 0 !important;
+      gap: 0 !important;
+      margin-top: 0;
     }
 
     .tag {
-      width: 100% !important;
+      width: var(--m-w, 100%);
+      margin-top: var(--m-mt, 0);
+    }
+
+    .surgery__more :global(.btn) {
+      display: block;
+    }
+
+    .surgery:not(:last-child) .surgery__more {
+      margin-bottom: 0;
     }
 
     .feedbacks {

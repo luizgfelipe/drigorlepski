@@ -158,18 +158,14 @@ button {
   min-width: 0;
   padding: 10px;
   display: flex;
-  flex-wrap: wrap;
-  align-content: flex-start;
+  flex-direction: column;
+  justify-content: flex-start;
   position: relative;
 }
 
-.col-inner > * {
-  width: 100%;
-}
-
+/* centraliza o conteúdo na vertical (equivale ao "content position: middle" do Elementor) */
 .col--middle > .col-inner {
-  align-content: center;
-  align-items: center;
+  justify-content: center;
 }
 
 .w-100 { width: 100%; }

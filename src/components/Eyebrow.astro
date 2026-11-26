@@ -27,6 +27,8 @@ interface Props {
   gap?: number;
   /** layout center: deslocamento horizontal da linha (px). Padrão: -2 × pad */
   shift?: number;
+  /** espaçamento no celular: "tight" (padrão do site) ou "loose" (bloco do rodapé) */
+  mobileSpacing?: 'tight' | 'loose';
   class?: string;
 }
 
@@ -44,6 +46,7 @@ const {
   mobileAlign = 'center',
   gap = 20,
   shift,
+  mobileSpacing = 'tight',
   class: className = '',
 } = Astro.props;
 
@@ -61,7 +64,14 @@ const style = [
 ---
 
 <div
-  class:list={['eyebrow', `eyebrow--${layout}`, `eyebrow--a-${align}`, `eyebrow--m-${mobileAlign}`, className]}
+  class:list={[
+    'eyebrow',
+    `eyebrow--${layout}`,
+    `eyebrow--a-${align}`,
+    `eyebrow--m-${mobileAlign}`,
+    `eyebrow--ms-${mobileSpacing}`,
+    className,
+  ]}
   style={style}
 >
   <p class="eyebrow__text">{text}</p>
@@ -130,10 +140,11 @@ const style = [
   }
 
   @media (max-width: 767px) {
+    /* no celular o Elementor soma 20px às margens: texto, 20px, linha e mais 10px até o título */
     .eyebrow--left .eyebrow__text,
     .eyebrow--center .eyebrow__text {
       padding-left: 0;
-      margin-bottom: 0;
+      margin-bottom: 20px;
     }
 
     .eyebrow--m-center .eyebrow__text {
@@ -146,7 +157,11 @@ const style = [
 
     .eyebrow--left .eyebrow__line,
     .eyebrow--center .eyebrow__line {
-      margin: -5px 0 -10px;
+      margin: -5px 0 10px;
+    }
+
+    .eyebrow--ms-loose .eyebrow__line {
+      margin: 0 0 20px !important;
     }
 
     .eyebrow--left .eyebrow__line::before,

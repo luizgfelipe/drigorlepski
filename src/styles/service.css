@@ -73,11 +73,30 @@
     font-size: 27px;
   }
 
+  /* medidas do site antigo no celular (o Elementor soma 20px às margens inferiores) */
   .svc-text {
-    margin: -15px 0 -15px;
+    margin: -15px 0 5px;
   }
 
-  .svc-text--list {
-    margin: -15px 0 -5px;
+  .svc-h3 + .svc-text {
+    margin-top: 0;
+  }
+
+  .svc-h3 + .svc-text--list {
+    margin: -15px 0 15px;
+  }
+
+  /* Aparelho Digestivo: no site antigo a coluna tem 10px de respiro (as outras, 15px) */
+  .svc-body--tight > .container > .col > .col-inner {
+    padding: 10px;
+  }
+
+  /* "Condições que trato": as duas listas viram uma só no celular */
+  .svc-cond .col:first-child .svc-text {
+    margin-bottom: -5px;
+  }
+
+  .svc-cond .col:last-child .svc-text {
+    margin-bottom: -15px;
   }
 }
