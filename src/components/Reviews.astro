@@ -54,6 +54,7 @@ import { img } from '../config/site';
         modules: [Autoplay, Pagination],
         loop: true,
         speed: 500,
+        grabCursor: true, // cursor de "mãozinha" para arrastar os depoimentos com o mouse
         spaceBetween: 10,
         slidesPerView: 1,
         breakpoints: {
@@ -152,6 +153,7 @@ import { img } from '../config/site';
   }
 
   .reviews :global(.swiper-pagination-bullet) {
+    cursor: pointer;
     width: 6px;
     height: 6px;
     margin: 0 6px !important;
