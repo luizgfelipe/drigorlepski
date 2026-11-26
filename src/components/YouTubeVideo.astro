@@ -9,16 +9,19 @@ import Icon from './Icon.astro';
 interface Props {
   /** ID do vídeo no YouTube. Vazio = só a capa, sem player. */
   id: string;
-  /** imagem de capa (public/images) */
+  /** capa usada enquanto não houver ID do YouTube (public/images) */
   poster: string;
   title: string;
 }
 
 const { id, poster, title } = Astro.props;
+// Com o ID preenchido, a capa vem do próprio YouTube. A miniatura "hqdefault" de um vídeo vertical
+// tem faixas pretas nas laterais; com object-fit: cover no quadro 9:16 sobra só o vídeo.
+const cover = id ? `https://i.ytimg.com/vi/${encodeURIComponent(id)}/hqdefault.jpg` : poster;
 ---
 
 <div class="yt" data-yt-id={id || undefined} data-yt-title={title}>
-  <img class="yt__poster" src={poster} alt="" loading="lazy" width="310" height="551" />
+  <img class="yt__poster" src={cover} alt="" loading="lazy" width="310" height="551" />
   <button type="button" class="yt__play" aria-label={`Assistir: ${title}`} disabled={!id} data-yt-play>
     <Icon name="play" />
   </button>

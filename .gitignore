@@ -15,5 +15,8 @@ npm-debug.log*
 .DS_Store
 Thumbs.db
 
+# vídeos baixados do site antigo (vão para o YouTube, não para o repositório)
+videos-originais/
+
 # pacote zip gerado para upload
 *.zip

@@ -9,7 +9,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "placeholders": "python3 scripts/gerar-placeholders.py",
-    "check": "astro check"
+    "check": "astro check",
+    "baixar-imagens": "node scripts/baixar-imagens-site-antigo.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^7.1.9",
@@ -25,6 +26,7 @@
     "@astrojs/check": "^0.9.12",
     "@types/react": "^19.3.3",
     "@types/react-dom": "^19.3.0",
+    "sharp": "^0.35.5",
     "typescript": "^6.0.3"
   }
 }

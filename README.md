@@ -89,8 +89,9 @@ Só é preciso subir de novo quando mudar layout, textos ou imagens — posts no
 
 O container `GTM-PDJRHLZ3` (o mesmo de hoje) é carregado em todas as páginas. Como a navegação não recarrega a página, a cada troca o site envia o evento `virtual_page_view` para o `dataLayer` (com `page_path` e `page_title`). No GTM, use um acionador de **Evento personalizado** `virtual_page_view` (ou "Alteração no histórico") para contar as visualizações.
 
-## Imagens provisórias
+## Imagens
 
 ```bash
-npm run placeholders          # cria as que estiverem faltando (não sobrescreve as reais)
+npm run baixar-imagens        # baixa as imagens originais do site atual (ver ASSETS.md)
+npm run placeholders          # cria provisórias para as que estiverem faltando (não sobrescreve as reais)
 ```
