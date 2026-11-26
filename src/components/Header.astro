@@ -47,22 +47,19 @@ import { img } from '../config/site';
     width: 80%;
   }
 
-  /* a lista suspensa ocupa a largura toda da tela, logo abaixo do cabeçalho */
-  .site-header :global(.col),
+  /* a lista suspensa flutua por cima da página, 10px abaixo do botão, na largura toda da tela
+     (o botão fica a 20px da borda direita: 10px da coluna + 10px do container) */
   .site-header :global(.nav) {
-    position: static;
+    position: relative;
   }
 
   .site-header :global(.nav__list--dropdown) {
     position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    z-index: 2000;
-  }
-
-  .site-header :global(.nav.is-open .nav__list--dropdown) {
-    margin-top: 0;
+    top: calc(100% + 10px);
+    right: -20px;
+    width: 100vw;
+    margin-top: 0 !important;
+    z-index: 9997;
   }
 
   @media (max-width: 767px) {

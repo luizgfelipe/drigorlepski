@@ -76,7 +76,12 @@ const hasActiveChild = (children?: { href: string }[]) => !!children?.some((c) =
       NAV.map((item) => (
         <li class:list={['nav__item', { 'has-children': item.children }]}>
           {item.children ? (
-            <button type="button" class="nav__dlink" aria-expanded="false" data-submenu-toggle>
+            <button
+              type="button"
+              class:list={['nav__dlink', { 'is-active': hasActiveChild(item.children) }]}
+              aria-expanded="false"
+              data-submenu-toggle
+            >
               {item.label}
               <span class="nav__arrow">
                 <Icon name="caret-down" />
@@ -91,7 +96,7 @@ const hasActiveChild = (children?: { href: string }[]) => !!children?.some((c) =
             <ul class="nav__dsub">
               {item.children.map((child) => (
                 <li>
-                  <a href={child.href} class="nav__dlink nav__dlink--sub">
+                  <a href={child.href} class:list={['nav__dlink nav__dlink--sub', { 'is-active': isActive(child.href) }]}>
                     {child.label}
                   </a>
                 </li>
@@ -317,13 +322,15 @@ const hasActiveChild = (children?: { href: string }[]) => !!children?.some((c) =
     border-radius: 0 0 3px 3px;
   }
 
-  /* ---------- hambúrguer + lista suspensa (<= 1024px) ---------- */
+  /* ---------- hambúrguer + lista suspensa (<= 1024px) — medidas do site antigo ---------- */
   .nav__toggle {
     display: none;
     align-items: center;
     justify-content: center;
-    padding: 5.5px;
-    font-size: 22px;
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+    font-size: 20px;
     line-height: 1;
     color: var(--navy);
     background-color: #fff;
@@ -353,49 +360,90 @@ const hasActiveChild = (children?: { href: string }[]) => !!children?.some((c) =
     display: flex;
   }
 
+  /* a lista desce deslizando (altura + escala vertical em 0,3s, como no Elementor) */
   .nav__list--dropdown {
-    display: none;
+    max-height: 0;
+    overflow: hidden auto;
     background-color: var(--navy);
+    transform: scaleY(0);
+    transform-origin: top;
+    visibility: hidden; /* fechado: links fora do alcance do teclado */
+    transition:
+      max-height 0.3s,
+      transform 0.3s,
+      visibility 0s linear 0.3s;
+  }
+
+  .nav.is-open .nav__list--dropdown {
+    max-height: 100vh;
+    transform: scaleY(1);
+    visibility: visible;
+    transition:
+      max-height 0.3s,
+      transform 0.3s,
+      visibility 0s;
   }
 
   .nav__dlink {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     width: 100%;
-    padding: 13px 20px;
+    padding: 10px 20px;
     font-family: var(--f-ui);
     font-size: 13px;
     font-weight: 500;
     line-height: 20px;
+    text-transform: uppercase;
     color: #fff;
     text-align: left;
     background: none;
     border: 0;
     cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
+    transition:
+      background-color 0.3s,
+      color 0.3s;
   }
 
+  .nav__dlink--sub {
+    text-transform: none;
+  }
+
+  /* seta logo depois do texto */
+  .nav__dlink .nav__arrow {
+    padding: 10px 0 10px 10px;
+    margin-block: -10px;
+    font-size: inherit;
+  }
+
+  /* hover, página atual e item pai aberto: fundo branco e texto azul */
   .nav__dlink:hover,
-  .nav__dlink:focus,
-  .nav__dlink.is-active {
+  .nav__dlink:focus-visible,
+  .nav__dlink.is-active,
+  .nav__list--dropdown .nav__item.is-open > .nav__dlink {
     color: var(--navy);
     background-color: #fff;
   }
 
-  .nav__dlink--sub {
-    padding-left: 40px;
-  }
-
+  /* submenu abre deslizando dentro da lista */
   .nav__dsub {
-    display: none;
+    max-height: 0;
     margin: 0;
     padding: 0;
+    overflow: hidden;
     list-style: none;
+    visibility: hidden;
+    transition:
+      max-height 0.25s ease,
+      visibility 0s linear 0.25s;
   }
 
   .nav__list--dropdown .nav__item.is-open > .nav__dsub {
-    display: block;
+    max-height: 400px;
+    visibility: visible;
+    transition:
+      max-height 0.25s ease,
+      visibility 0s;
   }
 
   @media (max-width: 1024px) {
@@ -415,19 +463,20 @@ const hasActiveChild = (children?: { href: string }[]) => !!children?.some((c) =
       margin-right: auto;
     }
 
-    .nav.is-open .nav__list--dropdown {
-      display: block;
+    .nav__list--dropdown {
       margin-top: 10px;
+    }
+  }
+
+  @media (min-width: 1025px) {
+    .nav__list--dropdown {
+      display: none;
     }
   }
 
   @media (max-width: 767px) {
     .nav__dlink {
       font-size: 15px;
-    }
-
-    .nav__toggle {
-      font-size: 20px;
     }
   }
 </style>
