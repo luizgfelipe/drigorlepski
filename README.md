@@ -23,7 +23,7 @@ public/
   .htaccess              ← HTTPS, redirects das URLs antigas, rota "coringa" do blog, cache
   images/                ← imagens (provisórias por enquanto — ver ASSETS.md)
 src/
-  config/site.ts         ← WhatsApp, telefone, endereços, GTM, Typekit, IDs dos vídeos, menu
+  config/site.ts         ← WhatsApp, telefone, endereços, GTM, Typekit, links dos vídeos, menu
   styles/global.css      ← cores, fontes, grade (seção / container 1140px / colunas)
   layouts/BaseLayout.astro
   components/            ← Header, Footer, botões, cards, carrossel de depoimentos, vídeo…
@@ -40,7 +40,7 @@ scripts/gerar-placeholders.py
 |---|---|
 | Endereço do WordPress do blog | `src/config/site.ts` → `wpUrl` |
 | WhatsApp, telefone, endereços, Instagram | `src/config/site.ts` |
-| IDs dos vídeos do YouTube | `src/config/site.ts` → `youtube` |
+| Links dos vídeos (Reels do Instagram ou YouTube) | `src/config/site.ts` → `videos` |
 | Depoimentos | `src/data/reviews.ts` |
 | Publicações científicas | `src/data/publications.ts` |
 | Imagens | `public/images/` (mesmo nome de arquivo — ver `ASSETS.md`) |

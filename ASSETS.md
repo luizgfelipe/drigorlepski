@@ -51,7 +51,9 @@ Também em `public/`: **`favicon.png`** (64×64) e **`apple-touch-icon.png`** (1
 
 ## Vídeos
 
-Os vídeos agora ficam no YouTube (não listados). Cole os IDs em `src/config/site.ts` → `youtube`:
+Os vídeos vêm dos Reels do Instagram (embed oficial, sem legenda). Os links ficam em `src/config/site.ts` → `videos`:
 
-- `apresentacao` — antigo `Video-apresentacao-Igor-2.mp4` (Home e Sobre)
-- `hepatoBilioPancreatica` — antigo `Cirurgia-hepato-bilio-pancreatica-1.mp4`
+- `apresentacao` — Home e Sobre
+- `hepatoBilioPancreatica` — página Cirurgia Hepato-Bílio-Pancreática
+
+Também aceita link do YouTube no lugar do Instagram. As capas `video-…-capa.jpg` só aparecem se o campo ficar vazio.

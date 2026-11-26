@@ -43,13 +43,13 @@ export const SITE = {
   crm: 'CRM-SP 130079 · RQE 100065/100066',
 
   /**
-   * IDs dos vídeos no YouTube (não listados).
-   * Cole só o ID — ex.: em https://www.youtube.com/watch?v=AbCdEf12345 o ID é "AbCdEf12345".
-   * Enquanto estiver vazio, aparece a imagem de capa com o botão de play desativado.
+   * Vídeos do site: cole o link do Reel do Instagram OU do vídeo do YouTube (pode ser o link copiado
+   * do app, com ?igsh=… e afins — os parâmetros são ignorados).
+   * Vazio = aparece só a imagem de capa (public/images/video-…-capa.jpg).
    */
-  youtube: {
-    apresentacao: '', // Home e Sobre — "Video-apresentacao-Igor-2.mp4"
-    hepatoBilioPancreatica: '', // Página Cirurgia Hepato-Bílio-Pancreática
+  videos: {
+    apresentacao: 'https://www.instagram.com/reel/DZxLZKPEWqU/', // Home e Sobre
+    hepatoBilioPancreatica: 'https://www.instagram.com/reel/DbBNYBzE7fF/', // Página Cirurgia Hepato-Bílio-Pancreática
   },
 } as const;
 

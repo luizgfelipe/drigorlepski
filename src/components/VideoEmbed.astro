@@ -1,0 +1,96 @@
+---
+/**
+ * Vídeo vertical do site. Aceita o link de um Reel do Instagram ou de um vídeo do YouTube
+ * (configurados em src/config/site.ts → videos).
+ *
+ * - Instagram: usa o embed oficial (sem legenda). O iframe só carrega quando chega perto da tela
+ *   (loading="lazy") e a altura se ajusta sozinha pela mensagem que o próprio Instagram envia.
+ * - YouTube: mostra a capa e só carrega o player no clique (componente YouTubeVideo).
+ * - Vazio: mostra a imagem de capa (poster).
+ */
+import YouTubeVideo from './YouTubeVideo.astro';
+
+interface Props {
+  /** link do Reel (instagram.com/reel/…) ou do YouTube (youtube.com/watch?v=…, youtu.be/…, shorts/…) ou ID do YouTube */
+  src: string;
+  /** capa usada quando não há vídeo configurado (ou no YouTube sem ID) */
+  poster: string;
+  title: string;
+}
+
+const { src, poster, title } = Astro.props;
+
+function parse(value: string): { provider: 'instagram' | 'youtube' | 'none'; id: string } {
+  const v = (value ?? '').trim();
+  if (!v) return { provider: 'none', id: '' };
+  const ig = v.match(/instagram\.com\/(?:[^/]+\/)?(?:reel|reels|p|tv)\/([A-Za-z0-9_-]+)/);
+  if (ig) return { provider: 'instagram', id: ig[1] };
+  const yt =
+    v.match(/youtu\.be\/([A-Za-z0-9_-]{11})/) ??
+    v.match(/youtube(?:-nocookie)?\.com\/(?:shorts\/|embed\/|watch\?(?:.*&)?v=)([A-Za-z0-9_-]{11})/);
+  if (yt) return { provider: 'youtube', id: yt[1] };
+  if (/^[A-Za-z0-9_-]{11}$/.test(v)) return { provider: 'youtube', id: v };
+  throw new Error(`Link de vídeo não reconhecido: "${v}" (use um link de Reel do Instagram ou do YouTube)`);
+}
+
+const video = parse(src);
+---
+
+{
+  video.provider === 'instagram' ? (
+    <div class="ig">
+      <iframe
+        class="ig__frame"
+        src={`https://www.instagram.com/reel/${video.id}/embed/`}
+        title={title}
+        loading="lazy"
+        height="577"
+        scrolling="no"
+        allowtransparency="true"
+        allow="autoplay; encrypted-media; picture-in-picture; web-share"
+        data-ig-embed
+      />
+    </div>
+  ) : (
+    <YouTubeVideo id={video.provider === 'youtube' ? video.id : ''} poster={poster} title={title} />
+  )
+}
+
+<script>
+  // O embed do Instagram avisa a altura do conteúdo via postMessage ({ type: 'MEASURE', details: { height } }).
+  // Um único listener no documento atende todos os vídeos, inclusive após as trocas de página.
+  window.addEventListener('message', (event) => {
+    if (event.origin !== 'https://www.instagram.com') return;
+    let data: unknown = event.data;
+    if (typeof data === 'string') {
+      try {
+        data = JSON.parse(data);
+      } catch {
+        return;
+      }
+    }
+    const msg = data as { type?: string; details?: { height?: number } };
+    if (msg?.type !== 'MEASURE' || !msg.details?.height) return;
+    document.querySelectorAll<HTMLIFrameElement>('iframe[data-ig-embed]').forEach((frame) => {
+      if (frame.contentWindow === event.source) frame.style.height = `${Math.ceil(msg.details!.height!)}px`;
+    });
+  });
+</script>
+
+<style>
+  .ig {
+    width: 310px;
+    max-width: 100%;
+    margin-inline: auto;
+    overflow: hidden;
+    background-color: #fff;
+    border-radius: 10px;
+  }
+
+  .ig__frame {
+    display: block;
+    width: 100%;
+    height: 577px;
+    border: 0;
+  }
+</style>

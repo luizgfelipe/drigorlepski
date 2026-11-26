@@ -5,18 +5,19 @@
  */
 import Eyebrow from './Eyebrow.astro';
 import Button from './Button.astro';
-import YouTubeVideo from './YouTubeVideo.astro';
+import VideoEmbed from './VideoEmbed.astro';
 
 interface Props {
   title: string;
   buttonHref?: string;
-  videoId: string;
+  /** link do Reel do Instagram ou do YouTube */
+  video: string;
   poster: string;
   /** padding da coluna do vídeo (Hepato usa 25px) */
   videoPad?: 'sm' | 'lg';
 }
 
-const { title, buttonHref = '/contato/', videoId, poster, videoPad = 'sm' } = Astro.props;
+const { title, buttonHref = '/contato/', video, poster, videoPad = 'sm' } = Astro.props;
 ---
 
 <section class="section video-band">
@@ -36,7 +37,7 @@ const { title, buttonHref = '/contato/', videoId, poster, videoPad = 'sm' } = As
           <div class:list={['col w-50 video-band__media', `video-band__media--${videoPad}`]}>
             <div class="col-inner">
               <div class="video-band__video">
-                <YouTubeVideo id={videoId} poster={poster} title={title} />
+                <VideoEmbed src={video} poster={poster} title={title} />
               </div>
             </div>
           </div>
