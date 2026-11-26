@@ -4,12 +4,14 @@
  * (youtube-nocookie) quando a pessoa clica. Evita baixar ~500 KB de JS do YouTube à toa.
  * Formato vertical 9:16, igual ao vídeo atual (310×551, cantos arredondados).
  */
+import Img from './Img.astro';
 import Icon from './Icon.astro';
+import { asset } from '../lib/images';
 
 interface Props {
   /** ID do vídeo no YouTube. Vazio = só a capa, sem player. */
   id: string;
-  /** capa usada enquanto não houver ID do YouTube (public/images) */
+  /** capa usada enquanto não houver ID do YouTube (nome do arquivo em src/assets/images) */
   poster: string;
   title: string;
 }
@@ -17,11 +19,17 @@ interface Props {
 const { id, poster, title } = Astro.props;
 // Com o ID preenchido, a capa vem do próprio YouTube. A miniatura "hqdefault" de um vídeo vertical
 // tem faixas pretas nas laterais; com object-fit: cover no quadro 9:16 sobra só o vídeo.
-const cover = id ? `https://i.ytimg.com/vi/${encodeURIComponent(id)}/hqdefault.jpg` : poster;
+const cover = id ? `https://i.ytimg.com/vi/${encodeURIComponent(id)}/hqdefault.jpg` : '';
 ---
 
 <div class="yt" data-yt-id={id || undefined} data-yt-title={title}>
-  <img class="yt__poster" src={cover} alt="" loading="lazy" width="310" height="551" />
+  {
+    cover ? (
+      <img class="yt__poster" src={cover} alt="" loading="lazy" width="310" height="551" />
+    ) : (
+      <Img class="yt__poster" src={asset(poster)} alt="" width={310} height={551} densities={[1, 2]} />
+    )
+  }
   <button type="button" class="yt__play" aria-label={`Assistir: ${title}`} disabled={!id} data-yt-play>
     <Icon name="play" />
   </button>

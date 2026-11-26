@@ -37,7 +37,7 @@ export const SITE = {
   /**
    * Vídeos do site: cole o link do Reel do Instagram OU do vídeo do YouTube (pode ser o link copiado
    * do app, com ?igsh=… e afins — os parâmetros são ignorados).
-   * Vazio = aparece só a imagem de capa (public/images/video-…-capa.jpg).
+   * Vazio = aparece só a imagem de capa (src/assets/images/video-…-capa.jpg).
    */
   videos: {
     apresentacao: 'https://www.instagram.com/reel/DZxLZKPEWqU/', // Home e Sobre
@@ -73,6 +73,3 @@ export const NAV: NavItem[] = [
   { label: 'Blog', href: '/blog/' },
   { label: 'Contato', href: '/contato/' },
 ];
-
-/** Caminho das imagens (pasta public/images). Veja ASSETS.md para a lista completa. */
-export const img = (file: string) => `/images/${file}`;

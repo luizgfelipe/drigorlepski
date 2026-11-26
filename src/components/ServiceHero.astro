@@ -4,13 +4,13 @@
  * texto à esquerda e foto à direita.
  */
 import Eyebrow from './Eyebrow.astro';
-import { img } from '../config/site';
+import { bgImage } from '../lib/images';
 
 interface Props {
   title: string;
   /** HTML do parágrafo */
   text: string;
-  /** foto da coluna direita (public/images). Sem foto = coluna vazia (como em Multivisceral). */
+  /** foto da coluna direita (src/assets/images). Sem foto = coluna vazia (como em Multivisceral). */
   image?: string;
   background?: 'transplantes' | 'cirurgias';
   /** alinhamento do texto no celular */
@@ -28,10 +28,11 @@ const {
   mobileImageHeight = 350,
 } = Astro.props;
 
-const bg = background === 'cirurgias' ? 'hero-cirurgias-bg.png' : 'hero-transplantes-bg.png';
+const bg = await bgImage(background === 'cirurgias' ? 'hero-cirurgias-bg.png' : 'hero-transplantes-bg.png');
+const photo = image ? await bgImage(image) : '';
 ---
 
-<section class="section svc-hero" style={`background-image:url('${img(bg)}')`}>
+<section class="section svc-hero" style={`background-image:url('${bg}')`}>
   <div class="container">
     <div class="col w-50 col--middle svc-hero__text">
       <div class="col-inner">
@@ -44,7 +45,7 @@ const bg = background === 'cirurgias' ? 'hero-cirurgias-bg.png' : 'hero-transpla
     </div>
     <div
       class="col w-50 svc-hero__media"
-      style={`--m-h:${mobileImageHeight}px;${image ? `background-image:url('${img(image)}')` : ''}`}
+      style={`--m-h:${mobileImageHeight}px;${photo ? `background-image:url('${photo}')` : ''}`}
       role={image ? 'img' : undefined}
       aria-label={image ? title.replace(/<[^>]*>/g, '') : undefined}
     >

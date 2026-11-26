@@ -37,12 +37,12 @@ ErrorDocument 404 /404.html
   RewriteRule ^(feed|comments/feed|category/.*|author/.*|wp-login\.php|wp-admin/?.*|xmlrpc\.php)$ / [L,R=301]
 </IfModule>
 
-# --- cache: arquivos com hash no nome (pasta _astro) podem ficar em cache por 1 ano ---
+# --- cache: arquivos com hash no nome (pasta _astro: JS, CSS, fontes e imagens WebP) ficam em cache por 1 ano ---
 <IfModule mod_headers.c>
-  <FilesMatch "\.(js|css|woff2?)$">
+  <FilesMatch "\.(js|css|woff2?|webp|avif)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
-  <FilesMatch "\.(png|jpe?g|webp|avif|svg|gif|ico)$">
+  <FilesMatch "\.(png|jpe?g|svg|gif|ico)$">
     Header set Cache-Control "public, max-age=2592000"
   </FilesMatch>
   <FilesMatch "\.html$">

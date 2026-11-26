@@ -1,11 +1,13 @@
 ---
+import Img from '../components/Img.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Eyebrow from '../components/Eyebrow.astro';
 import Button from '../components/Button.astro';
 import Icon from '../components/Icon.astro';
 import VideoBand from '../components/VideoBand.astro';
 import { PUBLICATIONS } from '../data/publications';
-import { SITE, img } from '../config/site';
+import { SITE } from '../config/site';
+import { asset } from '../lib/images';
 
 const toggles = [
   {
@@ -49,7 +51,7 @@ for (let i = 0; i < PUBLICATIONS.length; i += 3) pubRows.push(PUBLICATIONS.slice
       </div>
       <div class="col w-50">
         <div class="col-inner">
-          <img src={img('sobre-hero.png')} alt="Dr. Igor Lepski Calil" width="599" height="732" class="about-hero__img" />
+          <Img src={asset('sobre-hero.png')} alt="Dr. Igor Lepski Calil" width={599} height={732} class="about-hero__img" loading="eager" />
         </div>
       </div>
     </div>
@@ -60,7 +62,7 @@ for (let i = 0; i < PUBLICATIONS.length; i += 3) pubRows.push(PUBLICATIONS.slice
     <div class="container container--full">
       <div class="col about-bio__media col--middle">
         <div class="col-inner">
-          <img src={img('sobre-fotos.png')} alt="Dr. Igor Lepski Calil" width="622" height="853" loading="lazy" />
+          <Img src={asset('sobre-fotos.png')} alt="Dr. Igor Lepski Calil" width={622} height={853} />
         </div>
       </div>
       <div class="col about-bio__text col--middle">
@@ -114,7 +116,7 @@ for (let i = 0; i < PUBLICATIONS.length; i += 3) pubRows.push(PUBLICATIONS.slice
     title="Conheça minha trajetória e entenda como posso ajudar no seu caso!"
     buttonHref="/contato/"
     video={SITE.videos.apresentacao}
-    poster={img('video-apresentacao-capa.jpg')}
+    poster="video-apresentacao-capa.jpg"
   />
 
   <!-- ============ ACORDEÕES ============ -->

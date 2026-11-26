@@ -21,8 +21,10 @@ Requer Node 20+ (testado com Node 22).
 ```
 public/
   .htaccess              ← HTTPS, redirects das URLs antigas, cache
-  images/                ← imagens (provisórias por enquanto — ver ASSETS.md)
+  images/og-image.png    ← prévia ao compartilhar o link (favicons também ficam em public/)
 src/
+  assets/images/         ← imagens do site (otimizadas no build — ver ASSETS.md)
+  assets/blog/           ← capas dos posts do blog
   config/site.ts         ← WhatsApp, telefone, endereços, GTM, Typekit, links dos vídeos, menu
   styles/global.css      ← cores, fontes, grade (seção / container 1140px / colunas)
   layouts/BaseLayout.astro
@@ -44,7 +46,7 @@ scripts/gerar-placeholders.py
 | Links dos vídeos (Reels do Instagram ou YouTube) | `src/config/site.ts` → `videos` |
 | Depoimentos | `src/data/reviews.ts` |
 | Publicações científicas | `src/data/publications.ts` |
-| Imagens | `public/images/` (mesmo nome de arquivo — ver `ASSETS.md`) |
+| Imagens | `src/assets/images/` (mesmo nome de arquivo — ver `ASSETS.md`) |
 | Textos das páginas | `src/pages/*.astro` |
 
 ## Fontes
@@ -59,13 +61,13 @@ Os posts ficam em `src/content/blog/`, um arquivo Markdown por post. O site fina
 ### Publicar um post novo
 
 1. Copie `src/content/blog/_modelo.md` e renomeie. **O nome do arquivo vira o endereço**: `cuidados-pos-transplante.md` → `/blog/cuidados-pos-transplante/` (minúsculas, sem acentos, hífens no lugar de espaços).
-2. Salve a imagem de capa em `public/images/blog/` (ex.: `cuidados-pos-transplante.jpg`, ~1300×410, de preferência JPG ou WebP com menos de 300 KB).
+2. Salve a imagem de capa em `src/assets/blog/` (ex.: `cuidados-pos-transplante.jpg`, ~1300×410 ou maior). Não precisa comprimir: o build gera as versões em WebP.
 3. Preencha o cabeçalho e escreva o texto:
    ```markdown
    ---
    titulo: "Cuidados no pós-transplante"
    data: 2026-12-01
-   imagem: /images/blog/cuidados-pos-transplante.jpg
+   imagem: ../../assets/blog/cuidados-pos-transplante.jpg
    imagemAlt: "Paciente conversando com o médico"
    ---
 
@@ -83,7 +85,7 @@ Campos do cabeçalho:
 |---|---|---|
 | `titulo` | sim | Título do post (também vira o título da aba e do Google) |
 | `data` | sim | Data exibida e ordem dos posts (mais novo primeiro). Dois posts no mesmo dia: use `2026-12-01T10:00:00` |
-| `imagem` | sim | Caminho da capa a partir de `public/` (ex.: `/images/blog/foto.jpg`) |
+| `imagem` | sim | Caminho da capa a partir do arquivo do post: `../../assets/blog/foto.jpg`. Se o arquivo não existir, o build avisa |
 | `imagemAlt` | não | Descrição da imagem (acessibilidade) |
 | `resumo` | não | Texto do card e da descrição no Google. Sem ele, usa as primeiras 30 palavras do texto |
 | `rascunho` | não | `true` = o post fica no repositório mas não é publicado |

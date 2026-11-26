@@ -1,6 +1,7 @@
 ---
+import Img from './Img.astro';
 import NavMenu from './NavMenu.astro';
-import { img } from '../config/site';
+import { asset } from '../lib/images';
 ---
 
 <header class="site-header section">
@@ -11,7 +12,7 @@ import { img } from '../config/site';
           <div class="col site-header__logo">
             <div class="col-inner">
               <a href="/" aria-label="Dr. Igor Lepski — página inicial">
-                <img src={img('logo.png')} alt="Dr. Igor Lepski" width="204" height="60" />
+                <Img src={asset('logo.png')} alt="Dr. Igor Lepski" width={204} height={60} densities={[1, 2, 3]} loading="eager" />
               </a>
             </div>
           </div>

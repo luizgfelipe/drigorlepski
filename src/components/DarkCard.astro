@@ -8,8 +8,9 @@
  *  - medium  : Transplante de intestino — 33%, título 23px, texto 17px
  *  - compact : Cirurgias — 33%, título 23px, texto 15px
  */
+import Img from './Img.astro';
 import Button from './Button.astro';
-import { img } from '../config/site';
+import { asset } from '../lib/images';
 
 interface Props {
   variant?: 'home' | 'medium' | 'compact';
@@ -36,7 +37,7 @@ const [w, h] = iconDims[icon] ?? [295, 278];
 
 <div class:list={['col dark-card', `dark-card--${variant}`, { 'dark-card--spaced': spacedOnMobile }]}>
   <div class="col-inner">
-    <img class="dark-card__icon" src={img(icon)} alt="" width={w} height={h} loading="lazy" />
+    <Img class="dark-card__icon" src={asset(icon)} alt="" width={w} height={h} widths={[150, 225]} sizes="75px" />
     <h3 class="dark-card__title">{title}</h3>
     <div class="dark-card__text"><p set:html={text} /></div>
     {

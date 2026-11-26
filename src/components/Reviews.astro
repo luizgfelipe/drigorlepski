@@ -3,9 +3,10 @@
  * Carrossel de depoimentos (Swiper — a mesma biblioteca usada pelo Elementor).
  * 3 por vez no desktop, 2 no tablet, 1 no celular; autoplay de 5s, loop, pausa no hover.
  */
+import Img from './Img.astro';
 import Icon from './Icon.astro';
 import { REVIEWS } from '../data/reviews';
-import { img } from '../config/site';
+import { asset } from '../lib/images';
 // CSS do Swiper importado aqui (e não dentro do <script>) para virar estilo da página:
 // assim ele continua presente ao voltar para a Home pela navegação sem recarregar.
 import 'swiper/css';
@@ -19,7 +20,7 @@ import 'swiper/css/pagination';
         REVIEWS.map((r) => (
           <div class="swiper-slide reviews__slide">
             <div class="reviews__header">
-              <img class="reviews__avatar" src={img('review-avatar.png')} alt={r.name} width="36" height="36" loading="lazy" />
+              <Img class="reviews__avatar" src={asset('review-avatar.png')} alt={r.name} width={36} height={36} densities={[1, 2, 3]} />
               <cite class="reviews__cite">
                 <span class="reviews__name">{r.name}</span>
                 <span class="reviews__stars" role="img" aria-label={`${r.rating} de 5 estrelas`}>

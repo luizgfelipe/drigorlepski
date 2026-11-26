@@ -1,7 +1,7 @@
 ---
 titulo: "Refluxo que não melhora com remédio. quando a cirurgia é a solução?"
 data: 2026-06-22T15:13:23
-imagem: /images/blog/adobestock_572577392.png
+imagem: ../../assets/blog/adobestock_572577392.png
 imagemAlt: ""
 ---
 

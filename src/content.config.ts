@@ -10,19 +10,20 @@ import { z } from 'astro/zod';
 
 const blog = defineCollection({
   loader: glob({ base: './src/content/blog', pattern: '**/[^_]*.md' }),
-  schema: z.object({
-    titulo: z.string(),
-    /** 2026-12-01 (ou 2026-12-01T10:00:00 para ordenar posts do mesmo dia) */
-    data: z.coerce.date(),
-    /** imagem de capa em public/images/blog/ — ex.: /images/blog/minha-imagem.jpg */
-    imagem: z.string().startsWith('/images/', 'A imagem deve ficar em public/images/ (ex.: /images/blog/foto.jpg)'),
-    /** descrição da imagem (acessibilidade) */
-    imagemAlt: z.string().default(''),
-    /** resumo do card e da descrição do Google; se vazio, usa as primeiras 30 palavras do texto */
-    resumo: z.string().optional(),
-    /** true = não publica (fica só no repositório) */
-    rascunho: z.boolean().default(false),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      titulo: z.string(),
+      /** 2026-12-01 (ou 2026-12-01T10:00:00 para ordenar posts do mesmo dia) */
+      data: z.coerce.date(),
+      /** imagem de capa em src/assets/blog/ — ex.: ../../assets/blog/minha-imagem.jpg (o build avisa se não existir) */
+      imagem: image(),
+      /** descrição da imagem (acessibilidade) */
+      imagemAlt: z.string().default(''),
+      /** resumo do card e da descrição do Google; se vazio, usa as primeiras 30 palavras do texto */
+      resumo: z.string().optional(),
+      /** true = não publica (fica só no repositório) */
+      rascunho: z.boolean().default(false),
+    }),
 });
 
 export const collections = { blog };

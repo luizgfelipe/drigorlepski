@@ -1,10 +1,12 @@
 ---
+import Img from './Img.astro';
 import Eyebrow from './Eyebrow.astro';
 import Button from './Button.astro';
 import IconList from './IconList.astro';
 import Icon from './Icon.astro';
 import NavMenu from './NavMenu.astro';
-import { SITE, img } from '../config/site';
+import { SITE } from '../config/site';
+import { asset } from '../lib/images';
 
 const year = new Date().getFullYear();
 ---
@@ -36,13 +38,7 @@ const year = new Date().getFullYear();
             </div>
             <div class="col footer-cta__media">
               <div class="col-inner">
-                <img
-                  src={img('cta-doctor.png')}
-                  alt="Dr. Igor Lepski Calil"
-                  width="777"
-                  height="553"
-                  loading="lazy"
-                />
+                <Img src={asset('cta-doctor.png')} alt="Dr. Igor Lepski Calil" width={777} height={553} />
               </div>
             </div>
           </div>
@@ -59,7 +55,7 @@ const year = new Date().getFullYear();
           <div class="row">
             <div class="col footer-bar__logo col--middle">
               <div class="col-inner">
-                <img src={img('logo.png')} alt="Dr. Igor Lepski" width="203" height="60" loading="lazy" />
+                <Img src={asset('logo.png')} alt="Dr. Igor Lepski" width={203} height={60} densities={[1, 2, 3]} />
               </div>
             </div>
             <div class="col footer-bar__bio">
@@ -164,13 +160,13 @@ const year = new Date().getFullYear();
             </div>
             <div class="col w-33 col--middle footer-copy__logo">
               <div class="col-inner">
-                <img src={img('logo.png')} alt="Dr. Igor Lepski" width="230" height="68" loading="lazy" />
+                <Img src={asset('logo.png')} alt="Dr. Igor Lepski" width={230} height={68} densities={[1, 2, 3]} />
               </div>
             </div>
             <div class="col w-33 footer-copy__credit">
               <div class="col-inner">
                 <p>Produzido por:</p>
-                <img src={img('salvatore.png')} alt="Salvatore" width="171" height="27" loading="lazy" />
+                <Img src={asset('salvatore.png')} alt="Salvatore" width={171} height={27} densities={[1, 2, 3]} />
               </div>
             </div>
           </div>

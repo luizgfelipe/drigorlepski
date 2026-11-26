@@ -6,8 +6,8 @@
 
 titulo: "Título do post como aparece no site"
 data: 2026-12-01
-# Coloque a imagem de capa em public/images/blog/ e informe o caminho abaixo:
-imagem: /images/blog/nome-da-imagem.jpg
+# Coloque a imagem de capa em src/assets/blog/ e informe o caminho abaixo:
+imagem: ../../assets/blog/nome-da-imagem.jpg
 imagemAlt: "Descrição curta da imagem"
 # Opcional: resumo do card e do Google. Sem ele, usa as primeiras 30 palavras do texto.
 # resumo: "Resumo do post."

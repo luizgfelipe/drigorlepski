@@ -1,6 +1,10 @@
 # Imagens do site
 
-Todas as imagens ficam em **`public/images/`**. Hoje essas pastas têm **imagens provisórias** (cinza, com o nome e o tamanho escritos) geradas por `npm run placeholders`.
+As imagens do site ficam em **`src/assets/images/`** e as capas do blog em **`src/assets/blog/`**. No build, o Astro converte tudo para **WebP**, gera versões menores para o celular e coloca um hash no nome (cache de 1 ano). Os arquivos originais podem continuar em PNG/JPG, sem compressão manual.
+
+Ficam em `public/` só os arquivos que precisam de endereço fixo: `images/og-image.png` (prévia no WhatsApp/Facebook), `favicon.png` e `apple-touch-icon.png`.
+
+No código, uma imagem é usada pelo nome do arquivo: `<Img src={asset('logo.png')} … />` (`src/components/Img.astro` + `src/lib/images.ts`). Se o arquivo não existir, o build para e mostra o nome que falta.
 
 ## Atalho: baixar as imagens do site atual
 
@@ -15,9 +19,9 @@ O script pega os originais em `drigorlepski.com.br/wp-content/uploads/2026/06/`,
 
 Salve o arquivo real **com o mesmo nome** por cima do provisório. Não precisa mexer em código.
 
-> Dica: exporte em `.png` (ou mantenha a extensão indicada) e passe por um compressor (TinyPNG, Squoosh) antes. Fotos grandes podem ser `.jpg`, mas aí o nome do arquivo e a referência no código mudam juntos.
+> Mantenha o nome e a extensão. Se trocar a extensão (ex.: `.png` → `.jpg`), atualize o nome no código também. Não precisa comprimir antes: o build já otimiza.
 
-| Arquivo em `public/images/` | Nome no site antigo (WordPress) | Tamanho de referência | Onde aparece |
+| Arquivo em `src/assets/images/` | Nome no site antigo (WordPress) | Tamanho de referência | Onde aparece |
 |---|---|---|---|
 | `logo.png` | `Grupo-137.png` | 1098×323 (fundo transparente, versão clara) | Cabeçalho, rodapé (faixa e copyright) |
 | `home-hero-bg.png` | `b-e1782133112685.png` | ~1920×1080 | Fundo do topo da Home (foto do doutor à direita) |
@@ -42,12 +46,12 @@ Salve o arquivo real **com o mesmo nome** por cima do provisório. Não precisa 
 | `sobre-fotos.png` | `Componente-4-–-1.png` | 622×853 (duas fotos + detalhes) | Sobre — "Conheça melhor quem atenderá você!" |
 | `video-apresentacao-capa.jpg` | — | 1080×1920 (vertical) | Capa do vídeo da Home/Sobre **só enquanto não houver ID do YouTube** (com o ID, a capa vem do YouTube) |
 | `video-hepato-bilio-pancreatica-capa.jpg` | — | 1080×1920 (vertical) | Idem, página Hepato-Bílio-Pancreática |
-| `og-image.png` | — (gerada pelo script a partir do fundo da Home) | 1200×630 | Prévia ao compartilhar o link no WhatsApp/Facebook |
-| `blog/istockphoto_1474957957.png` | mesmo nome | 1287×410 | Destaque do post "Transplantado pode fazer atividade física?" |
-| `blog/adobestock_572577392.png` | mesmo nome | 1302×410 | Destaque do post "Refluxo que não melhora com remédio" |
-| `blog/shutterstock_1024477424.png` | mesmo nome | 2057×748 | Destaque do post "Vida após o transplante" |
+| `og-image.png` (fica em `public/images/`) | — (gerada pelo script a partir do fundo da Home) | 1200×630 | Prévia ao compartilhar o link no WhatsApp/Facebook |
+| `../blog/istockphoto_1474957957.png` (em `src/assets/blog/`) | mesmo nome | 1287×410 | Destaque do post "Transplantado pode fazer atividade física?" |
+| `../blog/adobestock_572577392.png` (em `src/assets/blog/`) | mesmo nome | 1302×410 | Destaque do post "Refluxo que não melhora com remédio" |
+| `../blog/shutterstock_1024477424.png` (em `src/assets/blog/`) | mesmo nome | 2057×748 | Destaque do post "Vida após o transplante" |
 
-Também em `public/`: **`favicon.png`** (64×64) e **`apple-touch-icon.png`** (180×180) — gerados pelo script a partir do `fav.png` do site antigo (que estava na biblioteca, mas não era usado).
+Em `public/`: **`images/og-image.png`**, **`favicon.png`** (64×64) e **`apple-touch-icon.png`** (180×180) — gerados pelo script a partir do `fav.png` do site antigo (que estava na biblioteca, mas não era usado).
 
 ## Vídeos
 

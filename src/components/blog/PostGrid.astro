@@ -1,6 +1,7 @@
 ---
 /** Grade de cards dos posts (Home e /blog). HTML estático, sem JavaScript. */
-import { formatDate, pageUrl, postUrl, type Post } from '../../lib/blog';
+import Img from '../Img.astro';
+import { formatDate, pageUrl, postUrl, widthsUpTo, type Post } from '../../lib/blog';
 import './blog.css';
 
 interface Props {
@@ -18,7 +19,12 @@ const { posts, page } = Astro.props;
       {posts.map((post) => (
         <article class="post-card">
           <a class="post-card__thumb" href={postUrl(post.slug)} tabindex="-1" aria-hidden="true">
-            <img src={post.image} alt={post.imageAlt} loading="lazy" decoding="async" />
+            <Img
+              src={post.image}
+              alt={post.imageAlt}
+              widths={widthsUpTo(post.image.width, [400, 800, 1200])}
+              sizes="(max-width: 767px) 100vw, (max-width: 1024px) 50vw, 360px"
+            />
           </a>
           <div class="post-card__text">
             <h3 class="post-card__title">

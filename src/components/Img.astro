@@ -1,0 +1,16 @@
+---
+/**
+ * <Image> do Astro (WebP, srcset, cache longo) mantendo a proporção exata do arquivo original.
+ * As versões reduzidas têm largura/altura arredondadas; sem isto a altura renderizada
+ * poderia variar 1px em relação ao arquivo original.
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import type { ComponentProps } from 'astro/types';
+
+type Props = ComponentProps<typeof Image> & { src: ImageMetadata };
+
+const { src, ...rest } = Astro.props;
+---
+
+<Image src={src} {...rest} style={`aspect-ratio:${src.width}/${src.height}`} />

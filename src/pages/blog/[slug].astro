@@ -1,8 +1,11 @@
 ---
 /** Página de cada artigo — gerada no build a partir de src/content/blog/<slug>.md */
+import Img from '../../components/Img.astro';
 import { render } from 'astro:content';
+import { getImage } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getPosts, type Post } from '../../lib/blog';
+import { getPosts, widthsUpTo, type Post } from '../../lib/blog';
+import { bgImage } from '../../lib/images';
 import '../../components/blog/post.css';
 
 export async function getStaticPaths() {
@@ -16,11 +19,14 @@ interface Props {
 
 const { post } = Astro.props;
 const { Content } = await render(post.entry);
+const heroBg = await bgImage('hero-transplantes-bg.png');
+// imagem de prévia no WhatsApp/Facebook (JPG com até 1200px)
+const ogImage = await getImage({ src: post.image, width: Math.min(1200, post.image.width), format: 'jpg' });
 ---
 
-<BaseLayout title={post.title} description={post.excerpt} image={post.image} type="article">
+<BaseLayout title={post.title} description={post.excerpt} image={ogImage.src} type="article">
   <article>
-    <section class="section post-hero">
+    <section class="section post-hero" style={`background-image:url('${heroBg}')`}>
       <div class="container">
         <div class="col w-100">
           <div class="col-inner">
@@ -30,12 +36,12 @@ const { Content } = await render(post.entry);
             </div>
             <h1 class="post-hero__title">{post.title}</h1>
             <div class="post-hero__image">
-              <img
+              <Img
                 src={post.image}
                 alt={post.imageAlt}
-                width={post.imageWidth}
-                height={post.imageHeight}
-                decoding="async"
+                widths={widthsUpTo(post.image.width, [800, 1200, 1600])}
+                sizes="(max-width: 1140px) 100vw, 1120px"
+                loading="eager"
               />
             </div>
           </div>

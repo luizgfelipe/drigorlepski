@@ -1,4 +1,5 @@
 ---
+import Img from '../components/Img.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Eyebrow from '../components/Eyebrow.astro';
 import Button from '../components/Button.astro';
@@ -8,10 +9,12 @@ import DarkCard from '../components/DarkCard.astro';
 import Reviews from '../components/Reviews.astro';
 import VideoBand from '../components/VideoBand.astro';
 import PostGrid from '../components/blog/PostGrid.astro';
-import { SITE, img } from '../config/site';
+import { SITE } from '../config/site';
+import { asset, bgImage } from '../lib/images';
 import { getPosts } from '../lib/blog';
 
 const latest = (await getPosts()).slice(0, 3);
+const heroBg = await bgImage('home-hero-bg.png');
 
 const stats = [
   { title: '+15 anos de experiência', text: 'transplante nos melhores serviços do pais' },
@@ -62,7 +65,7 @@ const surgeries = [
 
 <BaseLayout>
   <!-- ============ HERO ============ -->
-  <section class="section hero">
+  <section class="section hero" style={`background-image:url('${heroBg}')`}>
     <div class="container">
       <div class="col w-100">
         <div class="col-inner">
@@ -142,13 +145,7 @@ const surgeries = [
     <div class="container">
       <div class="col w-50 col--middle bio__media">
         <div class="col-inner">
-          <img
-            src={img('home-bio.png')}
-            alt="Dr. Igor Lepski Calil"
-            width="625"
-            height="755"
-            loading="lazy"
-          />
+          <Img src={asset('home-bio.png')} alt="Dr. Igor Lepski Calil" width={625} height={755} />
         </div>
       </div>
       <div class="col w-50 col--middle bio__text">
@@ -201,23 +198,25 @@ const surgeries = [
           <div class="row">
             <div class="col w-33 hospitals__card">
               <div class="col-inner">
-                <img
-                  src={img('hospital-einstein.png')}
+                <Img
+                  src={asset('hospital-einstein.png')}
                   alt="Einstein Hospital Israelita"
-                  width="883"
-                  height="277"
-                  loading="lazy"
+                  width={883}
+                  height={277}
+                  widths={[310, 620, 883]}
+                  sizes="310px"
                 />
               </div>
             </div>
             <div class="col w-33 hospitals__card">
               <div class="col-inner">
-                <img
-                  src={img('hospital-vila-santa-catarina.png')}
+                <Img
+                  src={asset('hospital-vila-santa-catarina.png')}
                   alt="Hospital Municipal Vila Santa Catarina"
-                  width="883"
-                  height="249"
-                  loading="lazy"
+                  width={883}
+                  height={249}
+                  widths={[310, 620, 883]}
+                  sizes="310px"
                 />
               </div>
             </div>
@@ -319,7 +318,7 @@ const surgeries = [
               <div class:list={['row surgery', { 'surgery--next': i > 0 }]}>
                 <div class="col w-25 col--middle surgery__media">
                   <div class="col-inner">
-                    <img src={img(s.image)} alt="" width="494" height="477" loading="lazy" />
+                    <Img src={asset(s.image)} alt="" width={494} height={477} />
                   </div>
                 </div>
                 <div class="col surgery__card">
@@ -383,7 +382,7 @@ const surgeries = [
     title="Conheça minha trajetória e entenda como posso ajudar no seu caso!"
     buttonHref="/contato/"
     video={SITE.videos.apresentacao}
-    poster={img('video-apresentacao-capa.jpg')}
+    poster="video-apresentacao-capa.jpg"
   />
 
   <!-- ============ BLOG ============ -->
@@ -432,7 +431,6 @@ const surgeries = [
     align-items: center;
     min-height: 100vh;
     background-color: var(--navy);
-    background-image: url('/images/home-hero-bg.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

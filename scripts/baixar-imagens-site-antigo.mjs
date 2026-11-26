@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
- * Baixa as imagens originais do site antigo (WordPress) e salva em public/images
+ * Baixa as imagens originais do site antigo (WordPress) e salva em src/assets/ (imagens do site)
+ * e public/ (favicon e imagem de compartilhamento)
  * com os nomes usados no site novo (ver ASSETS.md).
  *
  * Cada arquivo é conferido (precisa ser uma imagem PNG/JPG de verdade) e RE-CODIFICADO com o sharp:
@@ -19,34 +20,33 @@ import sharp from 'sharp';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const BASE = process.env.IMG_BASE || 'https://drigorlepski.com.br/wp-content/uploads/2026/06/';
-const PUBLIC = path.join(ROOT, 'public');
 
-/** [arquivo no site antigo, destino em public/] */
+/** [arquivo no site antigo, destino a partir da raiz do projeto] */
 const IMAGES = [
-  ['Grupo-137.png', 'images/logo.png'],
-  ['b-e1782133112685.png', 'images/home-hero-bg.png'],
-  ['Componente-3-–-1.png', 'images/home-bio.png'],
-  ['Screenshot-2026-05-26-at-15.39.39-e1782134168975.png', 'images/hospital-einstein.png'],
-  ['images.png', 'images/hospital-vila-santa-catarina.png'],
-  ['icon2.png', 'images/icon-figado.png'],
-  ['icon.png', 'images/icon-intestino.png'],
-  ['icon3.png', 'images/icon-pancreas.png'],
-  ['icon1.png', 'images/icon-multivisceral.png'],
-  ['como-funciona-a-hepatectomia-quando-e-indicada-a-cirurgianbsp-destacada.png', 'images/cirurgia-hepato-bilio-pancreatica.png'],
-  ['Screenshot-2026-05-27-at-10.22.16.png', 'images/cirurgia-aparelho-digestivo.png'],
-  ['Componente-1-–-1-1.png', 'images/review-avatar.png'],
-  ['card1.png', 'images/cta-doctor.png'],
-  ['salvatore.png', 'images/salvatore.png'],
-  ['Retangulo-74.png', 'images/hero-transplantes-bg.png'],
-  ['Retangulo-74-1.png', 'images/hero-cirurgias-bg.png'],
-  ['istockphoto_1465361950.png', 'images/transplante-figado.png'],
-  ['istockphoto_1360862667.png', 'images/transplante-intestino.png'],
-  ['istockphoto_1467893187.png', 'images/transplante-pancreas.png'],
-  ['IMG_1377.png', 'images/sobre-hero.png'],
-  ['Componente-4-–-1.png', 'images/sobre-fotos.png'],
-  ['istockphoto_1474957957.png', 'images/blog/istockphoto_1474957957.png'],
-  ['adobestock_572577392.png', 'images/blog/adobestock_572577392.png'],
-  ['shutterstock_1024477424.png', 'images/blog/shutterstock_1024477424.png'],
+  ['Grupo-137.png', 'src/assets/images/logo.png'],
+  ['b-e1782133112685.png', 'src/assets/images/home-hero-bg.png'],
+  ['Componente-3-–-1.png', 'src/assets/images/home-bio.png'],
+  ['Screenshot-2026-05-26-at-15.39.39-e1782134168975.png', 'src/assets/images/hospital-einstein.png'],
+  ['images.png', 'src/assets/images/hospital-vila-santa-catarina.png'],
+  ['icon2.png', 'src/assets/images/icon-figado.png'],
+  ['icon.png', 'src/assets/images/icon-intestino.png'],
+  ['icon3.png', 'src/assets/images/icon-pancreas.png'],
+  ['icon1.png', 'src/assets/images/icon-multivisceral.png'],
+  ['como-funciona-a-hepatectomia-quando-e-indicada-a-cirurgianbsp-destacada.png', 'src/assets/images/cirurgia-hepato-bilio-pancreatica.png'],
+  ['Screenshot-2026-05-27-at-10.22.16.png', 'src/assets/images/cirurgia-aparelho-digestivo.png'],
+  ['Componente-1-–-1-1.png', 'src/assets/images/review-avatar.png'],
+  ['card1.png', 'src/assets/images/cta-doctor.png'],
+  ['salvatore.png', 'src/assets/images/salvatore.png'],
+  ['Retangulo-74.png', 'src/assets/images/hero-transplantes-bg.png'],
+  ['Retangulo-74-1.png', 'src/assets/images/hero-cirurgias-bg.png'],
+  ['istockphoto_1465361950.png', 'src/assets/images/transplante-figado.png'],
+  ['istockphoto_1360862667.png', 'src/assets/images/transplante-intestino.png'],
+  ['istockphoto_1467893187.png', 'src/assets/images/transplante-pancreas.png'],
+  ['IMG_1377.png', 'src/assets/images/sobre-hero.png'],
+  ['Componente-4-–-1.png', 'src/assets/images/sobre-fotos.png'],
+  ['istockphoto_1474957957.png', 'src/assets/blog/istockphoto_1474957957.png'],
+  ['adobestock_572577392.png', 'src/assets/blog/adobestock_572577392.png'],
+  ['shutterstock_1024477424.png', 'src/assets/blog/shutterstock_1024477424.png'],
 ];
 
 const VIDEOS = ['Video-apresentacao-Igor-2.mp4', 'Cirurgia-hepato-bilio-pancreatica-1.mp4'];
@@ -68,7 +68,7 @@ function isImage(buf) {
 }
 
 async function save(dest, buf) {
-  const full = path.join(PUBLIC, dest);
+  const full = path.join(ROOT, dest);
   await mkdir(path.dirname(full), { recursive: true });
   await writeFile(full, buf);
   return full;
@@ -102,8 +102,8 @@ for (const [file, dest] of IMAGES) {
 try {
   const raw = await download('fav.png');
   if (!isImage(raw)) throw new Error('não é imagem');
-  await save('favicon.png', await sharp(raw).resize(64, 64).png().toBuffer());
-  await save('apple-touch-icon.png', await sharp(raw).resize(180, 180).png().toBuffer());
+  await save('public/favicon.png', await sharp(raw).resize(64, 64).png().toBuffer());
+  await save('public/apple-touch-icon.png', await sharp(raw).resize(180, 180).png().toBuffer());
   console.log('  ✓ favicon.png + apple-touch-icon.png');
 } catch (err) {
   console.log('  ✗ favicon.png', err.message);
@@ -112,8 +112,8 @@ try {
 // imagem de prévia para WhatsApp/Facebook (1200×630) a partir do fundo da Home
 if (heroSource) {
   const og = await sharp(heroSource).resize(1200, 630, { fit: 'cover', position: 'right' }).png({ compressionLevel: 9 }).toBuffer();
-  await save('images/og-image.png', og);
-  console.log('  ✓ images/og-image.png (gerada a partir do fundo da Home)');
+  await save('public/images/og-image.png', og);
+  console.log('  ✓ public/images/og-image.png (gerada a partir do fundo da Home)');
 }
 
 if (process.argv.includes('--videos')) {

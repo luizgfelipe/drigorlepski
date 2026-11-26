@@ -4,7 +4,7 @@ import ServiceHero from '../components/ServiceHero.astro';
 import Eyebrow from '../components/Eyebrow.astro';
 import DarkCard from '../components/DarkCard.astro';
 import VideoBand from '../components/VideoBand.astro';
-import { SITE, img } from '../config/site';
+import { SITE } from '../config/site';
 import '../styles/service.css';
 
 const procedures = [
@@ -98,7 +98,7 @@ const procedures = [
     title="O que é a Cirurgia Hepato-Bílio-Pancreática"
     buttonHref="/contato/"
     video={SITE.videos.hepatoBilioPancreatica}
-    poster={img('video-hepato-bilio-pancreatica-capa.jpg')}
+    poster="video-hepato-bilio-pancreatica-capa.jpg"
     videoPad="lg"
   />
 </BaseLayout>

@@ -1,7 +1,7 @@
 ---
 titulo: "Transplantado pode fazer atividade física? quando e como retomar"
 data: 2026-06-22T15:15:43
-imagem: /images/blog/istockphoto_1474957957.png
+imagem: ../../assets/blog/istockphoto_1474957957.png
 imagemAlt: ""
 ---
 

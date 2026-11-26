@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Gera imagens provisórias (placeholders) em public/images com os MESMOS nomes e proporções
+Gera imagens provisórias (placeholders) em src/assets/ e public/images com os MESMOS nomes e proporções
 das imagens finais. Assim o layout já fica correto antes de os arquivos reais chegarem.
 
-Para trocar: basta sobrescrever o arquivo em public/images com a imagem real (mesmo nome).
+Para trocar: basta sobrescrever o arquivo com a imagem real (mesmo nome).
 O script NÃO sobrescreve imagens que já existem (a não ser com --force).
 
 Uso:  python3 scripts/gerar-placeholders.py [--force]
@@ -14,41 +14,41 @@ import sys
 
 from PIL import Image, ImageDraw, ImageFont
 
-ROOT = os.path.join(os.path.dirname(__file__), '..', 'public')
+ROOT = os.path.join(os.path.dirname(__file__), '..')
 FORCE = '--force' in sys.argv
 
 # (arquivo, largura, altura, estilo)
 #  estilo: light = cinza claro | dark = azul-marinho | teal = gradiente do topo das páginas internas
 #          transparent = fundo transparente (logos) | icon = quadrado escuro
 ASSETS = [
-    ('images/logo.png', 1098, 323, 'transparent'),
-    ('images/home-hero-bg.png', 1920, 1080, 'dark'),
-    ('images/home-bio.png', 625, 755, 'light'),
-    ('images/hospital-einstein.png', 883, 277, 'light'),
-    ('images/hospital-vila-santa-catarina.png', 883, 249, 'light'),
-    ('images/icon-figado.png', 295, 278, 'icon'),
-    ('images/icon-intestino.png', 290, 276, 'icon'),
-    ('images/icon-pancreas.png', 295, 276, 'icon'),
-    ('images/icon-multivisceral.png', 293, 278, 'icon'),
-    ('images/cirurgia-hepato-bilio-pancreatica.png', 494, 477, 'light'),
-    ('images/cirurgia-aparelho-digestivo.png', 494, 477, 'light'),
-    ('images/review-avatar.png', 72, 72, 'dark'),
-    ('images/cta-doctor.png', 777, 553, 'light'),
-    ('images/salvatore.png', 986, 156, 'transparent'),
-    ('images/hero-transplantes-bg.png', 1920, 400, 'teal'),
-    ('images/hero-cirurgias-bg.png', 1920, 400, 'teal'),
-    ('images/transplante-figado.png', 1200, 800, 'light'),
-    ('images/transplante-intestino.png', 1200, 800, 'light'),
-    ('images/transplante-pancreas.png', 1200, 800, 'light'),
-    ('images/sobre-hero.png', 599, 732, 'light'),
-    ('images/sobre-fotos.png', 622, 853, 'light'),
-    ('images/video-apresentacao-capa.jpg', 1080, 1920, 'dark'),
-    ('images/video-hepato-bilio-pancreatica-capa.jpg', 1080, 1920, 'dark'),
-    ('images/og-image.png', 1200, 630, 'dark'),
-    ('images/blog/istockphoto_1474957957.png', 1287, 410, 'light'),
-    ('images/blog/adobestock_572577392.png', 1302, 410, 'light'),
-    ('images/blog/shutterstock_1024477424.png', 2057, 748, 'light'),
-    ('favicon.png', 64, 64, 'icon'),
+    ('src/assets/images/logo.png', 1098, 323, 'transparent'),
+    ('src/assets/images/home-hero-bg.png', 1920, 1080, 'dark'),
+    ('src/assets/images/home-bio.png', 625, 755, 'light'),
+    ('src/assets/images/hospital-einstein.png', 883, 277, 'light'),
+    ('src/assets/images/hospital-vila-santa-catarina.png', 883, 249, 'light'),
+    ('src/assets/images/icon-figado.png', 295, 278, 'icon'),
+    ('src/assets/images/icon-intestino.png', 290, 276, 'icon'),
+    ('src/assets/images/icon-pancreas.png', 295, 276, 'icon'),
+    ('src/assets/images/icon-multivisceral.png', 293, 278, 'icon'),
+    ('src/assets/images/cirurgia-hepato-bilio-pancreatica.png', 494, 477, 'light'),
+    ('src/assets/images/cirurgia-aparelho-digestivo.png', 494, 477, 'light'),
+    ('src/assets/images/review-avatar.png', 72, 72, 'dark'),
+    ('src/assets/images/cta-doctor.png', 777, 553, 'light'),
+    ('src/assets/images/salvatore.png', 986, 156, 'transparent'),
+    ('src/assets/images/hero-transplantes-bg.png', 1920, 400, 'teal'),
+    ('src/assets/images/hero-cirurgias-bg.png', 1920, 400, 'teal'),
+    ('src/assets/images/transplante-figado.png', 1200, 800, 'light'),
+    ('src/assets/images/transplante-intestino.png', 1200, 800, 'light'),
+    ('src/assets/images/transplante-pancreas.png', 1200, 800, 'light'),
+    ('src/assets/images/sobre-hero.png', 599, 732, 'light'),
+    ('src/assets/images/sobre-fotos.png', 622, 853, 'light'),
+    ('src/assets/images/video-apresentacao-capa.jpg', 1080, 1920, 'dark'),
+    ('src/assets/images/video-hepato-bilio-pancreatica-capa.jpg', 1080, 1920, 'dark'),
+    ('public/images/og-image.png', 1200, 630, 'dark'),
+    ('src/assets/blog/istockphoto_1474957957.png', 1287, 410, 'light'),
+    ('src/assets/blog/adobestock_572577392.png', 1302, 410, 'light'),
+    ('src/assets/blog/shutterstock_1024477424.png', 2057, 748, 'light'),
+    ('public/favicon.png', 64, 64, 'icon'),
 ]
 
 
@@ -112,4 +112,4 @@ def make(path, w, h, style):
 
 if __name__ == '__main__':
     created = sum(make(*a) for a in ASSETS)
-    print(f'{created} placeholder(s) criado(s) em public/ ({len(ASSETS) - created} já existiam).')
+    print(f'{created} placeholder(s) criado(s) ({len(ASSETS) - created} já existiam).')

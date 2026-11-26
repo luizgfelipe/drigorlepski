@@ -1,7 +1,7 @@
 ---
 titulo: "Vida após o transplante: o que muda na rotina do paciente?"
 data: 2026-06-22T15:10:34
-imagem: /images/blog/shutterstock_1024477424.png
+imagem: ../../assets/blog/shutterstock_1024477424.png
 imagemAlt: ""
 ---
 

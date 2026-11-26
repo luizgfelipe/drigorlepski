@@ -3,8 +3,7 @@
  * Tudo é resolvido no build — o site final não chama nenhuma API.
  */
 import { getCollection, type CollectionEntry } from 'astro:content';
-import sharp from 'sharp';
-import { join } from 'node:path';
+import type { ImageMetadata } from 'astro';
 
 export type BlogEntry = CollectionEntry<'blog'>;
 
@@ -14,10 +13,9 @@ export type Post = {
   title: string;
   /** resumo em texto puro (30 palavras, igual ao site antigo) */
   excerpt: string;
-  image: string;
+  /** capa (otimizada pelo <Img>, que usa o <Image> do Astro) */
+  image: ImageMetadata;
   imageAlt: string;
-  imageWidth?: number;
-  imageHeight?: number;
   entry: BlogEntry;
 };
 
@@ -40,40 +38,18 @@ function toExcerpt(text: string): string {
   return text.split(/\s+/).slice(0, EXCERPT_WORDS).join(' ');
 }
 
-const sizeCache = new Map<string, { width?: number; height?: number }>();
-
-/** largura/altura da capa (evita a página "pular" enquanto a imagem carrega) */
-async function imageSize(src: string): Promise<{ width?: number; height?: number }> {
-  if (!sizeCache.has(src)) {
-    try {
-      const file = join(process.cwd(), 'public', src);
-      const { width, height } = await sharp(file).metadata();
-      sizeCache.set(src, { width, height });
-    } catch {
-      console.warn(`[blog] Imagem não encontrada em public${src}`);
-      sizeCache.set(src, {});
-    }
-  }
-  return sizeCache.get(src)!;
-}
-
 /** Todos os posts publicados, do mais novo para o mais antigo. */
 export async function getPosts(): Promise<Post[]> {
   const entries = await getCollection('blog', (e) => !e.data.rascunho);
-  const posts = await Promise.all(
-    entries.map(async (entry) => {
-      const { width, height } = await imageSize(entry.data.imagem);
-      return {
-        slug: entry.id,
-        date: entry.data.data,
-        title: entry.data.titulo,
-        excerpt: toExcerpt(entry.data.resumo?.trim() || markdownToText(entry.body ?? '')),
-        image: entry.data.imagem,
-        imageAlt: entry.data.imagemAlt,
-        imageWidth: width,
-        imageHeight: height,
-        entry,
-      } satisfies Post;
+  const posts = entries.map(
+    (entry): Post => ({
+      slug: entry.id,
+      date: entry.data.data,
+      title: entry.data.titulo,
+      excerpt: toExcerpt(entry.data.resumo?.trim() || markdownToText(entry.body ?? '')),
+      image: entry.data.imagem,
+      imageAlt: entry.data.imagemAlt,
+      entry,
     }),
   );
   return posts.sort((a, b) => b.date.getTime() - a.date.getTime() || a.slug.localeCompare(b.slug));
@@ -93,4 +69,9 @@ export function postUrl(slug: string): string {
 /** /blog/ para a página 1, /blog/pagina/2/ em diante */
 export function pageUrl(n: number): string {
   return n <= 1 ? '/blog/' : `/blog/pagina/${n}/`;
+}
+
+/** larguras para o srcset, sem passar da largura original da imagem */
+export function widthsUpTo(max: number, widths: number[]): number[] {
+  return [...new Set([...widths.filter((w) => w < max), max])];
 }

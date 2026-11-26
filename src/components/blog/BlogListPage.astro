@@ -4,6 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Eyebrow from '../Eyebrow.astro';
 import PostGrid from './PostGrid.astro';
 import type { Post } from '../../lib/blog';
+import { bgImage } from '../../lib/images';
 
 interface Props {
   posts: Post[];
@@ -12,13 +13,14 @@ interface Props {
 }
 
 const { posts, current, total } = Astro.props;
+const heroBg = await bgImage('hero-transplantes-bg.png');
 ---
 
 <BaseLayout
   title={current > 1 ? `Blog – Página ${current}` : 'Blog'}
   description="Artigos, notícias e informações sobre transplantes, cirurgia digestiva e saúde abdominal, com base científica e linguagem acessível."
 >
-  <section class="section blog-hero">
+  <section class="section blog-hero" style={`background-image:url('${heroBg}')`}>
     <div class="container">
       <div class="col w-100 col--middle">
         <div class="col-inner">
@@ -49,7 +51,6 @@ const { posts, current, total } = Astro.props;
 <style>
   .blog-hero {
     background-color: #2b6767;
-    background-image: url('/images/hero-transplantes-bg.png');
     background-size: cover;
     background-position: center;
   }
