@@ -63,6 +63,26 @@ const Tag = href ? 'a' : 'span';
     cursor: pointer;
   }
 
+  /* efeito "Grow" do Elementor (site antigo): cresce 10% no hover, em 0,3s */
+  a.btn {
+    transition-property: transform, color, background-color, border-color;
+    transition-duration: 0.3s;
+  }
+
+  a.btn:hover,
+  a.btn:focus-visible,
+  a.btn:active {
+    transform: scale(1.1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    a.btn:hover,
+    a.btn:focus-visible,
+    a.btn:active {
+      transform: none;
+    }
+  }
+
   .btn__content {
     display: flex;
     justify-content: center;

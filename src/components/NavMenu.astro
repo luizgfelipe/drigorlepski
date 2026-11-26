@@ -187,12 +187,12 @@ const hasActiveChild = (children?: { href: string }[]) => !!children?.some((c) =
     position: relative;
   }
 
-  /* hover do cabeçalho: linha branca de 3px na base do item, com fade (mesmo efeito do site antigo) */
-  .nav--horizontal .nav__list--main .nav__link {
+  /* hover (cabeçalho e rodapé): linha branca de 3px na base do item, com fade (mesmo efeito do site antigo) */
+  .nav__list--main .nav__link {
     position: relative;
   }
 
-  .nav--horizontal .nav__list--main .nav__link::after {
+  .nav__list--main .nav__link::after {
     content: '';
     position: absolute;
     left: 0;
@@ -205,11 +205,11 @@ const hasActiveChild = (children?: { href: string }[]) => !!children?.some((c) =
     pointer-events: none;
   }
 
-  .nav--horizontal .nav__list--main .nav__link:hover::after,
-  .nav--horizontal .nav__list--main .nav__link:focus-visible::after,
-  .nav--horizontal .nav__list--main .nav__link.is-active::after,
-  .nav--horizontal .nav__list--main .nav__item:hover > .nav__link::after,
-  .nav--horizontal .nav__list--main .nav__item.is-open > .nav__link::after {
+  .nav__list--main .nav__link:hover::after,
+  .nav__list--main .nav__link:focus-visible::after,
+  .nav__list--main .nav__link.is-active::after,
+  .nav__list--main .nav__item:hover > .nav__link::after,
+  .nav__list--main .nav__item.is-open > .nav__link::after {
     opacity: 1;
   }
 
