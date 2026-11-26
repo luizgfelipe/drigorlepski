@@ -109,13 +109,6 @@
   border-radius: 5px;
 }
 
-.post-status {
-  padding: 120px 0;
-  font-family: var(--f-text);
-  text-align: center;
-  color: var(--text);
-}
-
 @media (max-width: 767px) {
   .post-eyebrow {
     margin-bottom: 0;

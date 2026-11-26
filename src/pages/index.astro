@@ -7,16 +7,11 @@ import Icon from '../components/Icon.astro';
 import DarkCard from '../components/DarkCard.astro';
 import Reviews from '../components/Reviews.astro';
 import VideoBand from '../components/VideoBand.astro';
-import BlogGrid from '../components/blog/BlogGrid.tsx';
+import PostGrid from '../components/blog/PostGrid.astro';
 import { SITE, img } from '../config/site';
-import { getPosts, SEED_POSTS } from '../lib/wp';
+import { getPosts } from '../lib/blog';
 
-let latest = SEED_POSTS.slice(0, 3);
-try {
-  latest = (await getPosts(1, 3)).posts;
-} catch (err) {
-  console.warn('[home] usando posts-seed.json:', err);
-}
+const latest = (await getPosts()).slice(0, 3);
 
 const stats = [
   { title: '+15 anos de experiência', text: 'transplante nos melhores serviços do pais' },
@@ -398,7 +393,7 @@ const surgeries = [
         <div class="col-inner">
           <Eyebrow layout="plain" />
           <h2 class="home-blog__title">Blog</h2>
-          <BlogGrid client:load initialPosts={latest} perPage={3} />
+          <PostGrid posts={latest} />
         </div>
       </div>
     </div>

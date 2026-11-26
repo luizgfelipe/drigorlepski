@@ -1,6 +1,5 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
@@ -14,11 +13,7 @@ export default defineConfig({
     format: 'directory',
   },
   integrations: [
-    react(),
-    sitemap({
-      // A página "coringa" do blog não deve ser indexada.
-      filter: (page) => !page.includes('/blog/post/'),
-    }),
+    sitemap(),
   ],
   // Baixa a próxima página quando o mouse passa por cima do link.
   prefetch: {

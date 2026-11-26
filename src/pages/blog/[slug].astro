@@ -1,15 +1,13 @@
 ---
-/**
- * Páginas estáticas dos artigos — geradas no build a partir do WordPress (ou de posts-seed.json).
- * Posts publicados depois do último build são atendidos pela página coringa /blog/post/ (ver public/.htaccess).
- */
+/** Página de cada artigo — gerada no build a partir de src/content/blog/<slug>.md */
+import { render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import PostView from '../../components/blog/PostView.tsx';
-import { getAllPostsForBuild, type Post } from '../../lib/wp';
+import { getPosts, type Post } from '../../lib/blog';
+import '../../components/blog/post.css';
 
 export async function getStaticPaths() {
-  const posts = await getAllPostsForBuild();
-  return posts.filter((p) => p.slug !== 'post').map((post) => ({ params: { slug: post.slug }, props: { post } }));
+  const posts = await getPosts();
+  return posts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
 }
 
 interface Props {
@@ -17,8 +15,43 @@ interface Props {
 }
 
 const { post } = Astro.props;
+const { Content } = await render(post.entry);
 ---
 
-<BaseLayout title={post.title} description={post.excerpt} image={post.image ?? undefined} type="article">
-  <PostView post={post} html={post.content} />
+<BaseLayout title={post.title} description={post.excerpt} image={post.image} type="article">
+  <article>
+    <section class="section post-hero">
+      <div class="container">
+        <div class="col w-100">
+          <div class="col-inner">
+            <div class="post-eyebrow" aria-hidden="true">
+              <p class="post-eyebrow__text">Blog</p>
+              <span class="post-eyebrow__line"></span>
+            </div>
+            <h1 class="post-hero__title">{post.title}</h1>
+            <div class="post-hero__image">
+              <img
+                src={post.image}
+                alt={post.imageAlt}
+                width={post.imageWidth}
+                height={post.imageHeight}
+                decoding="async"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section post-body">
+      <div class="container">
+        <div class="col w-100">
+          <div class="col-inner">
+            <div class="post-content">
+              <Content />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
 </BaseLayout>

@@ -1,0 +1,27 @@
+---
+/** /blog/pagina/2/, /blog/pagina/3/… — só existem quando há mais de 9 posts */
+import BlogListPage from '../../../components/blog/BlogListPage.astro';
+import { getPosts, PER_PAGE, type Post } from '../../../lib/blog';
+
+export async function getStaticPaths() {
+  const all = await getPosts();
+  const total = Math.ceil(all.length / PER_PAGE);
+  return Array.from({ length: Math.max(0, total - 1) }, (_, i) => {
+    const current = i + 2;
+    return {
+      params: { page: String(current) },
+      props: { posts: all.slice((current - 1) * PER_PAGE, current * PER_PAGE), current, total },
+    };
+  });
+}
+
+interface Props {
+  posts: Post[];
+  current: number;
+  total: number;
+}
+
+const { posts, current, total } = Astro.props;
+---
+
+<BlogListPage posts={posts} current={current} total={total} />

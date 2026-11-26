@@ -1,0 +1,53 @@
+---
+/** Grade de cards dos posts (Home e /blog). HTML estático, sem JavaScript. */
+import { formatDate, pageUrl, postUrl, type Post } from '../../lib/blog';
+import './blog.css';
+
+interface Props {
+  posts: Post[];
+  /** paginação numérica (só na página /blog) */
+  page?: { current: number; total: number };
+}
+
+const { posts, page } = Astro.props;
+---
+
+{
+  posts.length ? (
+    <div class="posts-grid">
+      {posts.map((post) => (
+        <article class="post-card">
+          <a class="post-card__thumb" href={postUrl(post.slug)} tabindex="-1" aria-hidden="true">
+            <img src={post.image} alt={post.imageAlt} loading="lazy" decoding="async" />
+          </a>
+          <div class="post-card__text">
+            <h3 class="post-card__title">
+              <a href={postUrl(post.slug)}>{post.title}</a>
+            </h3>
+            <div class="post-card__meta">
+              <time datetime={post.date.toISOString()}>{formatDate(post.date)}</time>
+            </div>
+            <div class="post-card__excerpt">
+              <p>{post.excerpt}</p>
+            </div>
+            <a class="post-card__more" href={postUrl(post.slug)} aria-label={`Ler mais: ${post.title}`}>
+              Ler mais »
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  ) : (
+    <p class="posts-status">Nenhum artigo publicado ainda.</p>
+  )
+}
+
+{
+  page && page.total > 1 && (
+    <nav class="posts-pagination" aria-label="Páginas do blog">
+      {Array.from({ length: page.total }, (_, i) => i + 1).map((n) =>
+        n === page.current ? <span aria-current="page">{n}</span> : <a href={pageUrl(n)}>{n}</a>,
+      )}
+    </nav>
+  )
+}

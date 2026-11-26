@@ -23,7 +23,7 @@ Salve o arquivo real **com o mesmo nome** por cima do provisório. Não precisa 
 | `home-hero-bg.png` | `b-e1782133112685.png` | ~1920×1080 | Fundo do topo da Home (foto do doutor à direita) |
 | `home-bio.png` | `Componente-3-–-1.png` | 625×755 (já com o quadrado verde e o contorno) | Home — bloco "Referência nacional…" |
 | `hospital-einstein.png` | `Screenshot-2026-05-26-at-15.39.39-….png` | 883×277 | Home — "Hospitais onde atuo" (de preferência o logo oficial em boa resolução) |
-| `hospital-vila-santa-catarina.png` | `images.png` | 883×249 | Home — "Hospitais onde atuo" (idem) |
+| `hospital-vila-santa-catarina.png` | `images.png` | 883×249 | Home — "Hospitais onde atuo" |
 | `icon-figado.png` | `icon2.png` | 295×278 | Card "Transplante de Fígado" |
 | `icon-intestino.png` | `icon.png` | 290×276 | Card "Transplante de Intestino" e cards da página de Intestino |
 | `icon-pancreas.png` | `icon3.png` | 295×276 | Card "Transplante de Pâncreas" |
@@ -43,9 +43,9 @@ Salve o arquivo real **com o mesmo nome** por cima do provisório. Não precisa 
 | `video-apresentacao-capa.jpg` | — | 1080×1920 (vertical) | Capa do vídeo da Home/Sobre **só enquanto não houver ID do YouTube** (com o ID, a capa vem do YouTube) |
 | `video-hepato-bilio-pancreatica-capa.jpg` | — | 1080×1920 (vertical) | Idem, página Hepato-Bílio-Pancreática |
 | `og-image.png` | — (gerada pelo script a partir do fundo da Home) | 1200×630 | Prévia ao compartilhar o link no WhatsApp/Facebook |
-| `blog/istockphoto_1474957957.png` | mesmo nome | 1287×410 | Destaque do post "Transplantado pode fazer atividade física?" (só enquanto o WordPress novo não existir) |
-| `blog/adobestock_572577392.png` | mesmo nome | 1302×410 | Destaque do post "Refluxo que não melhora com remédio" (idem) |
-| `blog/shutterstock_1024477424.png` | mesmo nome | 2057×748 | Destaque do post "Vida após o transplante" (idem) |
+| `blog/istockphoto_1474957957.png` | mesmo nome | 1287×410 | Destaque do post "Transplantado pode fazer atividade física?" |
+| `blog/adobestock_572577392.png` | mesmo nome | 1302×410 | Destaque do post "Refluxo que não melhora com remédio" |
+| `blog/shutterstock_1024477424.png` | mesmo nome | 2057×748 | Destaque do post "Vida após o transplante" |
 
 Também em `public/`: **`favicon.png`** (64×64) e **`apple-touch-icon.png`** (180×180) — gerados pelo script a partir do `fav.png` do site antigo (que estava na biblioteca, mas não era usado).
 

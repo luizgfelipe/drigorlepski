@@ -35,12 +35,6 @@ ErrorDocument 404 /404.html
   RewriteRule ^cirurgias/?$ /#cirurgias [L,R=301,NE]
   # restos do WordPress (feeds, admin, xmlrpc…)
   RewriteRule ^(feed|comments/feed|category/.*|author/.*|wp-login\.php|wp-admin/?.*|xmlrpc\.php)$ / [L,R=301]
-
-  # --- BLOG: qualquer /blog/<slug>/ sem página estática cai na página "coringa" ---
-  # (post publicado no WordPress depois do último upload; o slug é lido da URL no navegador)
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule ^blog/([^/]+)/?$ /blog/post/index.html [L]
 </IfModule>
 
 # --- cache: arquivos com hash no nome (pasta _astro) podem ficar em cache por 1 ano ---

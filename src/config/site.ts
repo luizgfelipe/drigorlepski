@@ -11,14 +11,6 @@ export const SITE = {
   url: 'https://drigorlepski.com.br',
   locale: 'pt_BR',
 
-  /**
-   * Endereço do WordPress do blog (sem barra no final), ex.: 'https://cms.drigorlepski.com.br'.
-   * Fica gravado no site no momento do build — não precisa de .env nem de configuração na Hostinger.
-   * Vazio = usa os 3 posts de src/data/posts-seed.json.
-   * (Se existir PUBLIC_WP_URL num .env, ela tem prioridade — útil para testar outro WordPress localmente.)
-   */
-  wpUrl: '',
-
   /** Google Tag Manager (mesmo ID do site atual) */
   gtmId: 'GTM-PDJRHLZ3',
 
